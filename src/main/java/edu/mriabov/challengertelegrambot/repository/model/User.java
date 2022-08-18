@@ -2,9 +2,9 @@ package edu.mriabov.challengertelegrambot.repository.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,16 +14,26 @@ import java.util.Set;
 public class User {
 
     @Id
-    @Column
-    int userID;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
+    private int userID;
 
-    @ManyToMany
-            @JoinTable(name = chat_users
-        @JoinColumn(name = )
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "coins",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "userID")},
+            inverseJoinColumns = {@JoinColumn(name = "chat_id",referencedColumnName = "chatID")})
+    private Set<Chat> chatList;
 
-            )
-    Set<User> chatList;
+    private int telegram_id;
 
+    private String first_name;
 
+    private String last_name;
+
+    private String username;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = UserStats.class)
+    @JoinColumn(name = "stats_id", referencedColumnName = "statsID")
+    private UserStats userStats;
 
 }
