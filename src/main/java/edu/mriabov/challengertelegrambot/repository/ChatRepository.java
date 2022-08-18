@@ -1,12 +1,9 @@
 package edu.mriabov.challengertelegrambot.repository;
 
-import edu.mriabov.challengertelegrambot.repository.model.User;
+import edu.mriabov.challengertelegrambot.repository.model.Chat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Integer> {
-
-
-
+public interface ChatRepository extends JpaRepository<Chat,Integer> {
 }
