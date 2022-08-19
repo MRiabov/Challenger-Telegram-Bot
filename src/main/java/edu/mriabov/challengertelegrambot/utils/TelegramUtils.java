@@ -9,6 +9,10 @@ import java.util.Objects;
 
 public class TelegramUtils {
 
+    public static final String COMMAND_PREFIX="/";
+
+    private TelegramUtils(){};
+
     public static ReplyKeyboardMarkup ArrayToReplyMarkup(String[] buttons) {
         List<KeyboardRow> rowList = new ArrayList<>();
         KeyboardRow currentRow = new KeyboardRow();
