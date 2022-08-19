@@ -24,6 +24,10 @@ public class Chat {
     @Column(name = "total_tasks_completed")
     private int totalTasks;
 
-    @ManyToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private Set<User> users;
+
+    @OneToMany(mappedBy = "challenge",fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST, targetEntity = Challenge.class)
+    private Set<Challenge> challenges;
 }
