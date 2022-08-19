@@ -16,7 +16,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private int userID;
+    private int id;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "coins",
@@ -24,11 +24,11 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "chat_id",referencedColumnName = "chatID")})
     private Set<Chat> chatList;
 
-    private int telegram_id;
+    private Long telegramId;
 
-    private String first_name;
+    private String firstName;
 
-    private String last_name;
+    private String lastName;
 
     private String username;
 

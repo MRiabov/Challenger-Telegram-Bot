@@ -17,7 +17,7 @@ public class Chat {
     @Column(name = "chat_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private int chatID;
+    private int id;
 
     private int telegramChatID;
 
