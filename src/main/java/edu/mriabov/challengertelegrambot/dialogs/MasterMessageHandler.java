@@ -1,21 +1,24 @@
 package edu.mriabov.challengertelegrambot.dialogs;
 
+import edu.mriabov.challengertelegrambot.command.CommandHandler;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Service
+@RequiredArgsConstructor
 public class MasterMessageHandler {
-//todo messageRouting
-    //todo extract chatIDs from messages(?? ill need to use person IDs later)
-
+    //todo finish
+    final CommandHandler commandHandler;
 
     public void routeMessages(Update update){
-        String message=update.getMessage().getText();
+        if (update.getMessage().getText().startsWith(TelegramUtils.COMMAND_PREFIX)) {
+            commandHandler.routeCommands(update);
+        } else 
 
-        if (message.startsWith(TelegramUtils.COMMAND_PREFIX))
 
-
+            //find them,
     }
 
 }

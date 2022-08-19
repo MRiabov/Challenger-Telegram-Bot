@@ -1,19 +1,28 @@
 package edu.mriabov.challengertelegrambot.dialogs.general;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum Buttons {
-//todo buttons contain constants from other classes, because you also have to receive it.
-    //buttons contain constants from other classes, because you also have to receive
-    MAIN_MENU(new String[]{
-            "My Challenges", null,
-            "Challenge your friends",null,
-            "Buy some rest...","FAQ",null});
+    //todo message before every challenge. Dashboard, current challenges, challenge ur friends... everything
+    // todo that also means that i lack arguments in wherever this is accepted...
+    //todo there should be 0 "string" in this class.
+    MAIN_MENU("PLACEHOLDER",
+            new String[]{
+                    ButtonsMessages.MENU_CHALLENGES.getTxt(), null,
+                    ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getTxt(), null,
+                    ButtonsMessages.MENU_REST.getTxt(), ButtonsMessages.MENU_FAQ.getTxt(), null}),
+    MY_CHALLENGES("PLACEHOLDER", null),
+    CHALLENGE_YOUR_FRIENDS("PLACEHOLDER", null),
+    FAQ("PLACEHOLDER", null);
 
-    String[] keyboard;
 
-    Buttons(String[] keyboard) {
-        this.keyboard = keyboard;
-    }
+
+
+
+
+    final String message;
+    final String[] keyboard;
 }
