@@ -17,6 +17,6 @@ public final class UnknownCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        messageSenderService.sendMessage(update.getMessage().getChatId(), Buttons.UNKNOWN_COMMAND.getMessage(), un);
+        messageSenderService.sendMessage(update.getMessage().getChatId(), Buttons.UNKNOWN_COMMAND);
     }
 }
