@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.service.impl;
+package edu.mriabov.challengertelegrambot.service;
 
 import edu.mriabov.challengertelegrambot.service.TelegramBot;
 import lombok.RequiredArgsConstructor;

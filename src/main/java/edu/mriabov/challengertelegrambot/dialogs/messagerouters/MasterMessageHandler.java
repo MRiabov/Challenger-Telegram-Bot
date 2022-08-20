@@ -9,13 +9,13 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @RequiredArgsConstructor
 public final class MasterMessageHandler implements MessageHandler {
     //todo finish
-    final CommandHandler commandHandler;
-    final SubMessageHandler messageHandler;
+    private final CommandHandler commandHandler;
+    private final SubMessageHandler messageHandler;
 
-    public void routeMessages(Update update){
+    public void handleMessages(Update update){
         if (update.getMessage().getText().startsWith(TelegramUtils.COMMAND_PREFIX)) {
-            commandHandler.routeMessages(update);
-        } else messageHandler.routeMessages(update);
+            commandHandler.handleMessages(update);
+        } else messageHandler.handleMessages(update);
 
     }
 //how lookup works... give a message options to the user.
