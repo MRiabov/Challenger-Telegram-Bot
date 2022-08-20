@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.command.commands;
+package edu.mriabov.challengertelegrambot.command;
 
 import edu.mriabov.challengertelegrambot.dialogs.general.Buttons;
 import edu.mriabov.challengertelegrambot.repository.UserRepository;

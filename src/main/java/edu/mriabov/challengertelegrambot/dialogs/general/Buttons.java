@@ -16,13 +16,10 @@ public enum Buttons {
                     ButtonsMessages.MENU_REST.getTxt(), ButtonsMessages.MENU_FAQ.getTxt(), null}),
     MY_CHALLENGES("PLACEHOLDER", null),
     CHALLENGE_YOUR_FRIENDS("PLACEHOLDER", null),
-    FAQ("PLACEHOLDER", null);
+    FAQ("PLACEHOLDER", null),
+    UNKNOWN_COMMAND(ButtonsMessages.UNKNOWN_COMMAND.getTxt(), MAIN_MENU.getKeyboard());
 
 
-
-
-
-
-    final String message;
-    final String[] keyboard;
+    final private String message;
+    final private String[] keyboard;
 }
