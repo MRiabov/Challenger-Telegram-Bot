@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.command.commands;
+package edu.mriabov.challengertelegrambot.command;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 

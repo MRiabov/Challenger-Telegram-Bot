@@ -1,6 +1,5 @@
-package edu.mriabov.challengertelegrambot.dialogs;
+package edu.mriabov.challengertelegrambot.dialogs.messagerouters;
 
-import edu.mriabov.challengertelegrambot.command.CommandHandler;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,17 +7,16 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Service
 @RequiredArgsConstructor
-public class MasterMessageHandler {
+public final class MasterMessageHandler implements MessageHandler {
     //todo finish
     final CommandHandler commandHandler;
+    final SubMessageHandler messageHandler;
 
     public void routeMessages(Update update){
         if (update.getMessage().getText().startsWith(TelegramUtils.COMMAND_PREFIX)) {
-            commandHandler.routeCommands(update);
-        } else 
+            commandHandler.routeMessages(update);
+        } else messageHandler.routeMessages(update);
 
-
-            //find them,
     }
-
+//how lookup works... give a message options to the user.
 }

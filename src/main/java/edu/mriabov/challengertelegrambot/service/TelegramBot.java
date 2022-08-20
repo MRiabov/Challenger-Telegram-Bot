@@ -1,7 +1,7 @@
 package edu.mriabov.challengertelegrambot.service;
 
 import edu.mriabov.challengertelegrambot.config.BotConfig;
-import edu.mriabov.challengertelegrambot.dialogs.MasterMessageHandler;
+import edu.mriabov.challengertelegrambot.dialogs.messagerouters.MasterMessageHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;

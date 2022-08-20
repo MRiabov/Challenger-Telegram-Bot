@@ -1,7 +1,9 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
+import edu.mriabov.challengertelegrambot.dialogs.general.Buttons;
 import edu.mriabov.challengertelegrambot.service.MessageSenderService;
 import edu.mriabov.challengertelegrambot.service.TelegramBot;
+import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -28,6 +30,11 @@ public class MessageSenderServiceImpl implements MessageSenderService {
         SendMessage sendMessage = new SendMessage(Long.toString(chatID),text);
         sendMessage.setReplyMarkup(markup);
         sendMessageToTelegram(sendMessage);
+    }
+
+    @Override
+    public void sendMessage(long chatID, Buttons button) {
+        sendMessage(chatID, button.getMessage(), TelegramUtils.ArrayToReplyMarkup(button.getKeyboard()));
     }
 
     private void sendMessageToTelegram(SendMessage sendMessage){
