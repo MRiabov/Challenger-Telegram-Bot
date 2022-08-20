@@ -26,7 +26,7 @@ public final class OnStartCommandImpl implements Command {
         if (userRepository.existsByTelegramId(update.getMessage().getSenderChat().getId())) {
             TelegramUtils.ArrayToReplyMarkup(Buttons.MAIN_MENU.getKeyboard());
         } else {
-            messageSenderService.sendMessage(update.getMessage().getChatId(),);
+            messageSenderService.sendMessage(update.getMessage().getChatId(),Buttons.ON_START_NEW_USER);
         }
     }
 
