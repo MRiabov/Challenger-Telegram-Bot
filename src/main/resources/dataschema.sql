@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `challenge`
     FOREIGN KEY (difficulty_id) references difficulty (difficulty_id),
     FOREIGN KEY (created_by) references user (user_id),
     FOREIGN KEY (assigned_to) references user (user_id),
-    FOREIGN KEY (chat_id) references chat (chat_id)
+    FOREIGN KEY (chat_id) references chat (id)
 );
 
 CREATE TABLE IF NOT EXISTS areas

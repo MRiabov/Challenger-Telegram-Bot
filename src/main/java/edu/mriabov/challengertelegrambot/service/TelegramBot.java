@@ -28,7 +28,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
 
         if (update.hasMessage() && update.getMessage().hasText()) {
-
+            messageHandler.routeMessages(update);
         }
     }
 

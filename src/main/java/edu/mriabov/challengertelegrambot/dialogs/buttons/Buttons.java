@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dialogs.general;
+package edu.mriabov.challengertelegrambot.dialogs.buttons;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

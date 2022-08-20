@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dialogs.general;
+package edu.mriabov.challengertelegrambot.dialogs.buttons;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,10 +7,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ButtonsMessages {
     //Menu
-    MENU_CHALLENGES("My Challenges"),
-    MENU_CHALLENGE_YOUR_FRIENDS("Challenge your friends"),
-    MENU_REST("Buy some rest..."),
-    MENU_FAQ("FAQ"),
+    MENU_CHALLENGES("\uD83D\uDCAA My Challenges"),
+    MENU_CHALLENGE_YOUR_FRIENDS("\uD83C\uDFC3\u200D♂️Challenge your friends"),
+    MENU_REST("Buy some rest...\uD83D\uDCA4"),
+    MENU_FAQ("❔FAQ"),
 
 
     //Commands

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 final class CommandHandler implements MessageHandler {
 //todo what to do with Unknown command?
-    private HashMap<String, Command> commandMap;
+    private Map<String, Command> commandMap;
     private UnknownCommand unknownCommand;
 
 public CommandHandler(@Autowired List<Command> commands, @Autowired UnknownCommand unknownCommand){
-    commandMap = (HashMap<String, Command>) commands.stream().
+    commandMap = commands.stream().
             collect(Collectors.toUnmodifiableMap(Command::alias, Function.identity()));
 
     this.unknownCommand=unknownCommand;

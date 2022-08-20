@@ -20,8 +20,8 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "coins",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "userID")},
-            inverseJoinColumns = {@JoinColumn(name = "chat_id",referencedColumnName = "chatID")})
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "chat_id",referencedColumnName = "id")})
     private Set<Chat> chatList;
 
     private Long telegramId;
@@ -33,7 +33,7 @@ public class User {
     private String username;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = UserStats.class)
-    @JoinColumn(name = "stats_id", referencedColumnName = "statsID")
+    @JoinColumn(name = "stats_id", referencedColumnName = "id")
     private UserStats userStats;
 
 }

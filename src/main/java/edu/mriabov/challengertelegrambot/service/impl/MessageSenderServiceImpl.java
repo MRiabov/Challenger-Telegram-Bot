@@ -1,6 +1,6 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
-import edu.mriabov.challengertelegrambot.dialogs.general.Buttons;
+import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.MessageSenderService;
 import edu.mriabov.challengertelegrambot.service.TelegramBot;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;

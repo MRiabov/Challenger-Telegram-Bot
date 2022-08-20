@@ -15,7 +15,7 @@ public class UserStats {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
-    int statsId;
+    int id;
 
     int relationships;
     int fitness;

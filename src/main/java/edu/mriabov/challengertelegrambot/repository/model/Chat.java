@@ -14,7 +14,6 @@ import java.util.Set;
 public class Chat {
 
     @Id
-    @Column(name = "chat_id")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private int id;
@@ -24,10 +23,10 @@ public class Chat {
     @Column(name = "total_tasks_completed")
     private int totalTasks;
 
-    @ManyToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "chatList",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private Set<User> users;
 
-    @OneToMany(mappedBy = "challenge",fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "chat",fetch = FetchType.LAZY,
             cascade = CascadeType.PERSIST, targetEntity = Challenge.class)
     private Set<Challenge> challenges;
 }

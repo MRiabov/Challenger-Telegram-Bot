@@ -20,7 +20,7 @@ public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    int challengeID;
+    int id;
 
     @Enumerated(EnumType.STRING)
     @Column(updatable = false)
@@ -39,6 +39,6 @@ public class Challenge {
     private LocalDateTime expiresAt;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "chat_id", referencedColumnName = "chatID")
+    @JoinColumn(name = "chat_id", referencedColumnName = "id")
     private Chat chat;
 }
