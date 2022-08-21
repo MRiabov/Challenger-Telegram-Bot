@@ -1,36 +1,25 @@
 package edu.mriabov.challengertelegrambot.service;
 
 import edu.mriabov.challengertelegrambot.config.BotConfig;
-import edu.mriabov.challengertelegrambot.dialogs.messagerouters.MasterMessageHandler;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.abilitybots.api.bot.AbilityBot;
 
 @Component
-@RequiredArgsConstructor
-public class TelegramBot extends TelegramLongPollingBot {
+public class TelegramBot extends AbilityBot {
 
     final BotConfig config;
-    final MasterMessageHandler messageHandler;
 
-    @Override
-    public String getBotUsername() {
-        return config.getBotName();
-    }
+    @Autowired
+    public TelegramBot(BotConfig config) {
+        super(config.getToken(), config.getBotName());
+        this.config = config;
 
-    @Override
-    public String getBotToken() {
-        return config.getToken();
-    }
-
-    @Override
-    public void onUpdateReceived(Update update) {
-
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            messageHandler.handleMessages(update);
-        }
     }
 
 
+    @Override
+    public long creatorId() {
+        return 436705658;
+    }
 }
