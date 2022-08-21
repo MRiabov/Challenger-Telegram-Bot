@@ -24,7 +24,8 @@ public enum ButtonsMessages {
     ON_START_NEW_USER_SECOND_NO("Skip"),
     ON_START_NEW_USER_THIRD("Finish")//last for now
 
-
-;
+    //!
+    ;
+    //!
     private final String txt;
 }

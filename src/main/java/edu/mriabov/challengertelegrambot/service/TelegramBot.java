@@ -17,7 +17,6 @@ public class TelegramBot extends AbilityBot {
 
     }
 
-
     @Override
     public long creatorId() {
         return 436705658;
