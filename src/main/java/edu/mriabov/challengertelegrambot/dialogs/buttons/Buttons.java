@@ -1,7 +1,9 @@
 package edu.mriabov.challengertelegrambot.dialogs.buttons;
 
+import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Getter
 @RequiredArgsConstructor
@@ -41,4 +43,11 @@ public enum Buttons {
     //!
     final private String message;
     final private String[] keyboard;
+
+    public SendMessage buildSendMessageWithKeyboard(long chatID, Buttons buttons){
+        SendMessage sendMessage = new SendMessage(Long.toString(chatID),buttons.getMessage());
+        sendMessage.setReplyMarkup(TelegramUtils.ArrayToReplyMarkup(buttons.getKeyboard()));
+        return sendMessage;
+    }
+
 }

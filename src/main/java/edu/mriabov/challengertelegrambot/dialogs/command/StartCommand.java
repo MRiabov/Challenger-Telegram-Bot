@@ -5,6 +5,7 @@ import edu.mriabov.challengertelegrambot.service.TelegramBot;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import org.telegram.abilitybots.api.objects.Ability;
+import org.telegram.abilitybots.api.objects.ReplyFlow;
 import org.telegram.abilitybots.api.util.AbilityExtension;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -13,20 +14,21 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class StartCommand implements AbilityExtension {
 
     private final TelegramBot telegramBot;
-
+    private final Buttons buttons;
     public Ability onStart(){
+         SendMessage message = new SendMessage("1","1");
+        message.setReplyMarkup(TelegramUtils.ArrayToReplyMarkup(Buttons.MAIN_MENU.getKeyboard()));
         return Ability.builder()
                 .name("start")
                 .info("(re)Starts the bot.")
-                .action(ctx -> {
-                    try {
-                        telegramBot.sender().execute(new SendMessage(
-                                ctx.chatId().toString(),Buttons.MAIN_MENU.getMessage()))
-                                .
-                    } catch (TelegramApiException e) {
-                        throw new RuntimeException(e);
-                    }
-                }).build();
+                .reply(ReplyFlow.builder(telegramBot.db())
+                        .action((baseAbilityBot, update) -> telegramBot.execute(buttons.buildSendMessageWithKeyboard(update.getMessage().getChatId(),Buttons.ON_START_NEW_USER)))
+
+
+                        .build()))
+
+
+        .build();
     }
 
 }
