@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ButtonsUtils {
-
+    private ButtonsUtils(){}
     public static SendMessage buildSendMessageWithKeyboard(long chatID, Buttons buttons){
         SendMessage sendMessage = new SendMessage(Long.toString(chatID),buttons.getMessage());
         sendMessage.setReplyMarkup(arrayToReplyMarkup(buttons.getKeyboard()));

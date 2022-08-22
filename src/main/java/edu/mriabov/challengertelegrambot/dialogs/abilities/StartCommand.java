@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dialogs.command;
+package edu.mriabov.challengertelegrambot.dialogs.abilities;
 
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.ReceivedMessages;
@@ -33,11 +33,10 @@ public class StartCommand implements AbilityExtension {
                         messageContext.chatId(), Buttons.ON_START_NEW_USER)))
 
                 .reply(ReplyFlow.builder(telegramBot.db())
-
                         .next(ReplyUtils.buildFlow(ReceivedMessages.ON_START_NEW_USER_YES, telegramBot))
                         .next(ReplyUtils.buildFlow(ReceivedMessages.ON_START_NEW_USER_NO, telegramBot))
                         .build())
-
+//todo do an imported ReplyFlow.
 
                 .build();
     }

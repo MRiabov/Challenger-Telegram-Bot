@@ -6,7 +6,7 @@ import org.telegram.abilitybots.api.objects.ReplyFlow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class ReplyUtils {
-
+    private ReplyUtils(){}
     public static ReplyFlow buildFlow(ReceivedMessages receivedMessages, TelegramBot telegramBot) {
         return ReplyFlow.builder(telegramBot.db())
                 .onlyIf(update -> update.getMessage().getText().equals(receivedMessages.getText()))
