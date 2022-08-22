@@ -13,17 +13,6 @@ public class TelegramUtils {
 
     private TelegramUtils(){};
 
-    public static ReplyKeyboardMarkup ArrayToReplyMarkup(String[] buttons) {
-        List<KeyboardRow> rowList = new ArrayList<>();
-        KeyboardRow currentRow = new KeyboardRow();
 
-        for (String button : buttons) {
-            if (Objects.equals(button, null)) {
-                rowList.add(currentRow);
-                currentRow = new KeyboardRow();
-            } else currentRow.add(button);
-        }
-        return new ReplyKeyboardMarkup(rowList);
-    }
 
 }
