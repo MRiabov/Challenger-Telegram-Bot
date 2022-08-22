@@ -30,11 +30,17 @@ public class StartCommand implements AbilityExtension {
                 .input(0)
                 .action(messageContext -> telegramBot.silent().execute(
                         ButtonsUtils.buildSendMessageWithKeyboard(
-                        messageContext.chatId(), Buttons.ON_START_NEW_USER)))
+                                messageContext.chatId(), Buttons.ON_START_NEW_USER)))
 
                 .reply(ReplyFlow.builder(telegramBot.db())
-                        .next(ReplyUtils.buildFlow(ReceivedMessages.ON_START_NEW_USER_YES, telegramBot))
+                        .onlyIf(update -> update.getMessage().getText().equals(ReceivedMessages.ON_START_NEW_USER_FIRST_YES.getText()))
+                        .next(ReplyFlow.builder(telegramBot.db())
+                                .action(telegramBot.silent().execute())
+
+
+                                .build())
                         .next(ReplyUtils.buildFlow(ReceivedMessages.ON_START_NEW_USER_NO, telegramBot))
+
                         .build())
 //todo do an imported ReplyFlow.
 
