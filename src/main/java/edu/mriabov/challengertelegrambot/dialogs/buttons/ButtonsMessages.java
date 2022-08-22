@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public enum ButtonsMessages {
+enum ButtonsMessages {
     //Menu
     MENU_CHALLENGES("\uD83D\uDCAA My Challenges"),
     MENU_CHALLENGE_YOUR_FRIENDS("\uD83C\uDFC3\u200D♂️Challenge your friends"),
