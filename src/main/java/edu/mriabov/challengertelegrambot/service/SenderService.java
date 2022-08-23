@@ -12,7 +12,5 @@ public interface SenderService {
     void sendMessages(long chatID,String message);
     void sendMessages(long chatID, String message, ReplyKeyboardMarkup markup);
     void sendMessages(long chatID, Buttons buttons);
-    ReplyFlow sendFlow(ReceivedMessages receivedMessages, List<ReplyFlow> nextList);
-    ReplyFlow sendFlow(ReceivedMessages receivedMessages, ReplyFlow replyFlow);
 
 }

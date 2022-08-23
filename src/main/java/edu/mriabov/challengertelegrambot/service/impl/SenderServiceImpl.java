@@ -41,33 +41,4 @@ public class SenderServiceImpl implements SenderService {
         telegramBot.sender().execute(ButtonsUtils.buildSendMessageWithKeyboard(chatID, buttons));
     }
 
-    @Override
-    public ReplyFlow sendFlow(ReceivedMessages receivedMessages, List<ReplyFlow> nextList) {
-        var builder = basicFlowBuilder(receivedMessages);
-        for (ReplyFlow nextReply:nextList) builder.next(nextReply);
-        return builder.build();
-    }
-
-    @Override
-    public ReplyFlow sendFlow(ReceivedMessages receivedMessages, ReplyFlow replyFlow) {
-        ReplyFlow.ReplyFlowBuilder builder = basicFlowBuilder(receivedMessages);
-        builder.next(replyFlow);
-        return builder.build();
-    }
-
-    private ReplyFlow.ReplyFlowBuilder basicFlowBuilder(ReceivedMessages receivedMessages) {
-        ReplyFlow.ReplyFlowBuilder builder = ReplyFlow.builder(telegramBot.db());
-        builder.onlyIf(update -> update.getMessage().getText().equals(receivedMessages.getReceivedMessage()));
-        builder.action((baseAbilityBot, update) -> {
-            try {
-                telegramBot.execute(ButtonsUtils.buildSendMessageWithKeyboard(
-                        update.getMessage().getChatId(), receivedMessages.getNextInvocation()
-                ));
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        return builder
-    }
-
 }
