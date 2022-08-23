@@ -8,10 +8,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.List;
 
 public class ReplyUtils {
-
+//todo remove tg bot
     public static ReplyFlow buildFlow(ReceivedMessages receivedMessages,List<ReplyFlow> next, TelegramBot telegramBot) {
         ReplyFlow.ReplyFlowBuilder builder = ReplyFlow.builder(telegramBot.db());
-        builder.onlyIf(update -> update.getMessage().getText().equals(receivedMessages.getText()));
+        builder.onlyIf(update -> update.getMessage().getText().equals(receivedMessages.getReceivedMessage()));
         builder.action((baseAbilityBot, update) -> {
             try {
                 telegramBot.execute(ButtonsUtils.buildSendMessageWithKeyboard(
@@ -20,6 +20,7 @@ public class ReplyUtils {
             } catch (TelegramApiException e) {
                 throw new RuntimeException(e);
             }
+            for (ReplyFlow nextReply:next) builder.next(nextReply);
         });
 
         return builder.build();
