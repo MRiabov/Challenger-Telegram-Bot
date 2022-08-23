@@ -5,7 +5,4 @@ public class TelegramUtils {
     public static final String COMMAND_PREFIX="/";
 
     private TelegramUtils(){};
-
-
-
 }
