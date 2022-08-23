@@ -2,7 +2,6 @@ package edu.mriabov.challengertelegrambot.dialogs.abilities;
 
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.reply.MasterReplyFlow;
-import edu.mriabov.challengertelegrambot.service.TelegramBot;
 import edu.mriabov.challengertelegrambot.utils.ButtonsUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,6 @@ import org.telegram.abilitybots.api.util.AbilityExtension;
 @Service
 public class StartCommand implements AbilityExtension {
     private final MasterReplyFlow masterReplyFlow;
-    private final TelegramBot telegramBot;
 
     public Ability onStart() {
         return Ability.builder()
@@ -33,7 +31,7 @@ public class StartCommand implements AbilityExtension {
     }
 
     private void sendStarterMessage(MessageContext messageContext) {
-        telegramBot.silent().execute(
+        messageContext.bot().silent().execute(
                 ButtonsUtils.buildSendMessageWithKeyboard(messageContext.chatId(), Buttons.ON_START_NEW_USER));
     }
 
