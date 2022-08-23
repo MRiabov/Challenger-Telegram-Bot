@@ -7,17 +7,15 @@ import edu.mriabov.challengertelegrambot.service.ReplyBuilderService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.TelegramBot;
 import edu.mriabov.challengertelegrambot.utils.ButtonsUtils;
-import edu.mriabov.challengertelegrambot.utils.ReplyUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.telegram.abilitybots.api.objects.Ability;
-import org.telegram.abilitybots.api.objects.Locality;
-import org.telegram.abilitybots.api.objects.Privacy;
-import org.telegram.abilitybots.api.objects.ReplyFlow;
+import org.telegram.abilitybots.api.objects.*;
 import org.telegram.abilitybots.api.util.AbilityExtension;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -36,15 +34,28 @@ public class StartCommand implements AbilityExtension {
                 .privacy(Privacy.PUBLIC)
                 .locality(Locality.USER)
                 .input(0)
-                .action(messageContext -> telegramBot.silent().execute(
-                        ButtonsUtils.buildSendMessageWithKeyboard(
-                                messageContext.chatId(), Buttons.ON_START_NEW_USER)))
+                .action(this::sendStarterMessage)
+                .reply(getReplyFlow())
+                .build();
+    }
 
-                .reply(ReplyFlow.builder(telegramBot.db())
-                        .next(replyBuilderService.buildFlow(ReceivedMessages.ON_START_NEW_USER_NO, mainMenuFlow.getFlow()))
-                        .build())
+    private Optional<Message> sendStarterMessage(MessageContext messageContext) {
+        return telegramBot.silent().execute(
+                ButtonsUtils.buildSendMessageWithKeyboard(
+                        messageContext.chatId(), Buttons.ON_START_NEW_USER));
+    }
 
 
+    private ReplyFlow getReplyFlow() {
+        return ReplyFlow.builder(telegramBot.db())
+                .next(replyBuilderService.buildFlow(ReceivedMessages.ON_START_NEW_USER_NO, mainMenuFlow.getFlow()))
+                .next(replyBuilderService.buildFlow(ReceivedMessages.ON_START_NEW_USER_YES, List.of(
+                                replyBuilderService.buildFlow(ReceivedMessages.ON_START_NEW_USER_FIRST_NO, mainMenuFlow.getFlow()),
+                                replyBuilderService.buildFlow(ReceivedMessages.ON_START_NEW_USER_FIRST_YES, List.of(
+                                        replyBuilderService.buildFlow(ReceivedMessages.ON_START_NEW_USER_SECOND_FINISH, mainMenuFlow.getFlow())
+                                ))
+                        )
+                ))
                 .build();
     }
 

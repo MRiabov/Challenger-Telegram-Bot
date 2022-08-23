@@ -1,6 +1,6 @@
-package edu.mriabov.challengertelegrambot.repository;
+package edu.mriabov.challengertelegrambot.dao.repository;
 
-import edu.mriabov.challengertelegrambot.repository.model.Challenge;
+import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TaskRepository extends JpaRepository<Challenge,Integer> {

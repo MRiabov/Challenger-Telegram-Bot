@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.repository.model;
+package edu.mriabov.challengertelegrambot.dao.model;
 
 import lombok.Getter;
 import lombok.Setter;

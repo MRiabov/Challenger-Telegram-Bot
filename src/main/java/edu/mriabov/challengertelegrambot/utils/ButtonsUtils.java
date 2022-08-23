@@ -7,7 +7,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 public class ButtonsUtils {
     private ButtonsUtils(){}
@@ -22,7 +23,7 @@ public class ButtonsUtils {
         KeyboardRow currentRow = new KeyboardRow();
 
         for (String button : buttons) {
-            if (Objects.equals(button, null)) {
+            if (isNull(button)) {
                 rowList.add(currentRow);
                 currentRow = new KeyboardRow();
             } else currentRow.add(button);
