@@ -11,13 +11,13 @@ import org.telegram.abilitybots.api.db.DBContext;
 @Component
 public class TelegramBot extends AbilityBot {
 
-    final BotConfig config;
+    public static DBContext database;
 
     @Autowired
-    public TelegramBot(BotConfig config/*, @Autowired List<AbilityExtension> list*/) {
+    public TelegramBot(BotConfig config, @Autowired List<AbilityExtension> abilityExtensionList) {
         super(config.getToken(), config.getBotName());
-        this.config = config;
-        addExtensions(new StartCommand(this));
+        addExtensions(abilityExtensionList);
+        database=this.db();
     }
 
     @Override
