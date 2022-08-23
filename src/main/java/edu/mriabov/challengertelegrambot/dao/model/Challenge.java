@@ -1,7 +1,7 @@
-package edu.mriabov.challengertelegrambot.repository.model;
+package edu.mriabov.challengertelegrambot.dao.model;
 
-import edu.mriabov.challengertelegrambot.repository.enums.Area;
-import edu.mriabov.challengertelegrambot.repository.enums.Difficulty;
+import edu.mriabov.challengertelegrambot.dao.enums.Area;
+import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;

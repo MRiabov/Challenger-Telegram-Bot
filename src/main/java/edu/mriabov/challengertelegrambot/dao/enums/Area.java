@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.repository.enums;
+package edu.mriabov.challengertelegrambot.dao.enums;
 
 import lombok.Getter;
 

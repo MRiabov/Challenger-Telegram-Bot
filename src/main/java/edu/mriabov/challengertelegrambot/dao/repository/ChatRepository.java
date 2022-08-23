@@ -1,6 +1,6 @@
-package edu.mriabov.challengertelegrambot.repository;
+package edu.mriabov.challengertelegrambot.dao.repository;
 
-import edu.mriabov.challengertelegrambot.repository.model.Chat;
+import edu.mriabov.challengertelegrambot.dao.model.Chat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
