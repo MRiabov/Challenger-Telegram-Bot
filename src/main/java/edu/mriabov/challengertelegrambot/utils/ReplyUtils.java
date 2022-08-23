@@ -2,6 +2,7 @@ package edu.mriabov.challengertelegrambot.utils;
 
 import edu.mriabov.challengertelegrambot.dialogs.buttons.ReceivedMessages;
 import edu.mriabov.challengertelegrambot.service.TelegramBot;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.abilitybots.api.objects.ReplyFlow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -20,9 +21,8 @@ public class ReplyUtils {
             } catch (TelegramApiException e) {
                 throw new RuntimeException(e);
             }
-            for (ReplyFlow nextReply:next) builder.next(nextReply);
         });
-
+        for (ReplyFlow nextReply:next) builder.next(nextReply);
         return builder.build();
     }
 

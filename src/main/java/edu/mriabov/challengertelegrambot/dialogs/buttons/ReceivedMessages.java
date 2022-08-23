@@ -12,6 +12,7 @@ import java.util.Optional;
 @Slf4j
 public enum ReceivedMessages {
     //here you receive messages, and, based on the answer, decide what to do next
+    //= messages to catch and decide the next action
     MENU_CHALLENGES(ButtonsMessages.MENU_CHALLENGES.getTxt(), Buttons.MY_CHALLENGES),
     MAIN_MENU(ButtonsMessages.MAIN_MENU.getTxt(), Buttons.MAIN_MENU),
 
