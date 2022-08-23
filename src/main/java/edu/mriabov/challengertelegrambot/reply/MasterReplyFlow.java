@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.reply.replyflows;
+package edu.mriabov.challengertelegrambot.reply;
 
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.ReceivedMessages;
@@ -11,12 +11,12 @@ import org.telegram.abilitybots.api.objects.ReplyFlow;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+
 @Component
+@RequiredArgsConstructor
 public class MasterReplyFlow {
 
-    ReplyBuilderService replyBuilderService;
-    SenderService senderService;
+    private final ReplyBuilderService replyBuilderService;
 
     public ReplyFlow welcomeFlow() {
         return ReplyFlow.builder(TelegramBot.database)
@@ -30,11 +30,13 @@ public class MasterReplyFlow {
                 ))
                 .build();
     }
-
+//todo FUUUCK IT WAS ALWAYS HEEEREEE
+    //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     public ReplyFlow mainMenuFlow() {
         return ReplyFlow.builder(TelegramBot.database)
                 .action((baseAbilityBot, update) ->
-                        senderService.sendMessages(update.getMessage().getChatId(), Buttons.MAIN_MENU))
+                        baseAbilityBot.silent().execute(s))
+//                        senderService.sendMessages(update.getMessage().getChatId(), Buttons.MAIN_MENU))
                 .next(challengeCreateFlow())
                 .next(myChallengesFlow())
                 .build();
