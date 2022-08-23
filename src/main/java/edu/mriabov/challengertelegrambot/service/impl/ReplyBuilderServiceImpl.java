@@ -5,9 +5,12 @@ import edu.mriabov.challengertelegrambot.service.ReplyBuilderService;
 import edu.mriabov.challengertelegrambot.service.TelegramBot;
 import edu.mriabov.challengertelegrambot.utils.ReplyUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.telegram.abilitybots.api.objects.ReplyFlow;
 
 import java.util.List;
+
+@Service
 @RequiredArgsConstructor
 public class ReplyBuilderServiceImpl implements ReplyBuilderService {
 
