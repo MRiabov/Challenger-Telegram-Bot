@@ -8,24 +8,36 @@ import edu.mriabov.challengertelegrambot.dialogs.buttons.ReceivedMessages;
 import edu.mriabov.challengertelegrambot.service.ReplyBuilderService;
 import edu.mriabov.challengertelegrambot.service.TelegramBot;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.abilitybots.api.objects.ReplyFlow;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static edu.mriabov.challengertelegrambot.utils.ButtonsUtils.buildMessageWithKeyboard;
-import static edu.mriabov.challengertelegrambot.utils.ReplyUtils.*;
+import static edu.mriabov.challengertelegrambot.utils.ReplyUtils.buttonsShortcut;
 
 
 @Component
-@RequiredArgsConstructor
+
 public class MasterReplyFlow {
+
+    //ids are to be labled: [x]00 for separate menu buttons, 0[x]0 for features in menu, 00[x] for subfeatures.
+    //todo constants instead of methods and a constructor
 
     private final ReplyBuilderService replyBuilderService;
 
-    //todo constants instead of methods and a constructor
+    private final HashMap<String,ReplyFlow> replyFlowHashMap;
+
+    @Autowired
+    public MasterReplyFlow(ReplyBuilderService replyBuilderService, HashMap<String, ReplyFlow> replyFlowHashMap) {
+        this.replyBuilderService = replyBuilderService;
+        this.replyFlowHashMap = replyFlowHashMap;
+
+    }
+
     public ReplyFlow welcome() {
         return ReplyFlow.builder(TelegramBot.database, 1)
                 .next(replyBuilderService.buildSimpleFlow(2, ReceivedMessages.ON_START_NEW_USER_NO, mainMenu()))
@@ -41,13 +53,10 @@ public class MasterReplyFlow {
     }
 
     public ReplyFlow mainMenu() {
-        return ReplyFlow.builder(TelegramBot.database, 100)
-                .action((baseAbilityBot, update) ->
-                        baseAbilityBot.silent().execute(buildMessageWithKeyboard(
-                                update.getMessage().getChatId(), Buttons.MAIN_MENU)))
-                .next(selectDifficulty())
-                .next(myChallengesFlow())
-                .build();
+        return replyBuilderService.buildSimpleFlow(100,ReceivedMessages.MAIN_MENU,List.of(
+                myChallengesFlow(),
+                selectDifficulty()
+        ));
     }
 
     //MainMenuFlow
@@ -101,7 +110,7 @@ public class MasterReplyFlow {
         return replyBuilderService.buildSimpleFlow(240, ReceivedMessages.MARK_CHALLENGE_AS_COMPLETED,
                 List.of(
                         ReplyFlow.builder(TelegramBot.database)
-                                .onlyIf(update -> update.getMessage().getText().equals(Buttons.cancelMessage))
+                                .onlyIf(update -> update.getMessage().getText().equals(PublicButtonsMessages.CANCEL.getText()))
                                 .action((baseAbilityBot, update) -> baseAbilityBot.silent().execute(
                                         buildMessageWithKeyboard(update.getMessage().getChatId(),
                                                 Buttons.MARK_CHALLENGE_AS_COMPLETED)))
@@ -134,7 +143,8 @@ public class MasterReplyFlow {
                                     challenge.setDifficulty(switchDifficulty(update));
                                     //todo change
                                     buttonsShortcut(update, baseAbilityBot, Buttons.MAIN_MENU);
-                                }).build()
+                                }).next(mainMenu())
+                                .build()
                 )
         );
 
