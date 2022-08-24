@@ -32,7 +32,7 @@ public class StartCommand implements AbilityExtension {
 
     private void sendStarterMessage(MessageContext messageContext) {
         messageContext.bot().silent().execute(
-                ButtonsUtils.buildSendMessageWithKeyboard(messageContext.chatId(), Buttons.ON_START_NEW_USER));
+                ButtonsUtils.buildMessageWithKeyboard(messageContext.chatId(), Buttons.ON_START_NEW_USER));
     }
 
 }

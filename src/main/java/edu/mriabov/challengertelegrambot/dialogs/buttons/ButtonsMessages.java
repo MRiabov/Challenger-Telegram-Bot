@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-enum ButtonsMessages {
+enum ButtonsMessages {//package-private!
+
     //Meta
     MAIN_MENU("Back to main menu"),
     CANCEL("Cancel"),
