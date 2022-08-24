@@ -12,7 +12,7 @@ import static java.util.Objects.isNull;
 
 public class ButtonsUtils {
     private ButtonsUtils(){}
-    public static SendMessage buildSendMessageWithKeyboard(long chatID, Buttons buttons){
+    public static SendMessage buildMessageWithKeyboard(long chatID, Buttons buttons){
         SendMessage sendMessage = new SendMessage(Long.toString(chatID),buttons.getMessage());
         sendMessage.setReplyMarkup(arrayToReplyMarkup(buttons.getKeyboard()));
         return sendMessage;

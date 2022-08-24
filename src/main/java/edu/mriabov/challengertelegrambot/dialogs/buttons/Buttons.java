@@ -65,6 +65,8 @@ public enum Buttons {
     final private String message;
     final private String[] keyboard;
 
+    final public static String cancelMessage = ButtonsMessages.CANCEL.getText();
+
     Buttons(String message, String ... keyboard) {
         this.message = message;
         this.keyboard = keyboard;
