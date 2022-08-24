@@ -6,7 +6,6 @@ import edu.mriabov.challengertelegrambot.service.TelegramBot;
 import org.telegram.abilitybots.api.bot.BaseAbilityBot;
 import org.telegram.abilitybots.api.objects.ReplyFlow;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
 
@@ -14,8 +13,8 @@ public class ReplyUtils {
 
     private ReplyUtils(){}
 
-    public static ReplyFlow buildSimpleFlow(ReceivedMessages receivedMessages, List<ReplyFlow> next) {
-        ReplyFlow.ReplyFlowBuilder builder = ReplyFlow.builder(TelegramBot.database);
+    public static ReplyFlow buildSimpleFlow(int id,ReceivedMessages receivedMessages, List<ReplyFlow> next) {
+        ReplyFlow.ReplyFlowBuilder builder = ReplyFlow.builder(TelegramBot.database,id);
         builder.onlyIf(
                 update -> update.getMessage().getText().equals(receivedMessages.getReceivedMessage())
                         || update.getMessage().getText().equals(Buttons.cancelMessage));
@@ -29,13 +28,9 @@ public class ReplyUtils {
     }
 
     private static void execute(ReceivedMessages receivedMessages, BaseAbilityBot baseAbilityBot, Update update) {
-        try {
-            baseAbilityBot.execute(ButtonsUtils.buildMessageWithKeyboard(
-                    update.getMessage().getChatId(), receivedMessages.getNextInvocation()
-            ));
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
-        }
+        baseAbilityBot.silent().execute(ButtonsUtils.buildMessageWithKeyboard(
+                update.getMessage().getChatId(), receivedMessages.getNextInvocation()
+        ));
     }
 
 

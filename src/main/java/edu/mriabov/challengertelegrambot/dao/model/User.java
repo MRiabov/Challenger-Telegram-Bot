@@ -31,6 +31,7 @@ public class User {
     private String lastName;
 
     private String username;
+    //todo challengesList
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = UserStats.class)
     @JoinColumn(name = "stats_id", referencedColumnName = "id")

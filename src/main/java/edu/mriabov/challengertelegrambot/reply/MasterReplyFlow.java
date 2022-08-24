@@ -27,31 +27,32 @@ public class MasterReplyFlow {
 
     //todo constants instead of methods and a constructor
     public ReplyFlow welcome() {
-        return ReplyFlow.builder(TelegramBot.database)
-                .next(replyBuilderService.buildSimpleFlow(ReceivedMessages.ON_START_NEW_USER_NO, mainMenu()))
-                .next(replyBuilderService.buildSimpleFlow(ReceivedMessages.ON_START_NEW_USER_YES, List.of(
-                                replyBuilderService.buildSimpleFlow(ReceivedMessages.ON_START_NEW_USER_FIRST_NO, mainMenu()),
-                                replyBuilderService.buildSimpleFlow(ReceivedMessages.ON_START_NEW_USER_FIRST_YES, List.of(
-                                        replyBuilderService.buildSimpleFlow(ReceivedMessages.ON_START_NEW_USER_SECOND_FINISH, mainMenu())
+        return ReplyFlow.builder(TelegramBot.database, 1)
+                .next(replyBuilderService.buildSimpleFlow(2, ReceivedMessages.ON_START_NEW_USER_NO, mainMenu()))
+                .next(replyBuilderService.buildSimpleFlow(3, ReceivedMessages.ON_START_NEW_USER_YES, List.of(
+                                replyBuilderService.buildSimpleFlow(4, ReceivedMessages.ON_START_NEW_USER_FIRST_NO, mainMenu()),
+                                replyBuilderService.buildSimpleFlow(5, ReceivedMessages.ON_START_NEW_USER_FIRST_YES, List.of(
+                                        replyBuilderService.buildSimpleFlow(6, ReceivedMessages.ON_START_NEW_USER_SECOND_FINISH, mainMenu())
                                 ))
                         )
-                ))
+                )
+                )
                 .build();
     }
 
     public ReplyFlow mainMenu() {
-        return ReplyFlow.builder(TelegramBot.database)
+        return ReplyFlow.builder(TelegramBot.database, 100)
                 .action((baseAbilityBot, update) ->
                         baseAbilityBot.silent().execute(buildMessageWithKeyboard(
                                 update.getMessage().getChatId(), Buttons.MAIN_MENU)))
-                .next(challengeCreate())
+                .next(selectDifficulty())
                 .next(myChallengesFlow())
                 .build();
     }
 
     //MainMenuFlow
     private ReplyFlow myChallengesFlow() {
-        return replyBuilderService.buildSimpleFlow(ReceivedMessages.MENU_MY_CHALLENGES, List.of(
+        return replyBuilderService.buildSimpleFlow(210, ReceivedMessages.MENU_MY_CHALLENGES, List.of(
                         markAsCompleted(),
                         setGoal(),
                         skipChallenge()
@@ -60,7 +61,7 @@ public class MasterReplyFlow {
     }
 
     private ReplyFlow setGoal() {
-        return replyBuilderService.buildSimpleFlow(ReceivedMessages.SET_GOAL,
+        return replyBuilderService.buildSimpleFlow(220, ReceivedMessages.SET_GOAL,
                 List.of(
                         ReplyFlow.builder(TelegramBot.database)
                                 .onlyIf(TelegramUtils::isCancel)
@@ -79,7 +80,7 @@ public class MasterReplyFlow {
     }
 
     private ReplyFlow skipChallenge() {
-        return replyBuilderService.buildSimpleFlow(ReceivedMessages.SKIP_CHALLENGES, List.of(
+        return replyBuilderService.buildSimpleFlow(230, ReceivedMessages.SKIP_CHALLENGES, List.of(
                 ReplyFlow.builder(TelegramBot.database)
                         .onlyIf(TelegramUtils::isCancel)
                         .action((baseAbilityBot, update) -> buttonsShortcut(update, baseAbilityBot, Buttons.SKIP_CHALLENGES))
@@ -97,7 +98,7 @@ public class MasterReplyFlow {
     }
 
     private ReplyFlow markAsCompleted() {
-        return replyBuilderService.buildSimpleFlow(ReceivedMessages.MARK_CHALLENGE_AS_COMPLETED,
+        return replyBuilderService.buildSimpleFlow(240, ReceivedMessages.MARK_CHALLENGE_AS_COMPLETED,
                 List.of(
                         ReplyFlow.builder(TelegramBot.database)
                                 .onlyIf(update -> update.getMessage().getText().equals(Buttons.cancelMessage))
@@ -119,32 +120,28 @@ public class MasterReplyFlow {
     }
 
     //ChallengeCreateFlow
-    private ReplyFlow challengeCreate() {
-        return replyBuilderService.buildSimpleFlow(ReceivedMessages.MENU_CHALLENGE_YOUR_FRIENDS, List.of(
-                ReplyFlow.builder(TelegramBot.database)
-                        .onlyIf(TelegramUtils::isCancel)
-                        .action((baseAbilityBot, update) -> buttonsShortcut(update,baseAbilityBot,Buttons.MENU_CHALLENGE_YOUR_FRIENDS))
-                        .next(mainMenu())
-                        .build(),
-                ReplyFlow.builder(TelegramBot.database)
-                        .onlyIf(update1 -> !TelegramUtils.isCancel(update1))
-                        .action((baseAbilityBot, update) -> {
-
-                            Challenge challenge = new Challenge();
-                            challenge.setDifficulty(switchDifficulty(update));
-                            if (challenge.getDifficulty() != null) {
-
-                                //todo save into db
-                            } else baseAbilityBot.silent().send("Please press the buttons.", update.getMessage().getChatId());
-                        })
-                        .build()
-        ));
+    private ReplyFlow selectDifficulty() {
+        Challenge challenge = new Challenge();
+        return replyBuilderService.buildSimpleFlow(310, ReceivedMessages.MENU_CHALLENGE_YOUR_FRIENDS, List.of(
+                        ReplyFlow.builder(TelegramBot.database)
+                                .onlyIf(TelegramUtils::isCancel)
+                                .action((baseAbilityBot, update) -> buttonsShortcut(update, baseAbilityBot, Buttons.MENU_CHALLENGE_YOUR_FRIENDS))
+                                .next(mainMenu())
+                                .build(),
+                        ReplyFlow.builder(TelegramBot.database)
+                                .onlyIf(update1 -> !TelegramUtils.isCancel(update1))
+                                .action((baseAbilityBot, update) -> {
+                                    challenge.setDifficulty(switchDifficulty(update));
+                                    //todo change
+                                    buttonsShortcut(update, baseAbilityBot, Buttons.MAIN_MENU);
+                                }).build()
+                )
+        );
 
     }
 
     private Difficulty switchDifficulty(Update update) {
         //no, it was impossible to do with switch. switch doesn't accept enums...
-        Challenge challenge = new Challenge();
         String message = update.getMessage().getText();
         if (message.equals(PublicButtonsMessages.EASY_DIFFICULTY.getText()))
             return Difficulty.EASY;
@@ -154,6 +151,8 @@ public class MasterReplyFlow {
             return Difficulty.DIFFICULT;
         if (message.equals(PublicButtonsMessages.GOAL_DIFFICULTY.getText()))
             return Difficulty.GOAL;
+        //todo this shouldn't be, but I don't see the other way yet
         return Difficulty.MEDIUM;
     }
+
 }

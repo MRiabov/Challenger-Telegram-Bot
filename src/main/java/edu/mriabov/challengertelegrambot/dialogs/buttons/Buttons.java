@@ -34,13 +34,22 @@ public enum Buttons {
             ButtonsMessages.CANCEL.getText(), null),
 
     //challenge your friends
-    MENU_CHALLENGE_YOUR_FRIENDS("PLACEHOLDER", ,null
 
-
+    MENU_CHALLENGE_YOUR_FRIENDS("PLACEHOLDER",
+            ButtonsMessages.CANCEL.getText(), null
     ),
 
-    CHALLENGE_DIFFICULTY_SELECTION("PLACEHOLDER",
-            ),
+    DIFFICULTY_SELECTION("PLACEHOLDER",
+            ButtonsMessages.EASY_DIFFICULTY.getText(), ButtonsMessages.MEDIUM_DIFFICULTY.getText(), null,
+            ButtonsMessages.DIFFICULT_DIFFICULTY.getText(), ButtonsMessages.GOAL_DIFFICULTY.getText(), null,
+            ButtonsMessages.CANCEL.getText(), null
+    ),
+
+    AREA_SELECTION("PLACEHOLDER",
+            ButtonsMessages.RELATIONSHIPS_AREA.getText(), ButtonsMessages.FINANCES_AREA.getText(), null,
+            ButtonsMessages.FITNESS_AREA.getText(), ButtonsMessages.MINDFULNESS_AREA.getText(), null,
+            ButtonsMessages.CANCEL.getText(), null
+    ),
 
     MENU_FAQ("PLACEHOLDER", null),
 

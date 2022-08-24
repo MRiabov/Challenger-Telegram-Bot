@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public interface ReplyBuilderService {
 
-   ReplyFlow buildSimpleFlow(@NotNull ReceivedMessages receivedMessages, @NotNull List<ReplyFlow> nextFlow);
-   ReplyFlow buildSimpleFlow(@NotNull ReceivedMessages receivedMessages, @NotNull ReplyFlow nextFlow);
+   ReplyFlow buildSimpleFlow(int id,@NotNull ReceivedMessages receivedMessages, @NotNull List<ReplyFlow> nextFlow);
+   ReplyFlow buildSimpleFlow(int id,@NotNull ReceivedMessages receivedMessages, @NotNull ReplyFlow nextFlow);
 
 }

@@ -14,12 +14,12 @@ import java.util.List;
 public class ReplyBuilderServiceImpl implements ReplyBuilderService {
 
     @Override
-    public ReplyFlow buildSimpleFlow(ReceivedMessages receivedMessages, List<ReplyFlow> next) {
-        return ReplyUtils.buildSimpleFlow(receivedMessages, next);
+    public ReplyFlow buildSimpleFlow(int id,ReceivedMessages receivedMessages, List<ReplyFlow> next) {
+        return ReplyUtils.buildSimpleFlow(id,receivedMessages, next);
     }
 
     @Override
-    public ReplyFlow buildSimpleFlow(ReceivedMessages receivedMessages, ReplyFlow nextFlow) {
-        return ReplyUtils.buildSimpleFlow(receivedMessages,List.of(nextFlow));
+    public ReplyFlow buildSimpleFlow(int id,ReceivedMessages receivedMessages, ReplyFlow nextFlow) {
+        return ReplyUtils.buildSimpleFlow(id,receivedMessages,List.of(nextFlow));
     }
 }

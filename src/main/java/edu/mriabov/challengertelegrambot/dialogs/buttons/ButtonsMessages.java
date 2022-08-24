@@ -27,6 +27,10 @@ enum ButtonsMessages {//package-private!
     MEDIUM_DIFFICULTY("Medium"),
     DIFFICULT_DIFFICULTY("Difficult"),
     GOAL_DIFFICULTY("Goal"),
+    RELATIONSHIPS_AREA("Relationships"),
+    FITNESS_AREA("Fitness"),
+    MINDFULNESS_AREA("Mindfulness"),
+    FINANCES_AREA("Finances"),
 
     //Commands
     UNKNOWN_COMMAND("Error: this command doesn't seem to be supported..."),
