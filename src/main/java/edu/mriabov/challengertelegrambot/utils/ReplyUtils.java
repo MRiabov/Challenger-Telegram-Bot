@@ -12,6 +12,8 @@ import java.util.List;
 
 public class ReplyUtils {
 
+    private ReplyUtils(){}
+
     public static ReplyFlow buildSimpleFlow(ReceivedMessages receivedMessages, List<ReplyFlow> next) {
         ReplyFlow.ReplyFlowBuilder builder = ReplyFlow.builder(TelegramBot.database);
         builder.onlyIf(
@@ -22,25 +24,9 @@ public class ReplyUtils {
         return builder.build();
     }
 
-    /**
-     * where free is where you expect a user to input something
-     */
-   /* List.of(
-            ReplyFlow.builder(TelegramBot.database)
-            .onlyIf(update -> update.getMessage().getText().equals(Buttons.cancelMessage))
-            .action((baseAbilityBot, update) -> baseAbilityBot.silent().execute(
-            buildSendMessageWithKeyboard(update.getMessage().getChatId(),
-    Buttons.MARK_CHALLENGE_AS_COMPLETED)))
-            .next(myChallengesFlow())
-            .build(),
-             ReplyFlow.builder(TelegramBot.database)
-            .onlyIf(update -> !update.getMessage().getText().equals(Buttons.cancelMessage))
-            .action((baseAbilityBot, update) -> {
-        baseAbilityBot.silent().send("Success!", update.getMessage().getChatId());
-    })
-            .next(myChallengesFlow())
-            .build()
-                                )*/
+    public static void buttonsShortcut(Update update, BaseAbilityBot baseAbilityBot, Buttons buttons){
+        baseAbilityBot.silent().execute(ButtonsUtils.buildMessageWithKeyboard(update.getMessage().getChatId(),buttons));
+    }
 
     private static void execute(ReceivedMessages receivedMessages, BaseAbilityBot baseAbilityBot, Update update) {
         try {

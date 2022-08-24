@@ -8,11 +8,11 @@ import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.abilitybots.api.objects.ReplyFlow;
-import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
 
 import static edu.mriabov.challengertelegrambot.utils.ButtonsUtils.buildMessageWithKeyboard;
+import static edu.mriabov.challengertelegrambot.utils.ReplyUtils.*;
 
 
 @Component
@@ -21,6 +21,7 @@ public class MasterReplyFlow {
 
     private final ReplyBuilderService replyBuilderService;
 
+    //todo constants instead of methods and a constructor
     public ReplyFlow welcomeFlow() {
         return ReplyFlow.builder(TelegramBot.database)
                 .next(replyBuilderService.buildSimpleFlow(ReceivedMessages.ON_START_NEW_USER_NO, mainMenuFlow()))
@@ -44,12 +45,11 @@ public class MasterReplyFlow {
                 .build();
     }
 
-    //how do free replies work?
-    //if (updateMsg!=buttons.cancel save it. wherever it is, I don't know. if cancel set to masterReplyFlow.)
     private ReplyFlow myChallengesFlow() {
         return replyBuilderService.buildSimpleFlow(ReceivedMessages.MENU_MY_CHALLENGES, List.of(
                         markAsCompleted(),
                         setGoal(),
+                        skipChallenge()
                 )
         );
     }
@@ -64,10 +64,31 @@ public class MasterReplyFlow {
                                 .build(),
                         ReplyFlow.builder(TelegramBot.database)
                                 .onlyIf(update -> !TelegramUtils.isCancel(update))
-                                .action(((baseAbilityBot, update) -> baseAbilityBot.silent().execute(buildMessageWithKeyboard(update.getMessage().getChatId(), Buttons.SET_GOAL))))
-                                .next()
+                                .action(((baseAbilityBot, update) -> {
+                                    //todo db operation+if have enough balance
+                                    baseAbilityBot.silent().execute(buildMessageWithKeyboard(update.getMessage().getChatId(), Buttons.SET_GOAL));
+                                }))
+                                .next(myChallengesFlow())
                                 .build())
         );
+    }
+
+    private ReplyFlow skipChallenge() {
+        return replyBuilderService.buildSimpleFlow(ReceivedMessages.SKIP_CHALLENGES, List.of(
+                ReplyFlow.builder(TelegramBot.database)
+                        .onlyIf(TelegramUtils::isCancel)
+                        .action((baseAbilityBot, update) -> buttonsShortcut(update, baseAbilityBot, Buttons.SKIP_CHALLENGES))
+                        .next(myChallengesFlow())
+                        .build(),
+                ReplyFlow.builder(TelegramBot.database)
+                        .onlyIf(update -> !TelegramUtils.isCancel(update))
+                        .action((baseAbilityBot, update) -> {
+                            //todo dbOperation
+                            buttonsShortcut(update, baseAbilityBot, Buttons.SKIP_CHALLENGES);
+                        })
+                        .next(myChallengesFlow())
+                        .build()
+        ));
     }
 
     private ReplyFlow markAsCompleted() {
@@ -94,8 +115,13 @@ public class MasterReplyFlow {
 
 
     private ReplyFlow challengeCreateFlow() {
-        return ReplyFlow.builder(TelegramBot.database)
-                .onlyIf(update -> update.getMessage().getText().equals(Buttons.CHALLENGE_YOUR_FRIENDS.getMessage()))
-                .build();
+        return replyBuilderService.buildSimpleFlow(ReceivedMessages.MENU_CHALLENGE_YOUR_FRIENDS, List.of(
+                        ReplyFlow.builder(TelegramBot.database)
+                                .onlyIf(TelegramUtils::isCancel)
+                                .action((baseAbilityBot, update) -> buttonsShortcut(update,baseAbilityBot,Bu))
+                                .action(())
+                                .build()
+                )
+        );
     }
 }
