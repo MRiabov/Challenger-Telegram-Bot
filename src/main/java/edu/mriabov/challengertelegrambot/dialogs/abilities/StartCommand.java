@@ -26,7 +26,7 @@ public class StartCommand implements AbilityExtension {
                 .locality(Locality.USER)
                 .input(0)
                 .action(this::sendStarterMessage)
-                .reply(masterReplyFlow.welcomeFlow())
+                .reply(masterReplyFlow.welcome())
                 .build();
     }
 

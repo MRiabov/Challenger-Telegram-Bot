@@ -3,8 +3,8 @@ package edu.mriabov.challengertelegrambot.dialogs.buttons;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Getter
+@RequiredArgsConstructor
 enum ButtonsMessages {//package-private!
 
     //Meta
@@ -22,7 +22,11 @@ enum ButtonsMessages {//package-private!
     SET_GOAL("Set a goal"),
     BACK_TO_MENU("Back to menu..."),
 
-
+    //Challenge your friends
+    EASY_DIFFICULTY("Easy"),
+    MEDIUM_DIFFICULTY("Medium"),
+    DIFFICULT_DIFFICULTY("Difficult"),
+    GOAL_DIFFICULTY("Goal"),
 
     //Commands
     UNKNOWN_COMMAND("Error: this command doesn't seem to be supported..."),
@@ -39,4 +43,6 @@ enum ButtonsMessages {//package-private!
     ;
     //!
     private final String text;
+
+
 }
