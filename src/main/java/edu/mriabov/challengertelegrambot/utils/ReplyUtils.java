@@ -10,8 +10,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.List;
 
 public class ReplyUtils {
-//todo remove tg bot
-    public static ReplyFlow buildFlow(ReceivedMessages receivedMessages,List<ReplyFlow> next) {
+
+    public static ReplyFlow buildSimpleFlow(ReceivedMessages receivedMessages, List<ReplyFlow> next) {
         ReplyFlow.ReplyFlowBuilder builder = ReplyFlow.builder(TelegramBot.database);
         builder.onlyIf(update -> update.getMessage().getText().equals(receivedMessages.getReceivedMessage()));
         builder.action((baseAbilityBot, update) -> execute(receivedMessages, baseAbilityBot, update));

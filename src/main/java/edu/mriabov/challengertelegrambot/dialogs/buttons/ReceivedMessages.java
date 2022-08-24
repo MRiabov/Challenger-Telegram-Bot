@@ -13,16 +13,27 @@ import java.util.Optional;
 public enum ReceivedMessages {
     //here you receive messages, and, based on the answer, decide what to do next
     //= messages to catch and decide the next action
-    MENU_CHALLENGES(ButtonsMessages.MENU_CHALLENGES.getTxt(), Buttons.MY_CHALLENGES),
-    MAIN_MENU(ButtonsMessages.MAIN_MENU.getTxt(), Buttons.MAIN_MENU),
+    //meta
+    MAIN_MENU(ButtonsMessages.MAIN_MENU.getText(), Buttons.MAIN_MENU),
+    CANCEL(ButtonsMessages.CANCEL.getText(), null /*intended! should never be used. I hope.*/),
+    //main menu
+    MENU_MY_CHALLENGES(ButtonsMessages.MENU_MY_CHALLENGES.getText(), Buttons.MENU_MY_CHALLENGES),
+    MENU_CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), Buttons.CHALLENGE_YOUR_FRIENDS),
+    MENU_REST(ButtonsMessages.MENU_REST.getText(), Buttons.MENU_MY_CHALLENGES),
+    MENU_FAQ(ButtonsMessages.MENU_FAQ.getText(), Buttons.MENU_FAQ),
+    //my challenges
+    MARK_CHALLENGE_AS_COMPLETED(ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(),Buttons.MARK_CHALLENGE_AS_COMPLETED),
+    SET_GOAL(ButtonsMessages.SET_GOAL.getText(), Buttons.SET_GOAL),
+    SKIP_CHALLENGES(ButtonsMessages.SKIP_CHALLENGE.getText(), Buttons.SKIP_CHALLENGE),
+    //start
+    ON_START_NEW_USER_YES(ButtonsMessages.ON_START_NEW_USER_FIRST_YES.getText(), Buttons.ON_START_NEW_USER_HELP_FIRST),
+    ON_START_NEW_USER_NO(ButtonsMessages.ON_START_NEW_USER_FIRST_NO.getText(), Buttons.MAIN_MENU),
 
-    ON_START_NEW_USER_YES(ButtonsMessages.ON_START_NEW_USER_FIRST_YES.getTxt(), Buttons.ON_START_NEW_USER_HELP_FIRST),
-    ON_START_NEW_USER_NO(ButtonsMessages.ON_START_NEW_USER_FIRST_NO.getTxt(), Buttons.MAIN_MENU),
+    ON_START_NEW_USER_FIRST_YES(ButtonsMessages.ON_START_NEW_USER_SECOND_YES.getText(), Buttons.ON_START_NEW_USER_HELP_SECOND),
+    ON_START_NEW_USER_FIRST_NO(ButtonsMessages.ON_START_NEW_USER_SECOND_NO.getText(), Buttons.MAIN_MENU),
 
-    ON_START_NEW_USER_FIRST_YES(ButtonsMessages.ON_START_NEW_USER_SECOND_YES.getTxt(), Buttons.ON_START_NEW_USER_HELP_SECOND),
-    ON_START_NEW_USER_FIRST_NO(ButtonsMessages.ON_START_NEW_USER_SECOND_NO.getTxt(), Buttons.MAIN_MENU),
+    ON_START_NEW_USER_SECOND_FINISH(ButtonsMessages.ON_START_NEW_USER_THIRD.getText(), Buttons.MAIN_MENU)
 
-    ON_START_NEW_USER_SECOND_FINISH(ButtonsMessages.ON_START_NEW_USER_THIRD.getTxt(), Buttons.MAIN_MENU)
 
     //!
     ;
