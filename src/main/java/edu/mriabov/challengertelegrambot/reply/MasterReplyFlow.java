@@ -5,6 +5,7 @@ import edu.mriabov.challengertelegrambot.dialogs.buttons.ReceivedMessages;
 import edu.mriabov.challengertelegrambot.service.ReplyBuilderService;
 import edu.mriabov.challengertelegrambot.service.TelegramBot;
 import edu.mriabov.challengertelegrambot.utils.ButtonsUtils;
+import edu.mriabov.challengertelegrambot.utils.ReplyUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.abilitybots.api.objects.ReplyFlow;
@@ -43,9 +44,11 @@ public class MasterReplyFlow {
     }
 
     private ReplyFlow myChallengesFlow(){
-        return ReplyFlow.builder(TelegramBot.database)
-                .onlyIf(update -> update.getMessage().getText().equals(Buttons.MY_CHALLENGES.getMessage()))
-                .build();
+        return ReplyUtils.buildSimpleFlow(ReceivedMessages.MENU_CHALLENGES,List.of(
+                ReplyUtils.buildSimpleFlow()
+
+                )
+        );
     }
 
     private ReplyFlow challengeCreateFlow(){

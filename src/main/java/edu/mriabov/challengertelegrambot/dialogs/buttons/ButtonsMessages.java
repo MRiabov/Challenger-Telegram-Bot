@@ -6,12 +6,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 enum ButtonsMessages {
-    MAIN_MENU("BIG PLACEHOLDER"),
+    //Meta
+    MAIN_MENU("Back to main menu"),
+    CANCEL("Cancel"),
     //Menu
-    MENU_CHALLENGES("\uD83D\uDCAA My Challenges"),
+    MENU_MY_CHALLENGES("\uD83D\uDCAA My Challenges"),
     MENU_CHALLENGE_YOUR_FRIENDS("\uD83C\uDFC3\u200D♂️Challenge your friends"),
     MENU_REST("Buy some rest...\uD83D\uDCA4"),
     MENU_FAQ("❔FAQ"),
+
+    //My challenges
+    MARK_CHALLENGE_AS_COMPLETED_MENU("Mark a challenge as completed"),
+    SKIP_CHALLENGE("Skip a challenge"),
+    SET_GOAL("Set a goal"),
+    BACK_TO_MENU("Back to menu..."),
+
 
 
     //Commands
@@ -28,5 +37,5 @@ enum ButtonsMessages {
     //!
     ;
     //!
-    private final String txt;
+    private final String text;
 }

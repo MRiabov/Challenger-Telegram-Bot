@@ -15,11 +15,11 @@ public class ReplyBuilderServiceImpl implements ReplyBuilderService {
 
     @Override
     public ReplyFlow buildFlow(ReceivedMessages receivedMessages, List<ReplyFlow> next) {
-        return ReplyUtils.buildFlow(receivedMessages, next);
+        return ReplyUtils.buildSimpleFlow(receivedMessages, next);
     }
 
     @Override
     public ReplyFlow buildFlow(ReceivedMessages receivedMessages, ReplyFlow nextFlow) {
-        return ReplyUtils.buildFlow(receivedMessages,List.of(nextFlow));
+        return ReplyUtils.buildSimpleFlow(receivedMessages,List.of(nextFlow));
     }
 }
