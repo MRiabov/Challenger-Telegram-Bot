@@ -24,7 +24,7 @@ public enum ReceivedMessages {
     //my challenges
     MARK_CHALLENGE_AS_COMPLETED(ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(),Buttons.MARK_CHALLENGE_AS_COMPLETED),
     SET_GOAL(ButtonsMessages.SET_GOAL.getText(), Buttons.SET_GOAL),
-    SKIP_CHALLENGES(ButtonsMessages.SKIP_CHALLENGE.getText(), Buttons.SKIP_CHALLENGE),
+    SKIP_CHALLENGES(ButtonsMessages.SKIP_CHALLENGE.getText(), Buttons.SKIP_CHALLENGES),
     //start
     ON_START_NEW_USER_YES(ButtonsMessages.ON_START_NEW_USER_FIRST_YES.getText(), Buttons.ON_START_NEW_USER_HELP_FIRST),
     ON_START_NEW_USER_NO(ButtonsMessages.ON_START_NEW_USER_FIRST_NO.getText(), Buttons.MAIN_MENU),

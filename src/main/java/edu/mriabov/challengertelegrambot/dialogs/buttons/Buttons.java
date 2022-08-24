@@ -30,7 +30,7 @@ public enum Buttons {
     SET_GOAL("PLACEHOLDER",
             ButtonsMessages.CANCEL.getText(),null),
 
-    SKIP_CHALLENGE("CONFIRMATION PLACEHOLDER, if not just send a reason why you skip.",
+    SKIP_CHALLENGES("CONFIRMATION PLACEHOLDER, if not just send a reason why you skip.",
             ButtonsMessages.CANCEL.getText(),null),
 
 
