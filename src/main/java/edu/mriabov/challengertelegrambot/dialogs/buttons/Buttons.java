@@ -19,23 +19,31 @@ public enum Buttons {
     ),
     //My challenges
     MENU_MY_CHALLENGES("PLACEHOLDER",
-            ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(),null,
-            ButtonsMessages.SET_GOAL.getText(),ButtonsMessages.SKIP_CHALLENGE.getText(),null,
+            ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(), null,
+            ButtonsMessages.SET_GOAL.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null,
             ButtonsMessages.MAIN_MENU.getText(), null
     ),
 
     MARK_CHALLENGE_AS_COMPLETED("PLACEHOLDER",
-            ButtonsMessages.CANCEL.getText(),null),
+            ButtonsMessages.CANCEL.getText(), null),
 
     SET_GOAL("PLACEHOLDER",
-            ButtonsMessages.CANCEL.getText(),null),
+            ButtonsMessages.CANCEL.getText(), null),
 
     SKIP_CHALLENGES("CONFIRMATION PLACEHOLDER, if not just send a reason why you skip.",
-            ButtonsMessages.CANCEL.getText(),null),
+            ButtonsMessages.CANCEL.getText(), null),
+
+    //challenge your friends
+    MENU_CHALLENGE_YOUR_FRIENDS("PLACEHOLDER", ,null
 
 
-    CHALLENGE_YOUR_FRIENDS("PLACEHOLDER",null),
-    MENU_FAQ("PLACEHOLDER",null),
+    ),
+
+    CHALLENGE_DIFFICULTY_SELECTION("PLACEHOLDER",
+            ),
+
+    MENU_FAQ("PLACEHOLDER", null),
+
     //Commands
     UNKNOWN_COMMAND(ButtonsMessages.UNKNOWN_COMMAND.getText(), MAIN_MENU.getKeyboard()),
 
@@ -54,9 +62,8 @@ public enum Buttons {
 
     ON_START_NEW_USER_HELP_SECOND(
             "HELPMESSAGE 2",
-            ButtonsMessages.ON_START_NEW_USER_THIRD.getText(),null
+            ButtonsMessages.ON_START_NEW_USER_THIRD.getText(), null
     ),
-
 
 
     //!
@@ -67,7 +74,7 @@ public enum Buttons {
 
     final public static String cancelMessage = ButtonsMessages.CANCEL.getText();
 
-    Buttons(String message, String ... keyboard) {
+    Buttons(String message, String... keyboard) {
         this.message = message;
         this.keyboard = keyboard;
     }

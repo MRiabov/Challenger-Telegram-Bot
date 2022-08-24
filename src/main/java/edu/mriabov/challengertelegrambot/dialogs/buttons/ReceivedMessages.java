@@ -18,7 +18,7 @@ public enum ReceivedMessages {
     CANCEL(ButtonsMessages.CANCEL.getText(), null /*intended! should never be used. I hope.*/),
     //main menu
     MENU_MY_CHALLENGES(ButtonsMessages.MENU_MY_CHALLENGES.getText(), Buttons.MENU_MY_CHALLENGES),
-    MENU_CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), Buttons.CHALLENGE_YOUR_FRIENDS),
+    MENU_CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), Buttons.MENU_CHALLENGE_YOUR_FRIENDS),
     MENU_REST(ButtonsMessages.MENU_REST.getText(), Buttons.MENU_MY_CHALLENGES),
     MENU_FAQ(ButtonsMessages.MENU_FAQ.getText(), Buttons.MENU_FAQ),
     //my challenges
