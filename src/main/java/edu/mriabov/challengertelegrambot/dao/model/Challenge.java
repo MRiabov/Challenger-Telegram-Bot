@@ -14,13 +14,14 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-
 public class Challenge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     int id;
+
+    String description;
 
     @Enumerated(EnumType.STRING)
     @Column(updatable = false)
@@ -37,6 +38,7 @@ public class Challenge {
     private String createdBy;
 
     private LocalDateTime expiresAt;
+    //todo usersList
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "chat_id", referencedColumnName = "id")
