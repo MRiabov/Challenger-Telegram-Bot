@@ -11,4 +11,8 @@ public class TelegramUtils {
     public static boolean isCancel(Update update){
         return update.getMessage().getText().equals(Buttons.cancelMessage);
     }
+
+    public static boolean isNotCancel(Update update){
+        return !update.getMessage().getText().equals(Buttons.cancelMessage);
+    }
 }
