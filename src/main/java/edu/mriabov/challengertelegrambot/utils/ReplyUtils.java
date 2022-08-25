@@ -24,7 +24,7 @@ public class ReplyUtils {
         return builder.build();
     }
 
-    public static void buttonsShortcut(Update update, BaseAbilityBot baseAbilityBot, Buttons buttons){
+    public static void sendKeyboard(Update update, BaseAbilityBot baseAbilityBot, Buttons buttons){
         baseAbilityBot.silent().execute(ButtonsUtils.buildMessageWithKeyboard(update.getMessage().getChatId(),buttons));
     }
 
