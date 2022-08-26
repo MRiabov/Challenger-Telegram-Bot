@@ -20,7 +20,7 @@ public class ReplyUtils {
         ReplyFlow.ReplyFlowBuilder builder = ReplyFlow.builder(TelegramBot.database, id);
         builder.onlyIf(
                 update -> update.getMessage().getText().equals(receivedMessages.getReceivedMessage())
-                        ||update.getMessage().getText().equals(PublicButtonsMessages.CANCEL.getText()));
+                        ||update.getMessage().getText().equals(PublicButtonsMessages.CANCEL.getText()));//todo sus?
         builder.action((baseAbilityBot, update) -> execute(receivedMessages, baseAbilityBot, update));
         for (Reply nextReply : next) builder.next(nextReply);
         return builder.build();
