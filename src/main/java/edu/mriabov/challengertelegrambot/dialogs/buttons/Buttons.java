@@ -12,7 +12,15 @@ public enum Buttons {
     //todo null->boolean (pair)
     //Main menu
     MAIN_MENU(
-            "PLACEHOLDER",
+            "Welcome, " + ButtonsMessages.MAIN_MENU.getText() +//getByIdOrDefault
+                    "\n\n Your stats:" +
+                    "\nFinance: " +
+                    "\nRelationships: " +
+                    "\nFitness: " +
+                    "\nMindfulness: " +
+                    "\nYour current coin count: " +
+                    "\nChallenges to be completed: " +
+                    "\n\nPICK A RANDOM QUOTE",
             ButtonsMessages.MENU_MY_CHALLENGES.getText(), null,
             ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), null,
             ButtonsMessages.MENU_REST.getText(), ButtonsMessages.MENU_FAQ.getText(), null
@@ -24,10 +32,13 @@ public enum Buttons {
             ButtonsMessages.MAIN_MENU.getText(), null
     ),
 
-    MARK_CHALLENGE_AS_COMPLETED("PLACEHOLDER",
+    MARK_CHALLENGE_AS_COMPLETED("Well done for completing a challenge!" +
+            "\n If you would like to complete a challenge, enter an ID next to it." +
+            "LIST OF CHALLENGES",
             ButtonsMessages.CANCEL.getText(), null),
 
-    SET_GOAL("PLACEHOLDER",
+    SET_GOAL("Goals is a burning desire which you think of each time you wake up" +
+            "\n Set a goal...",
             ButtonsMessages.CANCEL.getText(), null),
 
     SKIP_CHALLENGES("CONFIRMATION PLACEHOLDER, if not just send a reason why you skip.",
@@ -35,8 +46,16 @@ public enum Buttons {
 
     //challenge your friends
 
-    MENU_CHALLENGE_YOUR_FRIENDS("PLACEHOLDER",
-            ButtonsMessages.CANCEL.getText(), null
+    MENU_CHALLENGE_YOUR_FRIENDS("""
+            Select a difficulty.
+                        
+             Difficulty can be of 3 types:
+             1. Easy - <5 minutes. A short, simple task, like doing 10 pushups or calling your family. Probably routine.
+             2. Medium - <20 minutes. Longer, perhaps more difficult task. Meditation, talking to that one girl, etc.
+             3. Difficult - <60 minutes. Reading a good book, learning a language, going to the gym.
+             4. Goal - set a very exact goal: gain +3kg in muscle growth, learn a skill, outline a business idea in detail.\s""",
+
+            /*ButtonsMessages.CANCEL.getText()*/"why do you not fucking work", null
     ),
 
     DIFFICULTY_SELECTION("PLACEHOLDER",
@@ -45,13 +64,25 @@ public enum Buttons {
             ButtonsMessages.CANCEL.getText(), null
     ),
 
-    AREA_SELECTION("PLACEHOLDER",
+    AREA_SELECTION("Select, in which area is this goal allocated.",
             ButtonsMessages.RELATIONSHIPS_AREA.getText(), ButtonsMessages.FINANCES_AREA.getText(), null,
             ButtonsMessages.FITNESS_AREA.getText(), ButtonsMessages.MINDFULNESS_AREA.getText(), null,
             ButtonsMessages.CANCEL.getText(), null
     ),
 
-    MENU_FAQ("PLACEHOLDER", null),
+    SELECT_USER("Input the ID of the Gigachad you would like to challenge",
+            ButtonsMessages.CANCEL.getText(), null),
+
+    SELECT_CHAT("Input the ID chat you would like to send:" +
+            "chatlist here", "INPUT FUNCTION HERE",null     //todo chatList here
+    ),
+
+    //misc
+    MENU_FAQ("""
+             We don’t grow when things are easy; we grow when we face challenges.
+             This bot was created with this idea in mind. The core idea is to better one's finances, physique, and other *self*-improvement through the hardship and willpower, while becoming mentally stable, kind, and good person.
+             So let's become the strong men this world desires!
+            """, null),
 
     //Commands
     UNKNOWN_COMMAND(ButtonsMessages.UNKNOWN_COMMAND.getText(), MAIN_MENU.getKeyboard()),

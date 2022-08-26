@@ -5,5 +5,6 @@ public enum Difficulty {
     EASY,
     MEDIUM,
     DIFFICULT,
-    GOAL
+    GOAL,
+    INCORRECT
 }
