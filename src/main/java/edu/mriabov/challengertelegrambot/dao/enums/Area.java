@@ -5,5 +5,5 @@ public enum Area {
     RELATIONSHIPS,
     FITNESS,
     MINDFULNESS,
-    FINANCES
+    INCORRECT, FINANCES
 }
