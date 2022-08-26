@@ -18,7 +18,7 @@ import static edu.mriabov.challengertelegrambot.utils.ReplyUtils.sendMenu;
 @Service
 @RequiredArgsConstructor
 public class MyChallengesFlow implements AbilityExtension {
-    ReplyBuilderService replyBuilderService;
+    private final ReplyBuilderService replyBuilderService;
 
     public ReplyFlow setGoal() {
         return replyBuilderService.buildSimpleFlow(220, ReceivedMessages.SET_GOAL,

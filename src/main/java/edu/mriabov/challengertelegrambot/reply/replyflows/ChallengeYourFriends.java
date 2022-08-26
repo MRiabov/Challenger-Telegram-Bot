@@ -22,7 +22,7 @@ import static edu.mriabov.challengertelegrambot.utils.ReplyUtils.sendMenu;
 @RequiredArgsConstructor
 public class ChallengeYourFriends implements AbilityExtension {
 
-    ReplyBuilderService replyBuilderService;
+    private final ReplyBuilderService replyBuilderService;
 
     public ReplyFlow challengeYourFriends() {
         Challenge challenge = new Challenge();
