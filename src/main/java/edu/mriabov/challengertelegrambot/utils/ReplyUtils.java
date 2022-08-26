@@ -20,7 +20,7 @@ public class ReplyUtils {
         ReplyFlow.ReplyFlowBuilder builder = ReplyFlow.builder(TelegramBot.database, id);
         builder.onlyIf(
                 update -> update.getMessage().getText().equals(receivedMessages.getReceivedMessage())
-                        || update.getMessage().getText().equals(PublicButtonsMessages.CANCEL.getText()));
+                        ||update.getMessage().getText().equals(PublicButtonsMessages.CANCEL.getText()));
         builder.action((baseAbilityBot, update) -> execute(receivedMessages, baseAbilityBot, update));
         for (Reply nextReply : next) builder.next(nextReply);
         return builder.build();
@@ -28,18 +28,18 @@ public class ReplyUtils {
 
     public static Reply buildSimpleReply(ReceivedMessages receivedMessages) {
         return Reply.of(
-                (baseAbilityBot, update) -> sendKeyboard(update, baseAbilityBot, receivedMessages.getNextInvocation()),
+                (baseAbilityBot, update) -> sendMenu(update, baseAbilityBot, receivedMessages.getNextInvocation()),
                 update -> update.getMessage().getText().equals(receivedMessages.getReceivedMessage())
         );
     }
 
     public static Reply buildCancelReply(Buttons buttons){
         return Reply.of(
-                (baseAbilityBot, update) -> sendKeyboard(update,baseAbilityBot,buttons),
+                (baseAbilityBot, update) -> sendMenu(update,baseAbilityBot,buttons),
                 TelegramUtils::isCancel);
     }
 
-    public static void sendKeyboard(Update update, BaseAbilityBot baseAbilityBot, Buttons buttons) {
+    public static void sendMenu(Update update, BaseAbilityBot baseAbilityBot, Buttons buttons) {
         baseAbilityBot.silent().execute(ButtonsUtils.buildMessageWithKeyboard(update.getMessage().getChatId(), buttons));
     }
 
