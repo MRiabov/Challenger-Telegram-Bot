@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dialogs.abilities;
+package edu.mriabov.challengertelegrambot.dialogs.commands;
 
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.utils.ReplyUtils;
@@ -22,7 +22,7 @@ public class MenuCommand implements AbilityExtension {
                 .privacy(Privacy.PUBLIC)
                 .locality(Locality.USER)
                 .input(0)
-                .action(messageContext -> ReplyUtils.sendKeyboard(
+                .action(messageContext -> ReplyUtils.sendMenu(
                         messageContext.update(),messageContext.bot(),Buttons.MAIN_MENU))
                 .build();
     }

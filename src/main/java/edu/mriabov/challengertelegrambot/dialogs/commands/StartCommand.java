@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dialogs.abilities;
+package edu.mriabov.challengertelegrambot.dialogs.commands;
 
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.reply.MasterReplyFlow;
