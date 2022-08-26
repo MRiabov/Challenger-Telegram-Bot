@@ -19,7 +19,7 @@ public enum ReceivedMessages {
     //main menu
     MENU_MY_CHALLENGES(ButtonsMessages.MENU_MY_CHALLENGES.getText(), Buttons.MENU_MY_CHALLENGES),
     MENU_CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), Buttons.MENU_CHALLENGE_YOUR_FRIENDS),
-    MENU_REST(ButtonsMessages.MENU_REST.getText(), Buttons.MENU_MY_CHALLENGES),
+    MENU_REST(ButtonsMessages.MENU_REST.getText(), Buttons.MENU_MY_CHALLENGES),//TODO rest!!!
     MENU_FAQ(ButtonsMessages.MENU_FAQ.getText(), Buttons.MENU_FAQ),
     //my challenges
     MARK_CHALLENGE_AS_COMPLETED(ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(),Buttons.MARK_CHALLENGE_AS_COMPLETED),

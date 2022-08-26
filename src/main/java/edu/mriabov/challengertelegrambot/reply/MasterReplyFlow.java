@@ -8,14 +8,12 @@ import edu.mriabov.challengertelegrambot.dialogs.buttons.PublicButtonsMessages;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.ReceivedMessages;
 import edu.mriabov.challengertelegrambot.service.ReplyBuilderService;
 import edu.mriabov.challengertelegrambot.service.TelegramBot;
-import edu.mriabov.challengertelegrambot.utils.ButtonsUtils;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.abilitybots.api.objects.Reply;
 import org.telegram.abilitybots.api.objects.ReplyFlow;
 import org.telegram.abilitybots.api.util.AbilityExtension;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
@@ -107,27 +105,31 @@ public class MasterReplyFlow implements AbilityExtension {
     }
 
     //ChallengeCreateFlow
-    public ReplyFlow selectDifficulty() {
+    public ReplyFlow challengeYourFriends() {
         Challenge challenge = new Challenge();
-        return replyBuilderService.buildSimpleFlow(310, ReceivedMessages.MENU_CHALLENGE_YOUR_FRIENDS, List.of(
-                        replyBuilderService.cancelMessage(Buttons.MAIN_MENU),
-                        ReplyFlow.builder(TelegramBot.database, 311)
-                                .onlyIf(TelegramUtils::isNotCancel)
-                                .action((baseAbilityBot, update) -> {
-                                    challenge.setDifficulty(switchDifficulty(update));
-                                    if (challenge.getDifficulty() != Difficulty.INCORRECT) {
-                                        sendMenu(update, baseAbilityBot, Buttons.AREA_SELECTION);
-                                    } else {
-                                        baseAbilityBot.silent().send("Next time input the correct messages, please",update.getMessage().getChatId());
-                                        sendMenu(update, baseAbilityBot, Buttons.MAIN_MENU);
-                                    }
-                                })
-                                .next(replyBuilderService.cancelMessage(Buttons.MAIN_MENU))
-                                .next(selectArea(challenge))
+        return ReplyFlow.builder(TelegramBot.database)
+                .onlyIf(update -> update.getMessage().getText().equals(ReceivedMessages.MENU_CHALLENGE_YOUR_FRIENDS.getReceivedMessage()))
+                .action((baseAbilityBot, update) -> sendMenu(update, baseAbilityBot, Buttons.MENU_CHALLENGE_YOUR_FRIENDS))
+                .next(replyBuilderService.cancelMessage(Buttons.MAIN_MENU))
+                .next(selectDifficulty(challenge))
+                .build();
+    }
 
-                                .build()
-                )
-        );
+    private ReplyFlow selectDifficulty(Challenge challenge) {
+        return ReplyFlow.builder(TelegramBot.database, 311)
+                .onlyIf(TelegramUtils::isNotCancel)
+                .action((baseAbilityBot, update) -> {
+                    challenge.setDifficulty(switchDifficulty(update));
+                    if (challenge.getDifficulty() != Difficulty.INCORRECT) {
+                        sendMenu(update, baseAbilityBot, Buttons.AREA_SELECTION);
+                    } else {
+                        baseAbilityBot.silent().send("Next time just click the buttons, please", update.getMessage().getChatId());
+                        sendMenu(update, baseAbilityBot, Buttons.MAIN_MENU);
+                    }
+                })
+                .next(replyBuilderService.cancelMessage(Buttons.MAIN_MENU))
+                .next(selectArea(challenge))
+                .build();
     }
 
     private ReplyFlow selectArea(Challenge challenge) {
@@ -135,40 +137,38 @@ public class MasterReplyFlow implements AbilityExtension {
                 .onlyIf(update -> challenge.getDifficulty() != Difficulty.INCORRECT)
                 .action((baseAbilityBot, update) -> {
                     if (challenge.getDifficulty() != Difficulty.INCORRECT) {
-                        if (true/*user has only one chat*/)
-                        sendMenu(update, baseAbilityBot, Buttons.AREA_SELECTION);
+                        if (true/*user has only one chat*/) sendMenu(update, baseAbilityBot, Buttons.ONLY_ONE_CHAT);
+                        else sendMenu(update, baseAbilityBot, Buttons.AREA_SELECTION);
                     } else {
-                        baseAbilityBot.silent().send("Next time input the correct messages, please",update.getMessage().getChatId());
+                        baseAbilityBot.silent().send("Next time input the correct messages, please", update.getMessage().getChatId());
                         sendMenu(update, baseAbilityBot, Buttons.MAIN_MENU);
-                    }})
-                .next(replyBuilderService.cancelMessage(Buttons.MAIN_MENU))
-                .next(selectChat(challenge))
-                .build();
-    }
-
-    private ReplyFlow selectChat(Challenge challenge){
-        return ReplyFlow.builder(TelegramBot.database)
-                .onlyIf(update -> update.getMessage().hasText())
-                .action((baseAbilityBot, update) -> challenge.setChat())//todo if user has only 1 chat, set the chat automatically.
-                .next(selectUser())
-                .next()
-                .build();
-    }
-
-    private ReplyFlow selectUser(Challenge challenge) {
-        return ReplyFlow.builder(TelegramBot.database, 313)
-                .onlyIf(update -> challenge.getArea() != Area.INCORRECT)
-                .action((baseAbilityBot, update) -> {
-                    challenge.setArea(switchArea(update));
-                    if (challenge.getArea() != Area.INCORRECT) {
-                        //todo if user has only 1 chat, set the chat automatically
-                        sendMenu(update, baseAbilityBot, Buttons.SELECT_USER);
-                        //todo get from db
                     }
                 })
                 .next(replyBuilderService.cancelMessage(Buttons.MAIN_MENU))
                 .next(selectChat(challenge))
                 .build();
+    }
+
+    private ReplyFlow selectChat(Challenge challenge) {
+        return ReplyFlow.builder(TelegramBot.database)
+                .onlyIf(update -> update.getMessage().hasText())
+                .action((baseAbilityBot, update) -> {
+                    sendMenu(update, baseAbilityBot, Buttons.SELECT_USER);
+                })//todo if user has only 1 chat, set the chat automatically.
+                .next(replyBuilderService.cancelMessage(Buttons.MAIN_MENU))
+                .next(selectUser(challenge))
+                .build();
+    }
+
+    private Reply selectUser(Challenge challenge) {
+        return Reply.of((baseAbilityBot, update) -> {
+            challenge.setArea(switchArea(update));
+            if (challenge.getArea() != Area.INCORRECT) {
+                //todo if user has only 1 chat, set the chat automatically
+                sendMenu(update, baseAbilityBot, Buttons.SELECT_USER);
+                //todo get from db
+            }
+        }, update -> challenge.getArea() != Area.INCORRECT);
     }
 
 

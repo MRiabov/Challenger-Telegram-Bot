@@ -55,12 +55,8 @@ public enum Buttons {
              3. Difficult - <60 minutes. Reading a good book, learning a language, going to the gym.
              4. Goal - set a very exact goal: gain +3kg in muscle growth, learn a skill, outline a business idea in detail.\s""",
 
-            /*ButtonsMessages.CANCEL.getText()*/"why do you not fucking work", null
-    ),
-
-    DIFFICULTY_SELECTION("PLACEHOLDER",
-            ButtonsMessages.EASY_DIFFICULTY.getText(), ButtonsMessages.MEDIUM_DIFFICULTY.getText(), null,
-            ButtonsMessages.DIFFICULT_DIFFICULTY.getText(), ButtonsMessages.GOAL_DIFFICULTY.getText(), null,
+            ButtonsMessages.EASY_DIFFICULTY.getText(),ButtonsMessages.MEDIUM_DIFFICULTY.getText(),null,
+            ButtonsMessages.DIFFICULT_DIFFICULTY.getText(),ButtonsMessages.GOAL_DIFFICULTY.getText(),null,
             ButtonsMessages.CANCEL.getText(), null
     ),
 
@@ -70,12 +66,17 @@ public enum Buttons {
             ButtonsMessages.CANCEL.getText(), null
     ),
 
-    SELECT_USER("Input the ID of the Gigachad you would like to challenge",
-            ButtonsMessages.CANCEL.getText(), null),
-
     SELECT_CHAT("Input the ID chat you would like to send:" +
             "chatlist here", "INPUT FUNCTION HERE",null     //todo chatList here
     ),
+
+    ONLY_ONE_CHAT("You have only one chat, and it has been selected.",
+            ButtonsMessages.CONTINUE.getText(),null),
+
+    SELECT_USER("Input the ID of the Gigachad you would like to challenge",
+            ButtonsMessages.CANCEL.getText(), null),
+
+
 
     //misc
     MENU_FAQ("""

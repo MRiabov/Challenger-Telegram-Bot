@@ -10,6 +10,7 @@ enum ButtonsMessages {//package-private!
     //Meta
     MAIN_MENU("Back to main menu"),
     CANCEL("Cancel"),
+    CONTINUE("Continue!"),
     //Menu
     MENU_MY_CHALLENGES("\uD83D\uDCAA My Challenges"),
     MENU_CHALLENGE_YOUR_FRIENDS("\uD83C\uDFC3\u200D♂️Challenge your friends"),
