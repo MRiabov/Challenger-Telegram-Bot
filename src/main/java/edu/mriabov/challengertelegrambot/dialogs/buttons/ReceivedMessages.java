@@ -1,13 +1,12 @@
 package edu.mriabov.challengertelegrambot.dialogs.buttons;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Getter
 @Slf4j
 public enum ReceivedMessages {
@@ -42,11 +41,21 @@ public enum ReceivedMessages {
     private final String receivedMessage;
     //this is for whatever comes after this button is pressed. should ease development greatly.
     private final Buttons nextInvocation;
+    private final Map<String,Buttons> receivedMessagesMap;
 
-    public static Optional<ReceivedMessages> getByText(String text) {
+    ReceivedMessages(String receivedMessage, Buttons nextInvocation) {
+        this.receivedMessage = receivedMessage;
+        this.nextInvocation = nextInvocation;
+        receivedMessagesMap= fillMap();
+    }
+
+    public Buttons getByText(String text){
+        return receivedMessagesMap.get(text);
+    }
+
+    private Map<String, Buttons> fillMap(){
         return Arrays.stream(values())
-                .filter(receivedMessages -> receivedMessages.receivedMessage.equals(text))
-                .findFirst();
+                .collect(Collectors.toUnmodifiableMap(receivedMessages -> receivedMessages.receivedMessage,receivedMessages -> receivedMessages.nextInvocation));
     }
 
 }

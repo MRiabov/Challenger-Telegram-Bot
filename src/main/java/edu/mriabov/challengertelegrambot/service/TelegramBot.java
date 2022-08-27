@@ -1,28 +1,24 @@
 package edu.mriabov.challengertelegrambot.service;
 
-import edu.mriabov.challengertelegrambot.config.BotConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.abilitybots.api.bot.AbilityBot;
-import org.telegram.abilitybots.api.db.DBContext;
-import org.telegram.abilitybots.api.util.AbilityExtension;
-
-import java.util.List;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
-public class TelegramBot extends AbilityBot {
+public class TelegramBot extends TelegramLongPollingBot {
 
-    public static DBContext database;
-
-    @Autowired
-    public TelegramBot(BotConfig config, @Autowired List<AbilityExtension> abilityExtensionList) {
-        super(config.getToken(), config.getBotName());
-        addExtensions(abilityExtensionList);
-        database=this.db();
+    @Override
+    public String getBotUsername() {
+        return null;
     }
 
     @Override
-    public long creatorId() {
-        return 436705658;
+    public String getBotToken() {
+        return null;
+    }
+
+    @Override
+    public void onUpdateReceived(Update update) {
+
     }
 }
