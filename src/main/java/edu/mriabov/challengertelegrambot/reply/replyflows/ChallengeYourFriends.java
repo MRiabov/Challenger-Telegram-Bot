@@ -34,7 +34,7 @@ public class ChallengeYourFriends implements AbilityExtension {
                 .build();
     }
 
-    private ReplyFlow selectDifficulty(Challenge challenge) {
+    public ReplyFlow selectDifficulty(Challenge challenge) {
         return ReplyFlow.builder(TelegramBot.database, 311)
                 .onlyIf(TelegramUtils::isNotCancel)
                 .action((baseAbilityBot, update) -> {
@@ -51,7 +51,7 @@ public class ChallengeYourFriends implements AbilityExtension {
                 .build();
     }
 
-    private ReplyFlow selectArea(Challenge challenge) {
+    public ReplyFlow selectArea(Challenge challenge) {
         return ReplyFlow.builder(TelegramBot.database, 312)
                 .onlyIf(update -> challenge.getDifficulty() != Difficulty.INCORRECT)
                 .action((baseAbilityBot, update) -> {

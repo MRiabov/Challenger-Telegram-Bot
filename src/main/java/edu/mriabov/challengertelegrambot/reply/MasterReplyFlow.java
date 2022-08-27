@@ -49,6 +49,4 @@ public class MasterReplyFlow implements AbilityExtension {
                 .build();
     }
 
-    //my challenges menu
-
 }

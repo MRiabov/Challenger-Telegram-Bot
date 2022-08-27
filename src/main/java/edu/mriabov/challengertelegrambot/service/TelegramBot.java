@@ -17,8 +17,8 @@ public class TelegramBot extends AbilityBot {
     public static DBContext database;
 
     @Autowired
-    public TelegramBot(@Autowired BotConfig config, @Autowired List<AbilityExtension> abilityExtensionList) {
-        super("5690045084:AAF--FB1RlWG8AG8lJsom_TYBZSSL2H7T5k", "Adonis");
+    public TelegramBot(@Autowired List<AbilityExtension> abilityExtensionList, BotConfig config) {
+        super(config.getToken(), config.getBotName());
         addExtensions(abilityExtensionList);
         database = this.db();
     }
@@ -27,6 +27,4 @@ public class TelegramBot extends AbilityBot {
     public long creatorId() {
         return 436705658;
     }
-
-
 }

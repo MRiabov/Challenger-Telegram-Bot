@@ -13,8 +13,8 @@ import org.springframework.context.annotation.PropertySource;
 public class BotConfig {
 
     @Value("${bot.name}")
-    static String botName;
+    String botName;
     @Value("${bot.token}")
-    static String token;
+    String token;
 
 }

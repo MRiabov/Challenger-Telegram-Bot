@@ -33,10 +33,11 @@ public class ReplyUtils {
         );
     }
 
-    public static Reply buildCancelReply(Buttons buttons){
-        return Reply.of(
-                (baseAbilityBot, update) -> sendMenu(update,baseAbilityBot,buttons),
-                TelegramUtils::isCancel);
+    public static Reply buildCancelReply(Buttons buttons){;
+        return ReplyFlow.builder(TelegramBot.database,666)
+                .onlyIf(TelegramUtils::isCancel)
+                .action((baseAbilityBot, update) -> sendMenu(update,baseAbilityBot,buttons))
+                .build();
     }
 
     public static void sendMenu(Update update, BaseAbilityBot baseAbilityBot, Buttons buttons) {
