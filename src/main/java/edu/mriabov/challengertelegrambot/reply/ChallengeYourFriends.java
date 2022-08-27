@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.reply.replyflows;
+package edu.mriabov.challengertelegrambot.reply;
 
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
@@ -26,6 +26,7 @@ public class ChallengeYourFriends implements AbilityExtension {
 
     public ReplyFlow challengeYourFriends() {
         Challenge challenge = new Challenge();
+        //does git finally work?
         return ReplyFlow.builder(TelegramBot.database)
                 .onlyIf(update -> update.getMessage().getText().equals(ReceivedMessages.MENU_CHALLENGE_YOUR_FRIENDS.getReceivedMessage()))
                 .action((baseAbilityBot, update) -> sendMenu(update, baseAbilityBot, Buttons.MENU_CHALLENGE_YOUR_FRIENDS))
