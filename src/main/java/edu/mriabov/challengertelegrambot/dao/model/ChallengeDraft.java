@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class Challenge {
+public class ChallengeDraft {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -31,16 +30,18 @@ public class Challenge {
     @Column(updatable = false)
     private Difficulty difficulty;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, targetEntity = UserStats.class)
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private User user;
 
     @CreatedBy
     private String createdBy;
 
     private LocalDateTime expiresAt;
-    //todo usersList
 
+    //todo usersList
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "chat_id", referencedColumnName = "id")
     private Chat chat;
+
 }
