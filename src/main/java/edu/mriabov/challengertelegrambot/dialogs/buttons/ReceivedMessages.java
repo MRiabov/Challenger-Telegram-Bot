@@ -14,7 +14,7 @@ public enum ReceivedMessages {
     //= messages to catch and decide the next action
     //meta
     MAIN_MENU(ButtonsMessages.MAIN_MENU.getText(), Buttons.MAIN_MENU),
-    CANCEL(ButtonsMessages.CANCEL.getText(), null /*intended! should never be used. I hope.*/),
+    CANCEL(ButtonsMessages.CANCEL.getText(), Buttons.MAIN_MENU),
     //main menu
     MENU_MY_CHALLENGES(ButtonsMessages.MENU_MY_CHALLENGES.getText(), Buttons.MENU_MY_CHALLENGES),
     MENU_CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), Buttons.MENU_CHALLENGE_YOUR_FRIENDS),

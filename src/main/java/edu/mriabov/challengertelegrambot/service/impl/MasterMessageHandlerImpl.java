@@ -1,5 +1,6 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
+import com.vdurmont.emoji.EmojiManager;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.ReceivedMessagesContainer;
 import edu.mriabov.challengertelegrambot.dialogs.commands.CommandContainer;
 import edu.mriabov.challengertelegrambot.service.MessageHandler;
@@ -15,17 +16,17 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class MasterMessageHandlerImpl implements MessageHandler {
 
     private final SenderService senderService;
-    ReceivedMessagesContainer receivedMessagesContainer;
+    private final ReceivedMessagesContainer receivedMessagesContainer;
     private final CommandContainer commandContainer;
 
     @Override
     public void handleMessages(Update update) {
-        log.debug("Successfully received the message to the handler");
-        String message = update.getMessage().getText();
-        switch (message.charAt(0)){
-            case '\\' -> senderService.sendMessages(update.getMessage().getChatId(),receivedMessagesContainer.getByText(message));
-            case '/' -> commandContainer.executeByText(message,update);
-
+        String message =update.getMessage().getText();
+        log.info("Successfully received the message to the handler: "+message);
+        if (EmojiManager.containsEmoji(message.substring(0,3))) {
+            senderService.sendMessages(update.getMessage().getChatId(), receivedMessagesContainer.getByText(message));
+        } else {
+            if (message.charAt(0) == '/') commandContainer.executeByText(message, update);
         }
 
 

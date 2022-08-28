@@ -1,9 +1,12 @@
 package edu.mriabov.challengertelegrambot.dialogs.buttons;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Component
 public class ReceivedMessagesContainer {
 
     private final Map<String,Buttons> receivedMessagesMap;
@@ -17,7 +20,7 @@ public class ReceivedMessagesContainer {
         return receivedMessagesMap.get(text);
     }
 
-    private static Map<String, Buttons> fillMap(){
+    private Map<String, Buttons> fillMap(){
         return Arrays.stream(ReceivedMessages.values())
                 .collect(Collectors.toUnmodifiableMap(ReceivedMessages::getReceivedMessage, ReceivedMessages::getNextInvocation));
     }

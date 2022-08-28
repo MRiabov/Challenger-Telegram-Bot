@@ -38,6 +38,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     public void sendMessages(long chatID, String message, ReplyKeyboardMarkup markup) {
         log.info("SenderService attempted to send a message with markup: "+message);
         execute(SendMessage.builder()
+                .text(message)
                 .chatId(chatID)
                 .replyMarkup(markup)
                 .build());
