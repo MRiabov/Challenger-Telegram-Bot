@@ -41,19 +41,20 @@ public enum ReceivedMessages {
     private final String receivedMessage;
     //this is for whatever comes after this button is pressed. should ease development greatly.
     private final Buttons nextInvocation;
-    private final Map<String,Buttons> receivedMessagesMap;
+    private final static Map<String,Buttons> receivedMessagesMap=Arrays.stream(values())
+            .collect(Collectors.toUnmodifiableMap(receivedMessages -> receivedMessages.receivedMessage,receivedMessages -> receivedMessages.nextInvocation));;
 
     ReceivedMessages(String receivedMessage, Buttons nextInvocation) {
         this.receivedMessage = receivedMessage;
         this.nextInvocation = nextInvocation;
-        receivedMessagesMap= fillMap();
+//        receivedMessagesMap= fillMap();
     }
 
     public Buttons getByText(String text){
         return receivedMessagesMap.get(text);
     }
 
-    private Map<String, Buttons> fillMap(){
+    private static Map<String, Buttons> fillMap(){
         return Arrays.stream(values())
                 .collect(Collectors.toUnmodifiableMap(receivedMessages -> receivedMessages.receivedMessage,receivedMessages -> receivedMessages.nextInvocation));
     }
