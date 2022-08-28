@@ -23,7 +23,8 @@ public class MasterMessageHandlerImpl implements MessageHandler {
             case '\\' -> senderService.sendMessages(
                     update.getMessage().getChatId(),
                     receivedMessages.getByText(message));
-            case '/' -> commandContainer.getByText(message);
+            case '/' -> commandContainer.executeByText(message,update);
+
         }
 
 

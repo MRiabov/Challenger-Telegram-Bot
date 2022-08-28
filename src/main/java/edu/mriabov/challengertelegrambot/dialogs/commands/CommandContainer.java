@@ -1,6 +1,7 @@
 package edu.mriabov.challengertelegrambot.dialogs.commands;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class CommandContainer {
         commandMap = commands.stream().collect(Collectors.toUnmodifiableMap(Command::alias, Function.identity()));
     }
 
-    public Command getByText(String text){
-        return commandMap.get(text);
+    public void executeByText(String text, Update update){
+        commandMap.get(text).execute(update);
     }
 }
