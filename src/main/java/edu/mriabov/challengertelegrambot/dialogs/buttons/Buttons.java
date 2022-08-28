@@ -28,7 +28,7 @@ public enum Buttons {
     //My challenges
     MENU_MY_CHALLENGES("PLACEHOLDER",
             ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(), null,
-            ButtonsMessages.SET_GOAL.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null,
+            ButtonsMessages.SET_GOAL_DESCRIPTION.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null,
             ButtonsMessages.MAIN_MENU.getText(), null
     ),
 
@@ -37,8 +37,8 @@ public enum Buttons {
             "LIST OF CHALLENGES",
             ButtonsMessages.CANCEL.getText(), null),
 
-    SET_GOAL("Goals is a burning desire which you think of each time you wake up" +
-            "\n Set a goal...",
+    SET_GOAL_DESCRIPTION("Goals is a burning desire which you think of each time you wake up" +
+            "\n Set a goal's description...",
             ButtonsMessages.CANCEL.getText(), null),
 
     SKIP_CHALLENGES("CONFIRMATION PLACEHOLDER, if not just send a reason why you skip.",
@@ -76,9 +76,27 @@ public enum Buttons {
     SELECT_USER("Input the ID of the Gigachad you would like to challenge",
             ButtonsMessages.CANCEL.getText(), null),
 
+    //buy some rest...
+
+    IS_ADDICTION("""
+            Is your rest caused by an addiction?
+            Addictions ALSO include:
+            
+            Pornography,
+            Gaming,
+            Binge watching YouTube, Netflix, etc,
+            Social media.
+            """, ButtonsMessages.ADDICTION.getText(),ButtonsMessages.REST.getText(),null),
+
+    DURATION_OF_THE_REST("For how long are you planning to rest?",
+            ButtonsMessages.DURATION_2HRS.getText(),ButtonsMessages.DURATION_4HRS.getText(),null,
+            ButtonsMessages.DURATION_6HRS.getText(),ButtonsMessages.DURATION_REST_DAY.getText(),null),
 
 
     //misc
+
+    NEED_MORE_COINS("Hey! This action requires more coins then you have!",ButtonsMessages.CONTINUE_WORKING.getText()),
+
     MENU_FAQ("""
              We don’t grow when things are easy; we grow when we face challenges.
              This bot was created with this idea in mind. The core idea is to better one's finances, physique, and other *self*-improvement through the hardship and willpower, while becoming mentally stable, kind, and good person.

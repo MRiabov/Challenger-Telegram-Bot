@@ -5,9 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum PublicButtonsMessages {
-    //misc
-    CANCEL(ButtonsMessages.CANCEL.getText()),
+public enum SelectionButtonsMessages {
+
     //difficulties
     EASY_DIFFICULTY(ButtonsMessages.EASY_DIFFICULTY.getText()),
     MEDIUM_DIFFICULTY(ButtonsMessages.MEDIUM_DIFFICULTY.getText()),
@@ -18,6 +17,12 @@ public enum PublicButtonsMessages {
     RELATIONSHIPS_AREA(ButtonsMessages.RELATIONSHIPS_AREA.getText()),
     MINDFULNESS_AREA(ButtonsMessages.MINDFULNESS_AREA.getText()),
     FITNESS_AREA(ButtonsMessages.FITNESS_AREA.getText()),
+    //rest_period
+    DURATION_2HRS(ButtonsMessages.DURATION_2HRS.getText()),
+    DURATION_4HRS(ButtonsMessages.DURATION_4HRS.getText()),
+    DURATION_6HRS(ButtonsMessages.DURATION_6HRS.getText()),
+    DURATION_REST_DAY(ButtonsMessages.DURATION_REST_DAY.getText()),
+
     //!
     ;
     //!

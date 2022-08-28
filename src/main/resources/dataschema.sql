@@ -1,5 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS challengerdb;
 
+use ChallengerDB;
+
 CREATE TABLE IF NOT EXISTS `user`
 (
     id           int PRIMARY KEY,
@@ -10,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `user`
     foreign key (stats_id) references user_stats (id)
 );
 
-use ChallengerDB;
+
 
 CREATE TABLE IF NOT EXISTS `user_stats`
 (
