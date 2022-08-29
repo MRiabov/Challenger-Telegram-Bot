@@ -35,8 +35,9 @@ enum ButtonsMessages {//package-private!
     FINANCES_AREA("\uD83D\uDCB2Finances"),
 
     //Buy some rest...
-    ADDICTION("\uD83D\uDC8A\uD83C\uDFAEFor addiction\uD83E\uDD43"),
     REST("\uD83E\uDD24I'm just tired..."),
+    ADDICTION("\uD83D\uDC8A\uD83C\uDFAEFor addiction\uD83E\uDD43"),
+    PROCEED_TO_REST("⏩Proceed to rest..."),
 
     DURATION_2HRS("2️⃣ Hours"),
     DURATION_4HRS("4️⃣ Hours"),

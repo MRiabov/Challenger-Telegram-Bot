@@ -87,6 +87,19 @@ public enum Buttons {
             Binge watching YouTube, Netflix, etc,
             Social media.
             """, ButtonsMessages.ADDICTION.getText(),ButtonsMessages.REST.getText(),null),
+    ADDICTION_HELP("""
+            I don't know what your addiction is, but it has to be treated. It is good, that you have stepped on a path of self-improvement,
+            BUT!
+            Addiction drags your self-image down. Each time you look in the mirror, you probably think:
+            "Damn, how did I come to all of this? I don't even have that much fun from it, yet I still keep doing it.."
+            And there is no thing more important than mental health and self-image, because it affects ALL your other areas of life. How can others treat you with respect if you yourself don't?
+            There is a great book, "Atomic Habits"(+100k 5-star ratings on Amazon). It teaches how to avoid bad habits, as well as creating new ones. Highly recommend to read.
+            I have quit all the "modern" addictions myself. The worst part about being a gamer, or a porn addict is that you don't even realise it's bad.
+            And it's terribly bad.
+            If you are a gamer, ask yourself, "Why compete in games, when I can compete in real life?"
+            If you are a porn addict, ask yourself, "Why masturbate on women, when you can workout in the same time, improve your looks and just get women?"
+            Addiction is a choice, you can either choose to get instant gratification, or you can do something meaningful in the same time.
+            """,ButtonsMessages.PROCEED_TO_REST.getText()),
 
     DURATION_OF_THE_REST("For how long are you planning to rest?",
             ButtonsMessages.DURATION_2HRS.getText(),ButtonsMessages.DURATION_4HRS.getText(),null,

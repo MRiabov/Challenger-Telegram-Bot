@@ -20,13 +20,18 @@ public enum ReceivedMessages {
     //main menu
     MENU_MY_CHALLENGES(ButtonsMessages.MENU_MY_CHALLENGES.getText(), Buttons.MENU_MY_CHALLENGES),
     MENU_CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), Buttons.MENU_CHALLENGE_YOUR_FRIENDS),
-    MENU_REST(ButtonsMessages.MENU_REST.getText(), Buttons.MENU_MY_CHALLENGES),//TODO rest!!!
+    MENU_REST(ButtonsMessages.MENU_REST.getText(), Buttons.IS_ADDICTION),//TODO rest!!!
     MENU_FAQ(ButtonsMessages.MENU_FAQ.getText(), Buttons.MENU_FAQ),
 
     //my challenges
     MARK_CHALLENGE_AS_COMPLETED(ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(),Buttons.MARK_CHALLENGE_AS_COMPLETED),
     SET_GOAL(ButtonsMessages.SET_GOAL_DESCRIPTION.getText(), Buttons.SET_GOAL_DESCRIPTION),
     SKIP_CHALLENGES(ButtonsMessages.SKIP_CHALLENGE.getText(), Buttons.SKIP_CHALLENGES),
+
+    //rest
+    ADDICTION(ButtonsMessages.ADDICTION.getText(), Buttons.ADDICTION_HELP),
+    ADDICTION_HELP(ButtonsMessages.PROCEED_TO_REST.getText(), Buttons.ADDICTION_HELP),
+    REST(ButtonsMessages.REST.getText(), Buttons.DURATION_OF_THE_REST),
 
     //start
     ON_START_NEW_USER_YES(ButtonsMessages.ON_START_NEW_USER_FIRST_YES.getText(), Buttons.ON_START_NEW_USER_HELP_FIRST),
