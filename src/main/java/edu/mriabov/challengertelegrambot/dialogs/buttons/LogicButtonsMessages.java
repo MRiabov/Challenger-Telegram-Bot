@@ -19,12 +19,6 @@ public enum LogicButtonsMessages {
     MINDFULNESS_AREA(ButtonsMessages.MINDFULNESS_AREA.getText()),
     FITNESS_AREA(ButtonsMessages.FITNESS_AREA.getText()),
 
-    //rest_period
-    DURATION_2HRS(ButtonsMessages.DURATION_2HRS.getText()),
-    DURATION_4HRS(ButtonsMessages.DURATION_4HRS.getText()),
-    DURATION_6HRS(ButtonsMessages.DURATION_6HRS.getText()),
-    DURATION_REST_DAY(ButtonsMessages.DURATION_REST_DAY.getText()),
-
     //!
     ;
     //!

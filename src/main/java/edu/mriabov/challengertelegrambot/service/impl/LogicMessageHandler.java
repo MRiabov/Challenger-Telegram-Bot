@@ -7,7 +7,6 @@ import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.LogicButtonsMessages;
-import edu.mriabov.challengertelegrambot.service.SenderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -18,8 +17,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class LogicMessageHandler {
-
-    private final SenderService senderService;
 
     private static final Cache<Long, Challenge> cache = CacheBuilder
             .newBuilder()
@@ -38,11 +35,6 @@ public class LogicMessageHandler {
         if (message.equals(LogicButtonsMessages.FITNESS_AREA.getText())) return Optional.ofNullable(setArea(update.getMessage().getChatId(), Area.FITNESS));
         if (message.equals(LogicButtonsMessages.MINDFULNESS_AREA.getText())) return Optional.ofNullable(setArea(update.getMessage().getChatId(), Area.MINDFULNESS));
         if (message.equals(LogicButtonsMessages.RELATIONSHIPS_AREA.getText())) return Optional.ofNullable(setArea(update.getMessage().getChatId(), Area.RELATIONSHIPS));
-
-        if (message.equals(LogicButtonsMessages.DURATION_2HRS.getText())) return Optional.ofNullable(setArea(update.getMessage().getChatId(), Area.RELATIONSHIPS));
-        if (message.equals(LogicButtonsMessages.DURATION_4HRS.getText())) return Optional.ofNullable(setArea(update.getMessage().getChatId(), Area.RELATIONSHIPS));
-        if (message.equals(LogicButtonsMessages.DURATION_6HRS.getText())) return Optional.ofNullable(setArea(update.getMessage().getChatId(), Area.RELATIONSHIPS));
-        if (message.equals(LogicButtonsMessages.DURATION_REST_DAY.getText())) return Optional.ofNullable(setArea(update.getMessage().getChatId(), Area.RELATIONSHIPS));
 
         return Optional.empty();
     }

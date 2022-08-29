@@ -10,6 +10,7 @@ public enum ReceivedMessages {
     //= menu(1 input, 1 answer) messages to catch and decide the next action
     //meta
     MAIN_MENU(ButtonsMessages.MAIN_MENU.getText(), Buttons.MAIN_MENU),
+    BACK_TO_MENU(ButtonsMessages.BACK_TO_MENU.getText(), Buttons.MAIN_MENU),
     CANCEL(ButtonsMessages.CANCEL.getText(), Buttons.MAIN_MENU),
     NEED_MORE_COINS(ButtonsMessages.CONTINUE_WORKING.getText(), Buttons.MAIN_MENU),
 
@@ -28,6 +29,11 @@ public enum ReceivedMessages {
     ADDICTION(ButtonsMessages.ADDICTION.getText(), Buttons.ADDICTION_HELP),
     ADDICTION_HELP(ButtonsMessages.PROCEED_TO_REST.getText(), Buttons.DURATION_OF_THE_REST),
     REST(ButtonsMessages.REST.getText(), Buttons.DURATION_OF_THE_REST),
+
+    DURATION_2HRS(ButtonsMessages.DURATION_2HRS.getText(), Buttons.BOUGHT_REST),
+    DURATION_4HRS(ButtonsMessages.DURATION_4HRS.getText(), Buttons.BOUGHT_REST),
+    DURATION_6HRS(ButtonsMessages.DURATION_6HRS.getText(), Buttons.BOUGHT_REST),
+    DURATION_REST_DAY(ButtonsMessages.DURATION_REST_DAY.getText(), Buttons.BOUGHT_REST),
 
     //start
     ON_START_NEW_USER_YES(ButtonsMessages.ON_START_NEW_USER_FIRST_YES.getText(), Buttons.ON_START_NEW_USER_HELP_FIRST),

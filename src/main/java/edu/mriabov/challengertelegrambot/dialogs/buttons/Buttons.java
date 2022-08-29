@@ -109,7 +109,7 @@ public enum Buttons {
                 Fine, take your rest, you've earned it.
                 But remember, that you are in a constant race, and when you do nothing, you everyone else moves forward.
                 I suggest you watch a video "Stop letting other men pipe your wife" by Hamza in the meantime.
-            """, ButtonsMessages.BACK_TO_MENU.getText()),
+            """, ButtonsMessages.BACK_TO_MENU.getText(),null),
     //misc
 
     NEED_MORE_COINS("Hey! This action requires more coins then you have!", ButtonsMessages.CONTINUE_WORKING.getText()),
@@ -121,9 +121,7 @@ public enum Buttons {
             """, ButtonsMessages.BACK_TO_MENU.getText()),
 
     //Commands
-    UNKNOWN_COMMAND(ButtonsMessages.UNKNOWN_COMMAND.getText(), MAIN_MENU.
-
-            getKeyboard()),
+    UNKNOWN_COMMAND(ButtonsMessages.UNKNOWN_COMMAND.getText(), MAIN_MENU.getKeyboard()),
 
     //On start
     ON_START_NEW_USER(
