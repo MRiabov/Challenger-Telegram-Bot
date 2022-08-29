@@ -8,19 +8,21 @@ public enum Buttons {
     // todo that also means that i lack arguments in wherever this is accepted...
     //todo there should be 0 "string" in this class. One more enum "OutgoingMessages"
     //!!! messages to send
-
     //todo null->boolean (pair)
     //Main menu
     MAIN_MENU(
-            "Welcome, " + ButtonsMessages.MAIN_MENU.getText() +//getByIdOrDefault
-                    "\n\n Your stats:" +
-                    "\nFinance: " +
-                    "\nRelationships: " +
-                    "\nFitness: " +
-                    "\nMindfulness: " +
-                    "\nYour current coin count: " +
-                    "\nChallenges to be completed: " +
-                    "\n\nPICK A RANDOM QUOTE",
+            """
+                    Welcome,%s$1
+
+                    Your stats:
+                    Finance: %d$2
+                    Relationships:%d$3
+                    Fitness:%d$4
+                    Mindfulness:%d$5
+                    Your current coin count:%d$6
+                    Challenges to be completed: %d$7
+
+                    PICK A RANDOM QUOTE""",
             ButtonsMessages.MENU_MY_CHALLENGES.getText(), null,
             ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), null,
             ButtonsMessages.MENU_REST.getText(), ButtonsMessages.MENU_FAQ.getText(), null
@@ -144,6 +146,7 @@ public enum Buttons {
 
     //!
     ;
+    //getByIdOrDefault
     //!
     final private String message;
     final private String[] keyboard;

@@ -18,7 +18,7 @@ public class ButtonsUtils {
         return sendMessage;
     }
 
-    private static ReplyKeyboardMarkup arrayToReplyMarkup(String[] buttons) {
+    public static ReplyKeyboardMarkup arrayToReplyMarkup(String[] buttons) {
         List<KeyboardRow> rowList = new ArrayList<>();
         KeyboardRow currentRow = new KeyboardRow();
 
