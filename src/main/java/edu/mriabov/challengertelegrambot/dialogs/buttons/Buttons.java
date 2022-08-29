@@ -114,7 +114,7 @@ public enum Buttons {
              We don’t grow when things are easy; we grow when we face challenges.
              This bot was created with this idea in mind. The core idea is to better one's finances, physique, and other *self*-improvement through the hardship and willpower, while becoming mentally stable, kind, and good person.
              So let's become the strong men this world desires!
-            """, null),
+            """, ButtonsMessages.BACK_TO_MENU.getText()),
 
     //Commands
     UNKNOWN_COMMAND(ButtonsMessages.UNKNOWN_COMMAND.getText(), MAIN_MENU.getKeyboard()),

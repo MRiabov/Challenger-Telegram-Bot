@@ -3,10 +3,6 @@ package edu.mriabov.challengertelegrambot.dialogs.buttons;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @Getter
 @Slf4j
 public enum ReceivedMessages {
@@ -30,7 +26,7 @@ public enum ReceivedMessages {
 
     //rest
     ADDICTION(ButtonsMessages.ADDICTION.getText(), Buttons.ADDICTION_HELP),
-    ADDICTION_HELP(ButtonsMessages.PROCEED_TO_REST.getText(), Buttons.ADDICTION_HELP),
+    ADDICTION_HELP(ButtonsMessages.PROCEED_TO_REST.getText(), Buttons.DURATION_OF_THE_REST),
     REST(ButtonsMessages.REST.getText(), Buttons.DURATION_OF_THE_REST),
 
     //start
@@ -50,22 +46,10 @@ public enum ReceivedMessages {
     private final String receivedMessage;
     //this is for whatever comes after this button is pressed. should ease development greatly.
     private final Buttons nextInvocation;
-    private final static Map<String,Buttons> receivedMessagesMap=Arrays.stream(values())
-            .collect(Collectors.toUnmodifiableMap(receivedMessages -> receivedMessages.receivedMessage,receivedMessages -> receivedMessages.nextInvocation));;
 
     ReceivedMessages(String receivedMessage, Buttons nextInvocation) {
         this.receivedMessage = receivedMessage;
         this.nextInvocation = nextInvocation;
-//        receivedMessagesMap= fillMap();
-    }
-
-    public Buttons getByText(String text){
-        return receivedMessagesMap.get(text);
-    }
-
-    private static Map<String, Buttons> fillMap(){
-        return Arrays.stream(values())
-                .collect(Collectors.toUnmodifiableMap(receivedMessages -> receivedMessages.receivedMessage,receivedMessages -> receivedMessages.nextInvocation));
     }
 
 }

@@ -23,7 +23,8 @@ public class MasterMessageHandlerImpl implements MessageHandler {
     public void handleMessages(Update update) {
         String message =update.getMessage().getText();
         log.info("Successfully received the message to the handler: "+message);
-        if (EmojiManager.containsEmoji(message.substring(0,3))) {
+        if (EmojiManager.containsEmoji(message.substring(0,3))) { //is a button
+
             senderService.sendMessages(update.getMessage().getChatId(), receivedMessagesContainer.getByText(message));
         } else {
             if (message.charAt(0) == '/') commandContainer.executeByText(message, update);

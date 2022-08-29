@@ -20,7 +20,7 @@ public class ReceivedMessagesContainer {
         return receivedMessagesMap.get(text);
     }
 
-    private Map<String, Buttons> fillMap(){
+    private Map<String, Buttons> fillMap() {
         return Arrays.stream(ReceivedMessages.values())
                 .collect(Collectors.toUnmodifiableMap(ReceivedMessages::getReceivedMessage, ReceivedMessages::getNextInvocation));
     }

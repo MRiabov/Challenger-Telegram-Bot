@@ -15,7 +15,7 @@ enum ButtonsMessages {//package-private!
     //Menu
     MENU_MY_CHALLENGES("\uD83D\uDCAA My Challenges"),
     MENU_CHALLENGE_YOUR_FRIENDS("\uD83C\uDFC3\u200D♂️Challenge your friends"),
-    MENU_REST("Buy some rest...\uD83D\uDCA4"),
+    MENU_REST("\uD83D\uDCA4Buy some rest..."),
     MENU_FAQ("❔FAQ"),
 
     //My challenges
