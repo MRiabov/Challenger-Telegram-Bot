@@ -18,6 +18,7 @@ public class MasterMessageHandlerImpl implements MessageHandler {
     private final SenderService senderService;
     private final ReceivedMessagesContainer receivedMessagesContainer;
     private final CommandContainer commandContainer;
+    private final LogicMessageHandler logicMessageHandler;
 
     @Override
     public void handleMessages(Update update) {
@@ -29,10 +30,5 @@ public class MasterMessageHandlerImpl implements MessageHandler {
         } else {
             if (message.charAt(0) == '/') commandContainer.executeByText(message, update);
         }
-
-
-
     }
-
-
 }

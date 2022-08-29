@@ -46,7 +46,7 @@ public enum Buttons {
 
     //challenge your friends
 
-    MENU_CHALLENGE_YOUR_FRIENDS("""
+    DIFFICULTY_SELECTION("""
             Select a difficulty.
                         
              Difficulty can be of 3 types:
@@ -55,8 +55,8 @@ public enum Buttons {
              3. Difficult - <60 minutes. Reading a good book, learning a language, going to the gym.
              4. Goal - set a very exact goal: gain +3kg in muscle growth, learn a skill, outline a business idea in detail.\s""",
 
-            ButtonsMessages.EASY_DIFFICULTY.getText(),ButtonsMessages.MEDIUM_DIFFICULTY.getText(),null,
-            ButtonsMessages.DIFFICULT_DIFFICULTY.getText(),ButtonsMessages.GOAL_DIFFICULTY.getText(),null,
+            ButtonsMessages.EASY_DIFFICULTY.getText(), ButtonsMessages.MEDIUM_DIFFICULTY.getText(), null,
+            ButtonsMessages.DIFFICULT_DIFFICULTY.getText(), ButtonsMessages.GOAL_DIFFICULTY.getText(), null,
             ButtonsMessages.CANCEL.getText(), null
     ),
 
@@ -67,11 +67,11 @@ public enum Buttons {
     ),
 
     SELECT_CHAT("Input the ID chat you would like to send:" +
-            "chatlist here", "INPUT FUNCTION HERE",null     //todo chatList here
+            "chatlist here", "INPUT FUNCTION HERE", null     //todo chatList here
     ),
 
     ONLY_ONE_CHAT("You have only one chat, and it has been selected.",
-            ButtonsMessages.CONTINUE.getText(),null),
+            ButtonsMessages.CONTINUE.getText(), null),
 
     SELECT_USER("Input the ID of the Gigachad you would like to challenge",
             ButtonsMessages.CANCEL.getText(), null),
@@ -81,12 +81,12 @@ public enum Buttons {
     IS_ADDICTION("""
             Is your rest caused by an addiction?
             Addictions ALSO include:
-            
+                        
             Pornography,
             Gaming,
             Binge watching YouTube, Netflix, etc,
             Social media.
-            """, ButtonsMessages.ADDICTION.getText(),ButtonsMessages.REST.getText(),null),
+            """, ButtonsMessages.ADDICTION.getText(), ButtonsMessages.REST.getText(), null),
     ADDICTION_HELP("""
             I don't know what your addiction is, but it has to be treated. It is good, that you have stepped on a path of self-improvement,
             BUT!
@@ -99,16 +99,20 @@ public enum Buttons {
             If you are a gamer, ask yourself, "Why compete in games, when I can compete in real life?"
             If you are a porn addict, ask yourself, "Why masturbate on women, when you can workout in the same time, improve your looks and just get women?"
             Addiction is a choice, you can either choose to get instant gratification, or you can do something meaningful in the same time.
-            """,ButtonsMessages.PROCEED_TO_REST.getText()),
+            """, ButtonsMessages.PROCEED_TO_REST.getText()),
 
     DURATION_OF_THE_REST("For how long are you planning to rest?",
-            ButtonsMessages.DURATION_2HRS.getText(),ButtonsMessages.DURATION_4HRS.getText(),null,
-            ButtonsMessages.DURATION_6HRS.getText(),ButtonsMessages.DURATION_REST_DAY.getText(),null),
+            ButtonsMessages.DURATION_2HRS.getText(), ButtonsMessages.DURATION_4HRS.getText(), null,
+            ButtonsMessages.DURATION_6HRS.getText(), ButtonsMessages.DURATION_REST_DAY.getText(), null),
 
-
+    BOUGHT_REST("""
+                Fine, take your rest, you've earned it.
+                But remember, that you are in a constant race, and when you do nothing, you everyone else moves forward.
+                I suggest you watch a video "Stop letting other men pipe your wife" by Hamza in the meantime.
+            """, ButtonsMessages.BACK_TO_MENU.getText()),
     //misc
 
-    NEED_MORE_COINS("Hey! This action requires more coins then you have!",ButtonsMessages.CONTINUE_WORKING.getText()),
+    NEED_MORE_COINS("Hey! This action requires more coins then you have!", ButtonsMessages.CONTINUE_WORKING.getText()),
 
     MENU_FAQ("""
              We don’t grow when things are easy; we grow when we face challenges.
@@ -117,7 +121,9 @@ public enum Buttons {
             """, ButtonsMessages.BACK_TO_MENU.getText()),
 
     //Commands
-    UNKNOWN_COMMAND(ButtonsMessages.UNKNOWN_COMMAND.getText(), MAIN_MENU.getKeyboard()),
+    UNKNOWN_COMMAND(ButtonsMessages.UNKNOWN_COMMAND.getText(), MAIN_MENU.
+
+            getKeyboard()),
 
     //On start
     ON_START_NEW_USER(

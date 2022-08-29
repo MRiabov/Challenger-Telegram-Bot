@@ -15,7 +15,7 @@ public enum ReceivedMessages {
 
     //main menu
     MENU_MY_CHALLENGES(ButtonsMessages.MENU_MY_CHALLENGES.getText(), Buttons.MENU_MY_CHALLENGES),
-    MENU_CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), Buttons.MENU_CHALLENGE_YOUR_FRIENDS),
+    MENU_CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), Buttons.DIFFICULTY_SELECTION),
     MENU_REST(ButtonsMessages.MENU_REST.getText(), Buttons.IS_ADDICTION),//TODO rest!!!
     MENU_FAQ(ButtonsMessages.MENU_FAQ.getText(), Buttons.MENU_FAQ),
 
