@@ -25,8 +25,4 @@ public class Chat {
 
     @ManyToMany(mappedBy = "chatList",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private Set<User> users;
-
-    @OneToMany(mappedBy = "chat",fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST, targetEntity = Challenge.class)
-    private Set<Challenge> challenges;
 }

@@ -2,33 +2,40 @@ CREATE SCHEMA IF NOT EXISTS challengerdb;
 
 use ChallengerDB;
 
+CREATE TABLE IF NOT EXISTS `user_stats`
+(
+    `id`            int AUTO_INCREMENT primary key,
+    `mind`          int,
+    `fitness`       int,
+    `relationships` int,
+    `finances`      int
+);
+
 CREATE TABLE IF NOT EXISTS `user`
 (
-    id           int PRIMARY KEY,
-    `first_name` varchar(50) NOT NULL,
-    `last_name`  varchar(50),
-    `username`   varchar(50),
-    `stats_id`   int,
+    `id`          int PRIMARY KEY,
+    `first_name`  varchar(50) NOT NULL,
+    `telegram_id` long,
+    `last_name`   varchar(50),
+    `username`    varchar(50),
+    `coins`       int,
+    `stats_id`    int,
+
     foreign key (stats_id) references user_stats (id)
 );
 
 
-
-CREATE TABLE IF NOT EXISTS `user_stats`
-(
-    id              int AUTO_INCREMENT primary key,
-    `Mind`          int,
-    `Fitness`       int,
-    `Relationships` int
-);
+ALTER TABLE user_stats RENAME COLUMN Relationships to relationships;
 
 CREATE TABLE IF NOT EXISTS `chat`
 (
     id                    int PRIMARY KEY,
-    total_tasks_completed int
+    total_tasks_completed int,
+    telegram_id           long
 );
 
 CREATE TABLE IF NOT EXISTS `challenge`
+
 (
     id                  int PRIMARY KEY,
     `challenge_message` varchar(256)                                              NOT NULL,
@@ -37,27 +44,24 @@ CREATE TABLE IF NOT EXISTS `challenge`
     `created_at`        TIMESTAMP                                                 NOT NULL,
     `expires_at`        TIMESTAMP                                                 NOT NULL,
     `created_by`        int                                                       NOT NULL,
-    `assigned_to`       int,
     `chat_id`           int                                                       NOT NULL,
 
     FOREIGN KEY (created_by) references user (id),
-    FOREIGN KEY (assigned_to) references user (id),
     FOREIGN KEY (chat_id) references chat (id)
 );
 
-CREATE TABLE IF NOT EXISTS `challenge_draft`
+CREATE TABLE IF NOT EXISTS challenge_user
 (
-    `challenge_id`      int PRIMARY KEY,
-    `challenge_message` varchar(256),
-    `difficulty`        enum ('EASY','MEDIUM','DIFFICULT','GOAL'),
-    `area`              enum ('RELATIONSHIPS','FITNESS','MINDFULNESS','FINANCES'),
-    `created_at`        TIMESTAMP,
-    `expires_at`        TIMESTAMP,
-    `created_by`        int,
-    `assigned_to`       int,
-    `chat_id`           int,
-
-    FOREIGN KEY (created_by) references user (id),
-    FOREIGN KEY (assigned_to) references user (id),
-    FOREIGN KEY (chat_id) references chat (id)
+    user_id      int NOT NULL,
+    challenge_id int NOT NULL,
+    foreign key (user_id) references user (id),
+    foreign key (challenge_id) references challenge (id)
 );
+
+CREATE TABLE IF NOT EXISTS chat_user
+(
+    user_id int NOT NULL,
+    chat_id int NOT NULL,
+    foreign key (user_id) references user (id),
+    foreign key (chat_id) references chat (id)
+)

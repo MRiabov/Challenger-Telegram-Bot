@@ -19,10 +19,16 @@ public class User {
     private long id;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "coins",
+    @JoinTable(name = "chat_user",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "chat_id",referencedColumnName = "id")})
     private Set<Chat> chatList;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "challenge_user",
+      joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+    inverseJoinColumns = {@JoinColumn(name = "challenge_id",referencedColumnName = "id")})
+    private Set<Challenge> challenges;
 
     private int coins;
 
@@ -33,6 +39,7 @@ public class User {
     private String lastName;
 
     private String username;
+
     //todo challengesList
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserStats.class)
