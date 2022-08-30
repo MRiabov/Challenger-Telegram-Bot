@@ -16,23 +16,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private long id;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "chat_user",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "chat_id",referencedColumnName = "id")})
-    private Set<Chat> chatList;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "challenge_user",
-      joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "challenge_id",referencedColumnName = "id")})
-    private Set<Challenge> challenges;
+    private int id;
 
     private int coins;
 
-    private Long telegramId;
+    private long telegramId;
 
     private String firstName;
 
@@ -40,9 +28,19 @@ public class User {
 
     private String username;
 
-    //todo challengesList
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "chat_user",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "chat_id", referencedColumnName = "id")})
+    private Set<Chat> chatList;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = UserStats.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "challenge_user",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "challenge_id", referencedColumnName = "id")})
+    private Set<Challenge> challenges;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = UserStats.class)
     @JoinColumn(name = "stats_id", referencedColumnName = "id")
     private UserStats userStats;
 

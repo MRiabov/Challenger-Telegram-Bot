@@ -39,8 +39,7 @@ public class Challenge {
     private String createdBy;
 
     private LocalDateTime expiresAt;
-    //todo usersList
 
-    @ManyToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "challenges",fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     private Set<User> users;
 }

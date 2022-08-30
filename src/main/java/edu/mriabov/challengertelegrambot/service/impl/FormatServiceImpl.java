@@ -7,6 +7,8 @@ import edu.mriabov.challengertelegrambot.service.FormatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class FormatServiceImpl implements FormatService {
@@ -15,17 +17,18 @@ public class FormatServiceImpl implements FormatService {
 
     @Override
     public String format(long chatID,String input) {
-        User user=userRepository.getReferenceById(chatID);
-        UserStats userStats = user.getUserStats();
-        return String.format(input,
-                user.getFirstName(),
-                userStats.getFinances(),
-                userStats.getRelationships(),
-                userStats.getFitness(),
-                userStats.getFitness(),
-                user.getCoins()
-
-
-                );
+        Optional<User> userOptional=userRepository.getUserByTelegramId(chatID);
+        if (userOptional.isPresent()) {
+            User user=userOptional.get();
+            UserStats userStats = user.getUserStats();
+            return String.format(input,
+                    user.getFirstName(),
+                    userStats.getFinances(),
+                    userStats.getRelationships(),
+                    userStats.getFitness(),
+                    userStats.getFitness(),
+                    user.getCoins()
+            );
+        } else return "Error: User doesn't exist!";
     }
 }
