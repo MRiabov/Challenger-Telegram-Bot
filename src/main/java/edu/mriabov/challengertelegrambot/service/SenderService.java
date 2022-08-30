@@ -9,6 +9,7 @@ public interface SenderService {
     void sendMessages(long chatID,String message);
     void sendMessages(long chatID, String message, ReplyKeyboardMarkup markup);
     void sendMessages(long chatID, Buttons buttons);
+    void userDoesNotExist(long chatID);
 
 
 

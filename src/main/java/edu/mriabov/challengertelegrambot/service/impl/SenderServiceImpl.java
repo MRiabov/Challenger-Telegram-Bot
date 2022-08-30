@@ -31,8 +31,8 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     @SneakyThrows
     @Override
     public void sendMessages(long chatID, String message) {
-        message=formatService.format(chatID, message);
-        log.info("SenderService attempted to send a message: "+message);
+        message = formatService.format(chatID, message);
+        log.info("SenderService attempted to send a message: " + message);
         execute(new SendMessage(Long.toString(chatID), message));
 
     }
@@ -40,8 +40,8 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     @SneakyThrows
     @Override
     public void sendMessages(long chatID, String message, ReplyKeyboardMarkup markup) {
-        message=formatService.format(chatID, message);
-        log.info("SenderService attempted to send a message with markup: "+message);
+        message = formatService.format(chatID, message);
+        log.info("SenderService attempted to send a message with markup: " + message);
         execute(SendMessage.builder()
                 .text(message)
                 .chatId(chatID)
@@ -52,14 +52,21 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     @SneakyThrows
     @Override
     public void sendMessages(long chatID, Buttons buttons) {
-        String message = formatService.format(chatID,buttons.getMessage());
-        log.info("SenderService attempted to send a message with buttons: "+buttons.getMessage());
+        String message = formatService.format(chatID, buttons.getMessage());
+        log.info("SenderService attempted to send a message with buttons: " + buttons.getMessage());
         execute(SendMessage.builder()
                 .text(message)
                 .chatId(chatID)
                 .replyMarkup(ButtonsUtils.arrayToReplyMarkup(buttons.getKeyboard()))
                 .build()
         );
+    }
+
+    @Override
+    public void userDoesNotExist(long chatID) {
+        sendMessages(chatID,
+                "Error: User does not exist! Please use /start.",
+                ButtonsUtils.arrayToReplyMarkup(Buttons.MAIN_MENU.getKeyboard()));
     }
 
     @Override
