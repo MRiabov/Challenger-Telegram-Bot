@@ -17,7 +17,7 @@ public class CommandContainer {
             commandMap = commands.stream().collect(Collectors.toUnmodifiableMap(Command::alias, Function.identity()));
     }
 
-    public void executeByText(String text, Update update){
-        commandMap.get(text).execute(update);
+    public void executeByText(Update update){
+        commandMap.get(update.getMessage().getText()).execute(update);
     }
 }

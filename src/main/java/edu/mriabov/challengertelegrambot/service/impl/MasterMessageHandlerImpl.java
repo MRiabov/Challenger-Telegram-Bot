@@ -27,15 +27,19 @@ public class MasterMessageHandlerImpl implements MessageHandler {
     @Override
     public void handleMessages(Update update) {
         String message = update.getMessage().getText();
+        long id = update.getMessage().getChatId();
         log.info("Successfully received the message to the handler: " + message);
         if (EmojiManager.containsEmoji(message.substring(0, 3)) || TelegramUtils.checkForUnsupportedEmoji(message)) { //is a button
-            Optional<Buttons> logicButtons = logicMessageHandler.handleMessages(update);
-            if (logicButtons.isPresent())
-                senderService.sendMessages(update.getMessage().getChatId(), logicButtons.get());
-            else
-                senderService.sendMessages(update.getMessage().getChatId(), receivedMessagesContainer.getByText(message));
-        } else {
-            if (message.charAt(0) == '/') commandContainer.executeByText(message, update);
-        }
+            buttonsHandler(update, message);
+        } else if (message.charAt(0) == '/') commandContainer.executeByText(update);
+        else if (message.startsWith("@")) senderService.sendMessages(id,
+                logicMessageHandler.handleUsernames(update));
+    }
+
+    private void buttonsHandler(Update update, String message) {
+        long id = update.getMessage().getChatId();
+        Optional<Buttons> logicButtons = logicMessageHandler.handleStaticMessages(update);
+        if (logicButtons.isPresent()) senderService.sendMessages(id, logicButtons.get());
+        else senderService.sendMessages(id, receivedMessagesContainer.getByText(message));
     }
 }

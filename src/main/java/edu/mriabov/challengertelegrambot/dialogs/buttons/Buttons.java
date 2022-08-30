@@ -68,15 +68,21 @@ public enum Buttons {
             ButtonsMessages.CANCEL.getText(), null
     ),
 
-    SELECT_CHAT("Input the ID chat you would like to send:" +
+    CHAT_SELECTION("Input the ID chat you would like to send:" +
             "chatlist here", "INPUT FUNCTION HERE", null     //todo chatList here
     ),
 
     ONLY_ONE_CHAT("You have only one chat, and it has been selected.",
             ButtonsMessages.CONTINUE.getText(), null),
 
-    SELECT_USER("Input the ID of the Gigachad you would like to challenge",
+    USER_SELECTION("Input the ID or of the Gigachad you would like to challenge" +
+            "\n Alternatively, you can just send his @",
             ButtonsMessages.CANCEL.getText(), null),
+
+    OTHER_USER_NOT_FOUND("""
+    Username not found.
+    Try to look it up manually.
+    """, ButtonsMessages.MAIN_MENU.getText(),null),
 
     //buy some rest...
 
@@ -101,7 +107,7 @@ public enum Buttons {
             If you are a gamer, ask yourself, "Why compete in games, when I can compete in real life?"
             If you are a porn addict, ask yourself, "Why masturbate on women, when you can workout in the same time, improve your looks and just get women?"
             Addiction is a choice, you can either choose to get instant gratification, or you can do something meaningful in the same time.
-            """, ButtonsMessages.PROCEED_TO_REST.getText()),
+            """, ButtonsMessages.PROCEED_TO_REST.getText(),null),
 
     DURATION_OF_THE_REST("For how long are you planning to rest?",
             ButtonsMessages.DURATION_2HRS.getText(), ButtonsMessages.DURATION_4HRS.getText(), null,

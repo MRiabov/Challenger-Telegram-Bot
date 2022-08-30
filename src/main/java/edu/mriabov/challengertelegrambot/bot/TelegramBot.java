@@ -1,6 +1,7 @@
-package edu.mriabov.challengertelegrambot.service;
+package edu.mriabov.challengertelegrambot.bot;
 
 import edu.mriabov.challengertelegrambot.config.BotConfig;
+import edu.mriabov.challengertelegrambot.service.MessageHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
