@@ -1,3 +1,4 @@
+DROP SCHEMA IF EXISTS challengerdb;
 CREATE SCHEMA IF NOT EXISTS challengerdb;
 
 use ChallengerDB;
@@ -5,7 +6,7 @@ use ChallengerDB;
 CREATE TABLE IF NOT EXISTS `user_stats`
 (
     `id`            int AUTO_INCREMENT primary key,
-    `mind`          int,
+    `mindfulness`   int,
     `fitness`       int,
     `relationships` int,
     `finances`      int
@@ -13,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `user_stats`
 
 CREATE TABLE IF NOT EXISTS `user`
 (
-    `id`          int PRIMARY KEY,
+    `id`          int PRIMARY KEY AUTO_INCREMENT,
     `first_name`  varchar(50) NOT NULL,
     `telegram_id` long,
     `last_name`   varchar(50),
@@ -29,7 +30,7 @@ ALTER TABLE user_stats RENAME COLUMN Relationships to relationships;
 
 CREATE TABLE IF NOT EXISTS `chat`
 (
-    id                    int PRIMARY KEY,
+    id                    int PRIMARY KEY AUTO_INCREMENT,
     total_tasks_completed int,
     telegram_id           long
 );
@@ -37,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `chat`
 CREATE TABLE IF NOT EXISTS `challenge`
 
 (
-    id                  int PRIMARY KEY,
+    id                  int PRIMARY KEY AUTO_INCREMENT,
     `challenge_message` varchar(256)                                              NOT NULL,
     `difficulty`        enum ('EASY','MEDIUM','DIFFICULT','GOAL')                 NOT NULL,
     `area`              enum ('RELATIONSHIPS','FITNESS','MINDFULNESS','FINANCES') NOT NULL,
