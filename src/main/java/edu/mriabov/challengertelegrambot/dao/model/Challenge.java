@@ -24,6 +24,8 @@ public class Challenge {
 
     String description;
 
+    private long chatID;
+
     @Enumerated(EnumType.STRING)
     @Column(updatable = false)
     private Area area;
@@ -39,6 +41,7 @@ public class Challenge {
     private String createdBy;
 
     private LocalDateTime expiresAt;
+
 
     @ManyToMany(mappedBy = "challenges",fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     private Set<User> users;
