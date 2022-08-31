@@ -1,10 +1,10 @@
-package edu.mriabov.challengertelegrambot.service.impl;
+package edu.mriabov.challengertelegrambot.handler.impl;
 
 import com.vdurmont.emoji.EmojiManager;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.ReceivedMessagesContainer;
 import edu.mriabov.challengertelegrambot.dialogs.commands.CommandContainer;
-import edu.mriabov.challengertelegrambot.service.MessageHandler;
+import edu.mriabov.challengertelegrambot.handler.MessageHandler;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;

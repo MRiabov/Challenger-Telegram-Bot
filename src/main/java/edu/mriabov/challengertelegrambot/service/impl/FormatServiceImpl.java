@@ -22,13 +22,14 @@ public class FormatServiceImpl implements FormatService {
             User user=userOptional.get();
             UserStats userStats = user.getUserStats();
             return String.format(input,
-                    user.getFirstName(),
-                    userStats.getFinances(),
-                    userStats.getRelationships(),
-                    userStats.getFitness(),
-                    userStats.getFitness(),
-                    user.getCoins()
+                    user.getFirstName(),//1s
+                    userStats.getFinances(),//2
+                    userStats.getRelationships(),//3
+                    userStats.getFitness(),//4
+                    userStats.getMindfulness(),//5
+                    user.getCoins()//6
+                    // 7
             );
-        } else return "Error: User doesn't exist!";
+        } else return "Error: User doesn't exist! Please register through /start!";
     }
 }

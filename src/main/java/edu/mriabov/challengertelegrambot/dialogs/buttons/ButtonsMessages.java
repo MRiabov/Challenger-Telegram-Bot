@@ -39,10 +39,14 @@ enum ButtonsMessages {//package-private!
     ADDICTION("\uD83D\uDC8A\uD83C\uDFAEFor addiction\uD83E\uDD43"),
     PROCEED_TO_REST("⏩Proceed to rest..."),
 
-    DURATION_2HRS("2️⃣ Hours"),
-    DURATION_4HRS("4️⃣ Hours"),
-    DURATION_6HRS("6️⃣ Hours"),
+    DURATION_2HRS("\uD83D\uDD50 2 Hours"),
+    DURATION_4HRS("\uD83D\uDD53 4 Hours"),
+    DURATION_6HRS("\uD83D\uDD55 6 Hours"),
     DURATION_REST_DAY("⏳ Rest Day"),
+
+    //pagination appendixes
+    USER_APPENDIX("user"),
+    CHAT_APPENDIX("chat"),
 
     //Commands
     UNKNOWN_COMMAND("Error: this command doesn't seem to be supported..."),

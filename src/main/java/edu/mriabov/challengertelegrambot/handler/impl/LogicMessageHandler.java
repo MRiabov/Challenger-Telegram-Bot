@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.service.impl;
+package edu.mriabov.challengertelegrambot.handler.impl;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -47,12 +47,16 @@ public class LogicMessageHandler {
         if (message.equals(LogicButtonsMessages.RELATIONSHIPS_AREA.getText()))
             return Optional.ofNullable(setArea(update.getMessage().getChatId(), Area.RELATIONSHIPS));
 
+        //handle message here. then it goes to
+
         return Optional.empty();
     }
 
+
+
     public Buttons handleUsernames(Update update) {
         Optional<User> userOptional = userRepository.getUserByUsername(update.getMessage().getText().substring(1));
-        if (userOptional.isPresent()) {
+        if (userOptional.isPresent()) {//todo cache must be checked
             cache.asMap().get(update.getMessage().getChatId()).getUsers().add(userOptional.get());
             return Buttons.DIFFICULTY_SELECTION;
         } else return Buttons.OTHER_USER_NOT_FOUND;

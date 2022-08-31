@@ -15,8 +15,8 @@ public enum Buttons {
                     Welcome, %1$s
 
                     Your stats:
-                    Finance: %1$d
-                    Relationships: %2$d
+                    Finance: %2$d
+                    Relationships: %3$d
                     Fitness: %4$d
                     Mindfulness: %5$d
                     Your current coin count: %6$d
