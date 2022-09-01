@@ -12,4 +12,5 @@ public interface SenderService {
     Buttons breakAttempt(long chatID);
     Buttons deletedFromCache(long chatID);
 
+
 }

@@ -57,7 +57,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
         execute(SendMessage.builder()
                 .text(message)
                 .chatId(chatID)
-                .replyMarkup(ButtonsUtils.arrayToReplyMarkup(buttons.getKeyboard()))
+                .replyMarkup(ButtonsUtils.createStaticMarkup(buttons.getKeyboard()))
                 .build()
         );
     }
@@ -66,7 +66,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     public Buttons userDoesNotExist(long chatID) {
         sendMessages(chatID,
                 "Error: User does not exist! Please use /start.",
-                ButtonsUtils.arrayToReplyMarkup(Buttons.MAIN_MENU.getKeyboard()));
+                ButtonsUtils.createStaticMarkup(Buttons.MAIN_MENU.getKeyboard()));
         return Buttons.MAIN_MENU;//because method always marks failure
     }
 

@@ -22,7 +22,7 @@ public class BillingServiceImpl implements BillingService {
     public boolean isEnoughCoins(long chatID, int price) {
         Optional<User> userOptional = userRepository.getUserByTelegramId(chatID);
         if (userOptional.isPresent()) return userOptional.get().getCoins() > price;
-        else senderService.userDoesNotExist(chatID);
+        senderService.userDoesNotExist(chatID);
         return false;
     }
 
