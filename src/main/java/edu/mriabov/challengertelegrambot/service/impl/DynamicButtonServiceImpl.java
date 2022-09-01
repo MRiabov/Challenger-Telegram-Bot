@@ -16,9 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DynamicButtonServiceImpl implements DynamicButtonsService {
 
+    public static final int PAGE_SIZE=9;
 
     @Override
-    public ReplyKeyboardMarkup createMarkup(String appendix, @Max(value = 9) int pageSize) {
+    public ReplyKeyboardMarkup createMarkup(String appendix, @Max(value = PAGE_SIZE) int pageSize) {
         List<KeyboardRow> rowList = new ArrayList<>();
         KeyboardRow currentRow = new KeyboardRow();
 

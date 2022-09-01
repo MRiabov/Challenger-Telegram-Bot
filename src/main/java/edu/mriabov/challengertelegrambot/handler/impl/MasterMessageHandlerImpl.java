@@ -22,7 +22,7 @@ public class MasterMessageHandlerImpl implements MessageHandler {
     private final SenderService senderService;
     private final ReceivedMessagesContainer receivedMessagesContainer;
     private final CommandContainer commandContainer;
-    private final LogicMessageHandler logicMessageHandler;
+    private final ChallengeCreatorHandler challengeCreatorHandler;
 
     @Override
     public void handleMessages(Update update) {
@@ -33,12 +33,12 @@ public class MasterMessageHandlerImpl implements MessageHandler {
             buttonsHandler(update, message);
         } else if (message.charAt(0) == '/') commandContainer.executeByText(update);
         else if (message.startsWith("@")) senderService.sendMessages(id,
-                logicMessageHandler.handleUsernames(update));
+                challengeCreatorHandler.handleUsernames(update));
     }
 
     private void buttonsHandler(Update update, String message) {
         long id = update.getMessage().getChatId();
-        Optional<Buttons> logicButtons = logicMessageHandler.handleStaticMessages(update);
+        Optional<Buttons> logicButtons = challengeCreatorHandler.handleStaticMessages(update);
         if (logicButtons.isPresent()) senderService.sendMessages(id, logicButtons.get());
         else senderService.sendMessages(id, receivedMessagesContainer.getByText(message));
     }

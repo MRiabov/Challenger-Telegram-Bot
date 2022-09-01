@@ -14,7 +14,6 @@ import java.util.Optional;
 public class FormatServiceImpl implements FormatService {
 
     private final UserRepository userRepository;
-
     @Override
     public String format(long chatID,String input) {
         Optional<User> userOptional=userRepository.getUserByTelegramId(chatID);
