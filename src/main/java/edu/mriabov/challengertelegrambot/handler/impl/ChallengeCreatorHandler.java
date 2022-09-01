@@ -6,11 +6,13 @@ import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
+import edu.mriabov.challengertelegrambot.dao.repository.ChatRepository;
 import edu.mriabov.challengertelegrambot.dao.repository.UserRepository;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.LogicButtonsMessages;
 import edu.mriabov.challengertelegrambot.service.SenderService;
-import edu.mriabov.challengertelegrambot.service.impl.DynamicButtonServiceImpl;
+import edu.mriabov.challengertelegrambot.service.impl.Appendix;
+import edu.mriabov.challengertelegrambot.utils.ButtonsUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,9 @@ import java.util.concurrent.TimeUnit;
 public class ChallengeCreatorHandler {
 
     private final UserRepository userRepository;
+    private final ChatRepository chatRepository;
     private final SenderService senderService;
+
     private static final Cache<Long, Challenge> challengeCache = CacheBuilder
             .newBuilder()
             .expireAfterWrite(30, TimeUnit.MINUTES)
@@ -80,31 +84,43 @@ public class ChallengeCreatorHandler {
 
     public Buttons handleUsernames(Update update) {
         Optional<User> userOptional = userRepository.getUserByUsername(update.getMessage().getText().substring(1));
-        if (userOptional.isPresent()) {//todo cache must be checked
-            challengeCache.asMap().get(update.getMessage().getChatId()).getUsers().add(userOptional.get());
-            return Buttons.DIFFICULTY_SELECTION;
-        } else return Buttons.OTHER_USER_NOT_FOUND;
+        if (userOptional.isEmpty()) return Buttons.OTHER_USER_NOT_FOUND;
+        //todo check whether this user is in a chat.
+        //todo cache must be checked (???)
+        challengeCache.asMap().get(update.getMessage().getChatId()).getUsers().add(userOptional.get());
+        return Buttons.DIFFICULTY_SELECTION;
     }
 
     private Buttons dynamicButtonsHandler(String message, long chatID, int selectedNumber) {
-        if (message.substring(4).equals(LogicButtonsMessages.USER_APPENDIX.getText()))
-            return handleChats(chatID, selectedNumber);
+        if (message.substring(4).equals(Appendix.USER_APPENDIX.getText()))
+            return selectChats(chatID, selectedNumber);
         //todo same, but with username
-
+        if (message.substring(4).equals(Appendix.CHAT_APPENDIX.getText()))
+            return selectUsers(chatID, selectedNumber);
         return senderService.breakAttempt(chatID);
     }
 
-    private Buttons handleChats(long chatID, int selectedNumber) {
-        challengeCache.asMap().put(chatID, new Challenge());
-        if (userRepository.getUserByTelegramId(chatID).isPresent()) {
-            if (selectedNumber <= userRepository.countChatsById(chatID)) {
-                challengeCache.asMap().get(chatID).setChatID(
-                        userRepository.findAllByTelegramId(chatID, Pageable.ofSize(DynamicButtonServiceImpl.PAGE_SIZE)
-                                        .withPage(pageNumCache.asMap().getOrDefault(chatID, 0)))
-                                .getContent().get(selectedNumber).getTelegramID());
-                return Buttons.USER_SELECTION;
-            } else return senderService.breakAttempt(chatID);
-        } else return senderService.userDoesNotExist(chatID);
+    private Buttons selectChats(long chatID, int selectedNumber) {
+        if (userRepository.getUserByTelegramId(chatID).isEmpty()) return senderService.userDoesNotExist(chatID);
+        if (selectedNumber > userRepository.countChatsById(chatID)) return senderService.breakAttempt(chatID);
+        Challenge challenge = new Challenge();
+        challenge.setChatID(userRepository.findAllByTelegramId(
+                        chatID, Pageable.ofSize(ButtonsUtils.PAGE_SIZE)
+                                .withPage(pageNumCache.asMap().getOrDefault(chatID, 0)))
+                .getContent().get(selectedNumber).getTelegramID());
+        challengeCache.asMap().put(chatID, challenge);
+        return Buttons.USER_SELECTION;
+    }
+
+    private Buttons selectUsers(long chatID, int selectedNumber) {
+        if (!challengeCache.asMap().containsKey(chatID)) return senderService.deletedFromCache(chatID);
+        if (userRepository.getUserByTelegramId(chatID).isEmpty()) return senderService.userDoesNotExist(chatID);
+        if (selectedNumber > userRepository.countChatsById(chatID)) return senderService.breakAttempt(chatID);
+        challengeCache.asMap().get(chatID).setChatID(
+                chatRepository.findAllByTelegramID(chatID, Pageable.ofSize(ButtonsUtils.PAGE_SIZE)
+                                .withPage(pageNumCache.asMap().getOrDefault(chatID, 0)))
+                        .getContent().get(selectedNumber).getTelegramId());
+        return Buttons.DIFFICULTY_SELECTION;
     }
 
     private Buttons setDifficulty(long chatID, Difficulty difficulty) {

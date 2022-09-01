@@ -19,9 +19,6 @@ public enum LogicButtonsMessages {
     MINDFULNESS_AREA(ButtonsMessages.MINDFULNESS_AREA.getText()),
     FITNESS_AREA(ButtonsMessages.FITNESS_AREA.getText()),
 
-    USER_APPENDIX(ButtonsMessages.USER_APPENDIX.getText()),
-    CHAT_APPENDIX(ButtonsMessages.CHAT_APPENDIX.getText()),
-
     //!
     ;
     //!
