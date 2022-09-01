@@ -28,6 +28,8 @@ public class LogicMessageHandler {
             .expireAfterWrite(30, TimeUnit.MINUTES)
             .build();
 
+    public static final int PAGE_SIZE=9;
+
     public Optional<Buttons> handleStaticMessages(Update update) {
         String message = update.getMessage().getText();
         long chatID = update.getMessage().getChatId();
@@ -60,6 +62,7 @@ public class LogicMessageHandler {
             case "7️⃣" -> dynamicButtonsHandler(message, chatID, 7);
             case "8️⃣" -> dynamicButtonsHandler(message, chatID, 8);
             case "9️⃣" -> dynamicButtonsHandler(message, chatID, 9);
+//            case "⏩️⃣" ->
             default -> null;
         };
         if (pagedButtons != null) {
@@ -83,8 +86,10 @@ public class LogicMessageHandler {
         if (message.substring(4).equals(LogicButtonsMessages.USER_APPENDIX.getText())) {
             Optional<User> userOptional = userRepository.getUserByTelegramId(chatID);
             if (userOptional.isPresent()) {
-                if (userOptional.get().getChatList().size() < selectedNumber) {
-                    cache.asMap().get(chatID).setChatID(userOptional.get().getChatList().get(selectedNumber).getTelegramChatID());
+                int chatsAmount = userRepository.countChatsById(chatID);
+                if (chatsAmount < selectedNumber) {
+                    cache.asMap().get(chatID).setChatID(
+                            userOptional.get().getChatList().get(selectedNumber).getTelegramChatID());
                     return Buttons.USER_SELECTION;
                 } else return Buttons.MAIN_MENU;
             } else {
@@ -93,10 +98,12 @@ public class LogicMessageHandler {
             }
         }//todo same, but with username
 
-        senderService.sendMessages(chatID,"""
-        Incorrect input! The system is foolproof! (for everyone except the programmer, at least)
-        Just click the buttons, please.
-        """);
+
+
+        senderService.sendMessages(chatID, """
+                Incorrect input! The system is foolproof! (for everyone except the programmer, at least)
+                Just click the buttons, please.
+                """);
 
         return Buttons.MAIN_MENU;
     }

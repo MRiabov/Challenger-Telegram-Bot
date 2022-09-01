@@ -68,8 +68,11 @@ public enum Buttons {
             ButtonsMessages.CANCEL.getText(), null
     ),
 
-    CHAT_SELECTION("Input the ID chat you would like to send:" +
-            "chatlist here", "INPUT FUNCTION HERE", null     //todo chatList here
+    CHAT_SELECTION("""
+            Input the ID chat you would like to send:
+            chatlist here
+            You can also just @ the user you would like to include, the system will find him automatically.""",
+            "INPUT FUNCTION HERE", null     //todo chatList here
     ),
 
     ONLY_ONE_CHAT("You have only one chat, and it has been selected.",
