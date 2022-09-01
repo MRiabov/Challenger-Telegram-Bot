@@ -17,18 +17,17 @@ public class FormatServiceImpl implements FormatService {
     @Override
     public String format(long chatID,String input) {
         Optional<User> userOptional=userRepository.getUserByTelegramId(chatID);
-        if (userOptional.isPresent()) {
-            User user=userOptional.get();
-            UserStats userStats = user.getUserStats();
-            return String.format(input,
-                    user.getFirstName(),//1s
-                    userStats.getFinances(),//2
-                    userStats.getRelationships(),//3
-                    userStats.getFitness(),//4
-                    userStats.getMindfulness(),//5
-                    user.getCoins()//6
-                    // 7
-            );
-        } else return "Error: User doesn't exist! Please register through /start!";
+        if (userOptional.isEmpty()) return "Error: User doesn't exist! Please register through /start!";
+        User user=userOptional.get();
+        UserStats userStats = user.getUserStats();
+        return String.format(input,
+                user.getFirstName(),//1s
+                userStats.getFinances(),//2
+                userStats.getRelationships(),//3
+                userStats.getFitness(),//4
+                userStats.getMindfulness(),//5
+                user.getCoins()//6
+                // 7
+        );
     }
 }
