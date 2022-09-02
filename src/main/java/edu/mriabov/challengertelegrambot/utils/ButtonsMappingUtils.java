@@ -13,8 +13,8 @@ import java.util.List;
 
 import static java.util.Objects.isNull;
 
-public class ButtonsUtils {
-    private ButtonsUtils(){}
+public class ButtonsMappingUtils {
+    private ButtonsMappingUtils(){}
     public static SendMessage buildMessageWithKeyboard(long chatID, Buttons buttons){
         SendMessage sendMessage = new SendMessage(Long.toString(chatID),buttons.getMessage());
         sendMessage.setReplyMarkup(createStaticMarkup(buttons.getKeyboard()));
