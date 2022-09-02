@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS `chat`
 (
     id                    int PRIMARY KEY AUTO_INCREMENT,
     total_tasks_completed int,
-    telegramId           long
+    telegramId            long,
+    name                  varchar(50)
 );
-
 
 CREATE TABLE IF NOT EXISTS `challenge`
 

@@ -18,6 +18,8 @@ public class Chat {
     @GenericGenerator(name = "native", strategy = "native")
     private int id;
 
+    private String name;
+
     private int telegramID;
 
     @Column(name = "total_tasks_completed")
