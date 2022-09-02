@@ -8,24 +8,24 @@ import java.util.concurrent.TimeUnit;
 
 public class ChallengeCache implements edu.mriabov.challengertelegrambot.utils.cache.Cache<Long,Challenge> {
 
-    private final Cache<Long, Challenge> challengeCache = CacheBuilder
+    private final Cache<Long, Challenge> cache = CacheBuilder
             .newBuilder()
             .expireAfterWrite(30, TimeUnit.MINUTES)
             .build();
 
     @Override
     public void put(Long chatID, Challenge challenge) {
-        challengeCache.put(chatID, challenge);
+        cache.put(chatID, challenge);
     }
 
     @Override
     public Challenge get(Long chatID) {
-        return challengeCache.asMap().get(chatID);
+        return cache.asMap().get(chatID);
     }
 
     @Override
     public boolean contains(Long key) {
-        return challengeCache.asMap().containsKey(key);
+        return cache.asMap().containsKey(key);
     }
 
 
