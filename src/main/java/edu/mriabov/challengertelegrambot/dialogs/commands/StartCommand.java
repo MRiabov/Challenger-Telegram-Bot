@@ -25,8 +25,7 @@ public class StartCommand implements Command {
     public void execute(Update update) {
         if (!userRepository.existsByTelegramId(update.getMessage().getChatId())) {
             registrationService.register(update);
-            senderService.sendMessages(update.getMessage().getChatId(), Buttons.ON_START_NEW_USER);
         }
-        else senderService.sendMessages(update.getMessage().getChatId(),Buttons.ON_START_NEW_USER);
+        senderService.sendMessages(update.getMessage().getChatId(), Buttons.ON_START_NEW_USER);
     }
 }

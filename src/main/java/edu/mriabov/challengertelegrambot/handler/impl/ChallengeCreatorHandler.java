@@ -1,46 +1,23 @@
 package edu.mriabov.challengertelegrambot.handler.impl;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
-import edu.mriabov.challengertelegrambot.dao.model.Challenge;
-import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.dao.repository.ChatRepository;
-import edu.mriabov.challengertelegrambot.dao.repository.UserRepository;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.LogicButtonsMessages;
-import edu.mriabov.challengertelegrambot.service.SenderService;
+import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
 import edu.mriabov.challengertelegrambot.service.impl.Appendix;
-import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class ChallengeCreatorHandler {
 
-    private final UserRepository userRepository;
-    private final ChatRepository chatRepository;
-    private final SenderService senderService;
+    private final ChallengeCreatorService challengeCreatorService;
 
-    private static final Cache<Long, Challenge> challengeCache = CacheBuilder
-            .newBuilder()
-            .expireAfterWrite(30, TimeUnit.MINUTES)
-            .build();
-    private static final Cache<Long, Integer> pageNumCache = CacheBuilder
-            .newBuilder()
-            .expireAfterWrite(30, TimeUnit.MINUTES)
-            .build();
-
-    public Optional<Buttons> handleStaticMessages(Update update) {
-        String message = update.getMessage().getText();
-        long chatID = update.getMessage().getChatId();
+    public Optional<Buttons> handleStaticMessages(long chatID,String message) {
         //Nope, can't do enums with switch...
         if (message.equals(LogicButtonsMessages.EASY_DIFFICULTY.getText()))
             return Optional.ofNullable(setDifficulty(chatID, Difficulty.EASY));
@@ -68,12 +45,8 @@ public class ChallengeCreatorHandler {
         return Optional.empty();
     }
 
-    public Buttons handleUsernames(Update update) {
-        Optional<User> userOptional = userRepository.getUserByUsername(update.getMessage().getText().substring(1));
-        if (userOptional.isEmpty()) return Buttons.OTHER_USER_NOT_FOUND;
-        //todo check whether this user is in a chat.
-        //todo cache must be checked (???)
-        challengeCache.asMap().get(update.getMessage().getChatId()).getUsers().add(userOptional.get());
+    public Buttons handleUsernames(long id,String message) {
+        challengeCreatorService.selectUsersByUsername(id,message);
         return Buttons.DIFFICULTY_SELECTION;
     }
 
@@ -83,47 +56,27 @@ public class ChallengeCreatorHandler {
         //todo same, but with username
         if (message.substring(4).equals(Appendix.CHAT_APPENDIX.getText()))
             return selectUsers(chatID, selectedNumber);
-        return senderService.breakAttempt(chatID);
+        return Buttons.INCORRECT_INPUT;
     }
 
     private Buttons selectChats(long chatID, int selectedNumber) {
-        if (userRepository.getUserByTelegramId(chatID).isEmpty()) return senderService.userDoesNotExist(chatID);
-        if (selectedNumber > userRepository.countChatsById(chatID)) return senderService.breakAttempt(chatID);
-        Challenge challenge = new Challenge();
-        challenge.setChatID(userRepository.findAllByTelegramId(
-                        chatID, Pageable.ofSize(ButtonsMappingUtils.PAGE_SIZE)
-                                .withPage(pageNumCache.asMap().getOrDefault(chatID, 0)))
-                .getContent().get(selectedNumber).getTelegramID());
-        challengeCache.asMap().put(chatID, challenge);
+        challengeCreatorService.selectChats(chatID,selectedNumber);
         return Buttons.USER_SELECTION;
     }
 
     private Buttons selectUsers(long chatID, int selectedNumber) {
-        if (!challengeCache.asMap().containsKey(chatID)) return senderService.deletedFromCache(chatID);
-        if (userRepository.getUserByTelegramId(chatID).isEmpty()) return senderService.userDoesNotExist(chatID);
-        if (selectedNumber > userRepository.countChatsById(chatID)) return senderService.breakAttempt(chatID);
-        challengeCache.asMap().get(chatID).setChatID(
-                chatRepository.findAllByTelegramID(chatID, Pageable.ofSize(ButtonsMappingUtils.PAGE_SIZE)
-                                .withPage(pageNumCache.asMap().getOrDefault(chatID, 0)))
-                        .getContent().get(selectedNumber).getTelegramId());
+
+        challengeCreatorService.selectUsers(chatID,selectedNumber);
         return Buttons.DIFFICULTY_SELECTION;
     }
 
     private Buttons setDifficulty(long chatID, Difficulty difficulty) {
-        if (!challengeCache.asMap().containsKey(chatID)) return senderService.deletedFromCache(chatID);
-        challengeCache.asMap().putIfAbsent(chatID, new Challenge());
-        Challenge challenge = challengeCache.asMap().get(chatID);
-        challenge.setDifficulty(difficulty);
-        challengeCache.asMap().put(chatID, challenge);
+        challengeCreatorService.selectDifficulty(chatID, difficulty);
         return Buttons.AREA_SELECTION;
     }
 
     private Buttons setArea(long chatID, Area area) {
-        if (!challengeCache.asMap().containsKey(chatID)) return senderService.deletedFromCache(chatID);
-        //check if the object wasn't deleted from cache by waiting out a timer.
-        Challenge challenge = challengeCache.asMap().get(chatID);
-        challenge.setArea(area);
-        challengeCache.asMap().put(chatID, challenge);
+        challengeCreatorService.selectArea(chatID, area);
         return Buttons.AREA_SELECTION;
     }
 }

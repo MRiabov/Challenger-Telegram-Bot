@@ -7,6 +7,6 @@ import org.springframework.data.domain.Page;
 public interface ChatService {
 
     Page<User> findAllByTelegramID(long chatID,int page);
-    long selectOnPageByNumber(long chatID,int page,int number);
+    long selectOnPageByNumber(long chatID,int number);
 
 }
