@@ -63,32 +63,6 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     }
 
     @Override
-    public Buttons userDoesNotExist(long chatID) {
-        sendMessages(chatID,
-                "Error: User does not exist! Please use /start.",
-                ButtonsMappingUtils.createStaticMarkup(Buttons.MAIN_MENU.getKeyboard()));
-        return Buttons.MAIN_MENU;//because method always marks failure
-    }
-
-    @Override
-    public Buttons breakAttempt(long chatID) {
-        sendMessages(chatID, """
-                Incorrect input! The system is foolproof! (for everyone except the programmer, at least)
-                Just click the buttons, please.
-                """);
-        return Buttons.MAIN_MENU;//because method always marks failure
-    }
-
-    @Override
-    public Buttons deletedFromCache(long chatID) {
-        sendMessages(chatID, """
-                It seems that you have waited for too long, and your challenge has deleted itself(30 minutes).
-                Don't worry, you can just scroll up and get it from the messages you've sent before.
-                """);
-        return Buttons.USER_SELECTION;//because method always starts the challenge creation
-    }
-
-    @Override
     public String getBotToken() {
         return botConfig.getToken();
     }

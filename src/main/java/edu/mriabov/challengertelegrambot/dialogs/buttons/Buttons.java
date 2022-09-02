@@ -83,9 +83,9 @@ public enum Buttons {
             ButtonsMessages.CANCEL.getText(), null),
 
     OTHER_USER_NOT_FOUND("""
-    Username not found.
-    Try to look it up manually.
-    """, ButtonsMessages.MAIN_MENU.getText(),null),
+            Username not found.
+            Try to look it up manually.
+            """, ButtonsMessages.MAIN_MENU.getText(), null),
 
     //buy some rest...
 
@@ -110,7 +110,7 @@ public enum Buttons {
             If you are a gamer, ask yourself, "Why compete in games, when I can compete in real life?"
             If you are a porn addict, ask yourself, "Why masturbate on women, when you can workout in the same time, improve your looks and just get women?"
             Addiction is a choice, you can either choose to get instant gratification, or you can do something meaningful in the same time.
-            """, ButtonsMessages.PROCEED_TO_REST.getText(),null),
+            """, ButtonsMessages.PROCEED_TO_REST.getText(), null),
 
     DURATION_OF_THE_REST("For how long are you planning to rest?",
             ButtonsMessages.DURATION_2HRS.getText(), ButtonsMessages.DURATION_4HRS.getText(), null,
@@ -120,7 +120,7 @@ public enum Buttons {
                 Fine, take your rest, you've earned it.
                 But remember, that you are in a constant race, and when you do nothing, you everyone else moves forward.
                 I suggest you watch a video "Stop letting other men pipe your wife" by Hamza in the meantime.
-            """, ButtonsMessages.BACK_TO_MENU.getText(),null),
+            """, ButtonsMessages.BACK_TO_MENU.getText(), null),
     //misc
 
     NEED_MORE_COINS("Hey! This action requires more coins then you have!", ButtonsMessages.CONTINUE_WORKING.getText()),
@@ -132,7 +132,7 @@ public enum Buttons {
             """, ButtonsMessages.BACK_TO_MENU.getText()),
 
     //Commands
-    UNKNOWN_COMMAND(ButtonsMessages.UNKNOWN_COMMAND.getText(), MAIN_MENU.getKeyboard()),
+    UNKNOWN_COMMAND("Error: this command doesn't seem to be supported...", ButtonsMessages.BACK_TO_MENU.getText(),null),
 
     //On start
     ON_START_NEW_USER(
@@ -152,11 +152,18 @@ public enum Buttons {
             ButtonsMessages.ON_START_NEW_USER_THIRD.getText(), null
     ),
 
+    INCORRECT_INPUT("""
+            Incorrect input! The system is foolproof! (for everyone except the programmer, at least)
+            Just click the buttons, please.
+            """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
-    //!
-    ;
-    //getByIdOrDefault
-    //!
+    USER_NOT_FOUND("Error: User does did not register! Please use /start.",
+            "/start", null),
+
+    DELETED_FROM_CACHE("""
+                It seems that you have waited for too long, and your challenge draft has deleted itself(30 minutes).
+                Don't worry, you can just scroll up and copy your inputs from the messages you've sent before.
+                """,ButtonsMessages.BACK_TO_MENU.getText(),null);
     final private String message;
     final private String[] keyboard;
 

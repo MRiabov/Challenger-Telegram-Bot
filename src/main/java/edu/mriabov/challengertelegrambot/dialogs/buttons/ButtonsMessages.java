@@ -48,9 +48,6 @@ enum ButtonsMessages {//package-private!
     USER_APPENDIX("user"),
     CHAT_APPENDIX("chat"),
 
-    //Commands
-    UNKNOWN_COMMAND("Error: this command doesn't seem to be supported..."),
-
     //Start
     ON_START_NEW_USER_FIRST_YES("\uD83D\uDC41Yes, guide me."),
     ON_START_NEW_USER_FIRST_NO("⏩I'll do it myself."),

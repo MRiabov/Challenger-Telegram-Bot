@@ -5,6 +5,7 @@ import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.repository.UserRepository;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
+import edu.mriabov.challengertelegrambot.utils.cache.PageNumCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
+    private final PageNumCache pageNumCache;
     private final UserRepository userRepository;
 
     @Override
@@ -42,4 +43,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllByTelegramId(chatID,
                 Pageable.ofSize(ButtonsMappingUtils.PAGE_SIZE).withPage(page));
     }
+
+    @Override
+    public long selectByNumber(long chatID, int page) {
+        return findAllByTelegramId(chatID, page).getContent().get(pageNumCache.get(chatID)).getTelegramID();
+    }
+
 }

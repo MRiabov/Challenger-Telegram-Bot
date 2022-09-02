@@ -11,9 +11,8 @@ public interface UserService {
     boolean existsByTelegramId(long telegramId);
     Optional<User> getUserByTelegramId(long telegramId);
     Optional<User> getUserByUsername(String username);
-
     int countChatsById(long chatID);
-
     Page<Chat> findAllByTelegramId(long chatID,int page);
+    long selectByNumber(long chatID,int page);
 
 }
