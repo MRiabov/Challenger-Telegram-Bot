@@ -17,7 +17,8 @@ public class ChallengeCreatorHandler {
 
     private final ChallengeCreatorService challengeCreatorService;
 
-    public Optional<Buttons> handleStaticMessages(long chatID,String message) {
+    public Optional<Buttons> handleStaticMessages(long chatID, String message) {
+
         //Nope, can't do enums with switch...
         if (message.equals(LogicButtonsMessages.EASY_DIFFICULTY.getText()))
             return Optional.ofNullable(setDifficulty(chatID, Difficulty.EASY));
@@ -37,36 +38,41 @@ public class ChallengeCreatorHandler {
         if (message.equals(LogicButtonsMessages.RELATIONSHIPS_AREA.getText()))
             return Optional.ofNullable(setArea(chatID, Area.RELATIONSHIPS));
 
+
         if (message.startsWith("️⃣", 1)) return Optional.of(dynamicButtonsHandler(message,
-                chatID, Integer.parseInt(String.valueOf(message.charAt(0)))));
+                chatID));
 
         //handle message here. then it goes to
 
         return Optional.empty();
     }
 
-    public Buttons handleUsernames(long id,String message) {
-        challengeCreatorService.selectUsersByUsername(id,message);
-        return Buttons.DIFFICULTY_SELECTION;
+    public Buttons handleUsernames(long id, String message) {
+        if (challengeCreatorService.selectUsersByUsername(id, message)) return Buttons.DIFFICULTY_SELECTION;
+        else return Buttons.INCORRECT_INPUT;
     }
 
-    private Buttons dynamicButtonsHandler(String message, long chatID, int selectedNumber) {
+    private Buttons dynamicButtonsHandler(String message, long chatID) {
+
+        int selectedNumber = Integer.parseInt(String.valueOf(message.charAt(0)));
+
         if (message.substring(4).equals(Appendix.USER_APPENDIX.getText()))
-            return selectChats(chatID, selectedNumber);
-        //todo same, but with username
+            if (message.startsWith("⏪"))
+                return selectChats(chatID, selectedNumber);
         if (message.substring(4).equals(Appendix.CHAT_APPENDIX.getText()))
             return selectUsers(chatID, selectedNumber);
+
         return Buttons.INCORRECT_INPUT;
     }
 
     private Buttons selectChats(long chatID, int selectedNumber) {
-        challengeCreatorService.selectChats(chatID,selectedNumber);
-        return Buttons.USER_SELECTION;
+        if (challengeCreatorService.selectChats(chatID, selectedNumber)) return Buttons.USER_SELECTION;
+        return Buttons.INCORRECT_INPUT;
     }
 
     private Buttons selectUsers(long chatID, int selectedNumber) {
 
-        challengeCreatorService.selectUsers(chatID,selectedNumber);
+        challengeCreatorService.selectUsers(chatID, selectedNumber);
         return Buttons.DIFFICULTY_SELECTION;
     }
 

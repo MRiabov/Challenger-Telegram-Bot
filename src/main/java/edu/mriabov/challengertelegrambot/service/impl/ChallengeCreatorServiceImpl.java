@@ -7,7 +7,9 @@ import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
 import edu.mriabov.challengertelegrambot.service.ChatService;
 import edu.mriabov.challengertelegrambot.service.UserService;
-import edu.mriabov.challengertelegrambot.utils.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
+import edu.mriabov.challengertelegrambot.cache.UserPageCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,16 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     private final ChallengeCache challengeCache;
 
     @Override
+    public void fillUserPageCache(long chatID) {
+        UserPageCache.put(chatID,chatService.findAllByTelegramID(chatID,1));
+    }
+
+    @Override
+    public void fillChatPageCache(long chatID) {
+        ChatPageCache.put(chatID,userService.findAllByTelegramId(chatID,1));
+    }
+
+    @Override
     public boolean selectUsers(long chatID, int selectedNumber) {
         if (deletedFromCache(chatID)) return false;
         challengeCache.get(chatID).setChatID(userService.selectByNumber(chatID, selectedNumber));
@@ -29,10 +41,12 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     }
 
     @Override
-    public void selectChats(long chatID, int selectedNumber) {
+    public boolean selectChats(long chatID, int selectedNumber) {
+        if (!ChatPageCache.contains(chatID,selectedNumber)) return false;
         Challenge challenge = new Challenge();
-        challenge.setChatID(chatService.selectOnPageByNumber(chatID, selectedNumber));
+        challenge.setChatID(ChatPageCache.getCurrentPage(chatID).getContent().get(selectedNumber).getTelegramID());
         challengeCache.put(chatID, challenge);
+        return true;
     }
 
     @Override

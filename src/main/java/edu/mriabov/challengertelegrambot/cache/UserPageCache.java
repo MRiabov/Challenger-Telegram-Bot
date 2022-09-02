@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.utils.cache;
+package edu.mriabov.challengertelegrambot.cache;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -16,6 +16,10 @@ public class UserPageCache {
 
     public static Page<User> getCurrentPage(long chatID) {
         return cache.asMap().getOrDefault(chatID, null);
+    }
+
+    public static void put(long chatID, Page<User> page) {
+        cache.put(chatID, page);
     }
 
 }
