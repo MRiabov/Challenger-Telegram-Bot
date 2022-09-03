@@ -12,7 +12,7 @@ public interface SenderService {
 
     void sendMessages(long chatID, Buttons buttons);
 
-    void sendMessages(long chatID, SendMessage sendMessage);
+    void sendMessages(SendMessage sendMessage);
 
 
 }

@@ -25,6 +25,7 @@ public class MasterMessageHandlerImpl implements MessageHandler {
     private final CommandContainer commandContainer;
     private final ChallengeCreatorHandler challengeCreatorHandler;
     private final UserService userService;
+    private final NumpadHandler numpadHandler;
 
     @Override
     public void handleMessages(Update update) {
@@ -46,6 +47,7 @@ public class MasterMessageHandlerImpl implements MessageHandler {
         }
         Optional<Buttons> logicButtons = challengeCreatorHandler.handleStaticMessages(chatID, message);
         if (logicButtons.isPresent()) senderService.sendMessages(chatID, logicButtons.get());
+        else if (message.startsWith("️⃣⃣",1)) senderService.sendMessages(numpadHandler.handleMessages(chatID, message));
         else senderService.sendMessages(chatID, receivedMessagesContainer.getByText(message));
     }
 }

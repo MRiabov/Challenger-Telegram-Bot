@@ -37,7 +37,6 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
         message = formatService.format(chatID, message);
         log.info("SenderService attempted to send a message: " + message);
         execute(new SendMessage(Long.toString(chatID), message));
-
     }
 
     @SneakyThrows
@@ -61,7 +60,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
         execute(SendMessage.builder()
                 .text(message)
                 .chatId(chatID)
-                .replyMarkup(buttons.getKeyboard() == null ?
+                .replyMarkup(buttons.getKeyboard().length==0 ?
                         dynamicButtonsService.createMarkup(chatID,Appendix.CHAT_APPENDIX) :
                         ButtonsMappingUtils.createStaticMarkup(buttons.getKeyboard()))
                 .build()
@@ -69,12 +68,9 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     }
     @SneakyThrows
     @Override
-    public void sendMessages(long chatID, SendMessage sendMessage) {
-        execute(SendMessage.builder()
-                .text(formatService.format(chatID, sendMessage.getText()))
-                .chatId(chatID)
-                .replyMarkup(sendMessage.getReplyMarkup())
-                .build());
+    public void sendMessages(SendMessage sendMessage) {
+        sendMessage.setText(formatService.format(Long.parseLong(sendMessage.getChatId()), sendMessage.getText()));
+        execute(sendMessage);
     }
 
     @Override

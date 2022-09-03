@@ -23,7 +23,7 @@ public class UserPageCache implements PageCache<Long, User> {
 
     @Override
     public Page<User> getCurrentPage(Long chatID) {
-        return cache.asMap().getOrDefault(chatID, null);
+        return cache.asMap().getOrDefault(chatID, Page.empty());
     }
 
     @Override

@@ -70,9 +70,8 @@ public enum Buttons {
 
     CHAT_SELECTION("""
             Input the ID chat you would like to send:
-            chatlist here
+            %7$s
             You can also just @ the user you would like to include, the system will find him automatically."""
-             //todo chatList here
     ),
 
     ONLY_ONE_CHAT("You have only one chat, and it has been selected.",

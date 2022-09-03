@@ -19,7 +19,7 @@ public class ChallengeCreatorHandler {
     public Optional<Buttons> handleStaticMessages(long chatID, String message) {
         if (message.equals(LogicButtonsMessages.CHALLENGE_YOUR_FRIENDS.getText())) {
             challengeCreatorService.fillChatPageCache(chatID);
-            return Optional.empty();
+            return Optional.of(Buttons.CHAT_SELECTION);
         }
         //Nope, can't do enums with switch...
         if (message.equals(LogicButtonsMessages.EASY_DIFFICULTY.getText()))

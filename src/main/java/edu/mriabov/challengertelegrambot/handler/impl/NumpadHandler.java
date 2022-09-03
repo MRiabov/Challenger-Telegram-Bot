@@ -13,8 +13,9 @@ import edu.mriabov.challengertelegrambot.service.impl.Appendix;
 import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-
+@Service
 @RequiredArgsConstructor
 public class NumpadHandler {
 
