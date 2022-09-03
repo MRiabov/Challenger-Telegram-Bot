@@ -1,50 +1,42 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.dao.repository.UserRepository;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
+import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class BillingServiceImpl implements BillingService {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final SenderService senderService;
 
     @Override
     public boolean isEnoughCoins(long chatID, int price) {
-        Optional<User> userOptional = userRepository.getUserByTelegramId(chatID);
-        if (userOptional.isPresent()) return userOptional.get().getCoins() > price;
-        senderService.userDoesNotExist(chatID);
-        return false;
+        return userService.getUserByTelegramId(chatID).getCoins() > price;
     }
 
     @Override
     public List<Boolean> isEnoughCoins(long chatID, int[] prices) {
         List<Boolean> result = new ArrayList<>();
-        Optional<User> userOptional = userRepository.getUserByTelegramId(chatID);
-        if (userOptional.isPresent()) {
-            for (int price : prices) result.add(userOptional.get().getCoins() > price);
-        } else senderService.userDoesNotExist(chatID);
+        User user = userService.getUserByTelegramId(chatID);
+        for (int price : prices) result.add(user.getCoins() > price);
         return result;
     }
 
     @Override
     public boolean billCoins(long chatID, int price) {
-        Optional<User> userOptional = userRepository.getUserByTelegramId(chatID);
-        if (userOptional.isPresent()) {
+        User user = userService.getUserByTelegramId(chatID);
             if (isEnoughCoins(chatID, price)) {
-                userOptional.get().setCoins(userOptional.get().getCoins() - price);
+                user.setCoins(user.getCoins() - price);
                 return true;
             } else senderService.sendMessages(chatID, Buttons.NEED_MORE_COINS);
-        } else senderService.userDoesNotExist(chatID);
         return false;
     }
 }

@@ -40,13 +40,12 @@ public class MasterMessageHandlerImpl implements MessageHandler {
     }
 
     private void buttonsHandler(long chatID, String message) {
-        if (!userService.existsByTelegramId(chatID)) senderService.sendMessages(chatID, Buttons.USER_NOT_FOUND);
-
+        if (!userService.existsByTelegramId(chatID)) {
+            senderService.sendMessages(chatID, Buttons.USER_NOT_FOUND);
+            return;
+        }
         Optional<Buttons> logicButtons = challengeCreatorHandler.handleStaticMessages(chatID, message);
         if (logicButtons.isPresent()) senderService.sendMessages(chatID, logicButtons.get());
-
-
-
         else senderService.sendMessages(chatID, receivedMessagesContainer.getByText(message));
     }
 }
