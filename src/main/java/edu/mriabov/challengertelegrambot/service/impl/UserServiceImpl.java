@@ -49,6 +49,10 @@ public class UserServiceImpl implements UserService {
         return 0;
     }
 
+    @Override
+    public Page<Chat> findAllByPageable(long chatID, Pageable pageable) {
+        return userRepository.findAllByTelegramId(chatID,pageable);
+    }
 
 
 }

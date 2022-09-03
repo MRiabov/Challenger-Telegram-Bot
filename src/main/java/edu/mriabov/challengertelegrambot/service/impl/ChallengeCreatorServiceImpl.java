@@ -22,29 +22,31 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     private final UserService userService;
     private final ChatService chatService;
     private final ChallengeCache challengeCache;
+    private final UserPageCache userPageCache;
+    private final ChatPageCache chatPageCache;
 
     @Override
     public void fillUserPageCache(long chatID) {
-        UserPageCache.put(chatID,chatService.findAllByTelegramID(chatID,1));
+        userPageCache.put(chatID,chatService.findAllByTelegramID(chatID,1));
     }
 
     @Override
     public void fillChatPageCache(long chatID) {
-        ChatPageCache.put(chatID,userService.findAllByTelegramId(chatID,1));
+        chatPageCache.put(chatID,userService.findAllByTelegramId(chatID,1));
     }
 
     @Override
-    public boolean selectUsers(long chatID, int selectedNumber) {
+    public boolean selectUsers(long chatID, User user) {
         if (deletedFromCache(chatID)) return false;
-        challengeCache.get(chatID).setChatID(userService.selectByNumber(chatID, selectedNumber));
+        challengeCache.get(chatID).getUsers().add();
         return true;
     }
 
     @Override
     public boolean selectChats(long chatID, int selectedNumber) {
-        if (!ChatPageCache.contains(chatID,selectedNumber)) return false;
+        if (!chatPageCache.contains(chatID)) return false;
         Challenge challenge = new Challenge();
-        challenge.setChatID(ChatPageCache.getCurrentPage(chatID).getContent().get(selectedNumber).getTelegramID());
+        challenge.setChatID(chatPageCache.getCurrentPage(chatID).getContent().get(selectedNumber).getTelegramID());
         challengeCache.put(chatID, challenge);
         return true;
     }

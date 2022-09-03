@@ -5,7 +5,6 @@ import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.LogicButtonsMessages;
 import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
-import edu.mriabov.challengertelegrambot.service.impl.Appendix;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,42 +40,13 @@ public class ChallengeCreatorHandler {
         if (message.equals(LogicButtonsMessages.RELATIONSHIPS_AREA.getText()))
             return Optional.ofNullable(setArea(chatID, Area.RELATIONSHIPS));
 
-
-        if (message.startsWith("️⃣", 1)) return Optional.of(dynamicButtonsHandler(message,
-                chatID));
-
-        //handle message here. then it goes to
-
         return Optional.empty();
     }
+
 
     public Buttons handleUsernames(long id, String message) {
         if (challengeCreatorService.selectUsersByUsername(id, message)) return Buttons.DIFFICULTY_SELECTION;
         else return Buttons.INCORRECT_INPUT;
-    }
-
-    private Buttons dynamicButtonsHandler(String message, long chatID) {
-
-        int selectedNumber = Integer.parseInt(String.valueOf(message.charAt(0)));
-
-        if (message.substring(4).equals(Appendix.USER_APPENDIX.getText()))
-            if (message.startsWith("⏪"))
-                return selectChats(chatID, selectedNumber);
-        if (message.substring(4).equals(Appendix.CHAT_APPENDIX.getText()))
-            return selectUsers(chatID, selectedNumber);
-
-        return Buttons.INCORRECT_INPUT;
-    }
-
-    private Buttons selectChats(long chatID, int selectedNumber) {
-        if (challengeCreatorService.selectChats(chatID, selectedNumber)) return Buttons.USER_SELECTION;
-        return Buttons.INCORRECT_INPUT;
-    }
-
-    private Buttons selectUsers(long chatID, int selectedNumber) {
-
-        challengeCreatorService.selectUsers(chatID, selectedNumber);
-        return Buttons.DIFFICULTY_SELECTION;
     }
 
     private Buttons setDifficulty(long chatID, Difficulty difficulty) {

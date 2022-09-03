@@ -2,6 +2,7 @@ package edu.mriabov.challengertelegrambot.service;
 
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
+import edu.mriabov.challengertelegrambot.dao.model.User;
 
 public interface ChallengeCreatorService {
 
@@ -9,7 +10,7 @@ public interface ChallengeCreatorService {
 
     void fillUserPageCache(long chatID);
 
-    boolean selectUsers(long chatID, int selectedNumber);
+    boolean selectUsers(long chatID, User user);
 
     boolean selectChats(long chatID, int selectedNumber);
 

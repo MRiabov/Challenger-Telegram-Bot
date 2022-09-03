@@ -1,7 +1,7 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
-import edu.mriabov.challengertelegrambot.dao.repository.ChatRepository;
-import edu.mriabov.challengertelegrambot.dao.repository.UserRepository;
+import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
+import edu.mriabov.challengertelegrambot.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;
 import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
@@ -12,14 +12,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 @RequiredArgsConstructor
 public class DynamicButtonServiceImpl implements DynamicButtonsService {
 
-    private final UserRepository userRepository;
-    private final ChatRepository chatRepository;
+    private final ChatPageCache chatPageCache;
+    private final UserPageCache userPageCache;
 
     @Override
     public ReplyKeyboardMarkup createMarkup(long chatID, Appendix appendix) {
         return switch (appendix) {
-            case USER_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.USER_APPENDIX.getText(), userRepository.countChatsById(chatID));
-            case CHAT_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.CHAT_APPENDIX.getText(), chatRepository.countUsersByTelegramID(chatID));
+            case USER_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.USER_APPENDIX.getText(), userPageCache.getPageAmount(chatID));
+            case CHAT_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.CHAT_APPENDIX.getText(), chatPageCache.getPageAmount(chatID));
         };
     }
 }

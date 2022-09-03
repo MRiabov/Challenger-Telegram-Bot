@@ -2,6 +2,7 @@ package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.config.BotConfig;
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
+import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;
 import edu.mriabov.challengertelegrambot.service.FormatService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
@@ -20,12 +21,14 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
 
     private final FormatService formatService;
     private final BotConfig botConfig;
+    private final DynamicButtonsService dynamicButtonsService;
 
     @Autowired
-    protected SenderServiceImpl(FormatService formatService, BotConfig botConfig) {
+    protected SenderServiceImpl(FormatService formatService, BotConfig botConfig, DynamicButtonsService dynamicButtonsService) {
         super(new DefaultBotOptions());
         this.formatService = formatService;
         this.botConfig = botConfig;
+        this.dynamicButtonsService = dynamicButtonsService;
     }
 
     @SneakyThrows
@@ -54,10 +57,13 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     public void sendMessages(long chatID, Buttons buttons) {
         String message = formatService.format(chatID, buttons.getMessage());
         log.info("SenderService attempted to send a message with buttons: " + buttons.getMessage());
+
         execute(SendMessage.builder()
                 .text(message)
                 .chatId(chatID)
-                .replyMarkup(ButtonsMappingUtils.createStaticMarkup(buttons.getKeyboard()))
+                .replyMarkup(buttons.getKeyboard() == null ?
+                        dynamicButtonsService.createMarkup(chatID,Appendix.CHAT_APPENDIX) :
+                        ButtonsMappingUtils.createStaticMarkup(buttons.getKeyboard()))
                 .build()
         );
     }

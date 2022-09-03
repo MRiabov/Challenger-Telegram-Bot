@@ -16,7 +16,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class FormatServiceImpl implements FormatService {
-
+    private final ChatPageCache chatPageCache;
+    private final UserPageCache userPageCache;
     private final UserRepository userRepository;
 
     @Override
@@ -47,7 +48,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     private String userPageToListConverter(long chatID) {
-        Page<User> page = UserPageCache.getCurrentPage(chatID);
+        Page<User> page = userPageCache.getCurrentPage(chatID);
         StringBuilder result = new StringBuilder();
         for (int i = 1; i <= page.getNumberOfElements(); i++) {
             result.append(i).append("️⃣ ")

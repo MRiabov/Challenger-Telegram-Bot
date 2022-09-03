@@ -5,13 +5,17 @@ import org.springframework.data.domain.Pageable;
 
 public interface PageCache<K, V> {
 
-    void putFirst(K chatID, Page<V> value);
-
-    Page<V> nextPage(K chatID);
+    void put(K chatID, Page<V> value);
 
     Page<V> getCurrentPage(K chatID);
 
     Pageable getNextOrLastPageable(K chatID);
 
-    boolean contains(K chatID, Page<V> value);
+    Pageable getPreviousOrLastPageable(K chatID);
+
+    boolean contains(K chatID);
+
+    int getPageAmount(K chatID);
+
+    V getOnCurrentPage(K chatID,int position);
 }

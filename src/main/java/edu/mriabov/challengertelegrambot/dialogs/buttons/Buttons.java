@@ -71,16 +71,16 @@ public enum Buttons {
     CHAT_SELECTION("""
             Input the ID chat you would like to send:
             chatlist here
-            You can also just @ the user you would like to include, the system will find him automatically.""",
-            "INPUT FUNCTION HERE", null     //todo chatList here
+            You can also just @ the user you would like to include, the system will find him automatically."""
+             //todo chatList here
     ),
 
     ONLY_ONE_CHAT("You have only one chat, and it has been selected.",
             ButtonsMessages.CONTINUE.getText(), null),
 
-    USER_SELECTION("Input the ID or of the Gigachad you would like to challenge" +
-            "\n Alternatively, you can just send his @",
-            ButtonsMessages.CANCEL.getText(), null),
+    USER_SELECTION("""
+            Input the ID or of the Gigachad you would like to challenge
+            Alternatively, you can just send his @"""),
 
     OTHER_USER_NOT_FOUND("""
             Username not found.

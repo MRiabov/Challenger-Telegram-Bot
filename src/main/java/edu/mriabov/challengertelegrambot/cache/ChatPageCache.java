@@ -8,36 +8,45 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.concurrent.TimeUnit;
 
-public class ChatPageCache {
+public class ChatPageCache implements PageCache<Long, Chat> {
 
     private static final Cache<Long, Page<Chat>> cache = CacheBuilder
             .newBuilder()
             .expireAfterWrite(30, TimeUnit.MINUTES)
             .build();
 
-
-    public static void put(long chatID, Page<Chat> page) {
+    @Override
+    public void put(Long chatID, Page<Chat> page) {
         cache.put(chatID, page);
     }
 
-    public static Pageable getNextPageable(long chatID) {
-        return cache.asMap().get(chatID).nextOrLastPageable();
-    }
-
-    public static Page<Chat> getCurrentPage(long chatID) {
+    @Override
+    public Page<Chat> getCurrentPage(Long chatID) {
         return cache.asMap().getOrDefault(chatID, null);
     }
 
-    public static boolean contains(long chatID) {
+    @Override
+    public Pageable getNextOrLastPageable(Long chatID) {
+        return cache.asMap().get(chatID).nextOrLastPageable();
+    }
+
+    @Override
+    public Pageable getPreviousOrLastPageable(Long chatID) {
+        return cache.asMap().get(chatID).previousOrFirstPageable();
+    }
+
+    @Override
+    public boolean contains(Long chatID) {
         return cache.asMap().containsKey(chatID);
     }
 
-    public static boolean contains(long chatID, int selectedNumber) {
-        if (!contains(chatID)) return false;
-        return cache.asMap().get(chatID).getContent().size() >= selectedNumber;
+    @Override
+    public int getPageAmount(Long chatID) {
+        return cache.asMap().get(chatID).getNumberOfElements();
     }
 
-    public static Chat getByNumber(long chatID, int selectedNumber) {
-        return getCurrentPage(chatID).getContent().get(selectedNumber);
+    @Override
+    public Chat getOnCurrentPage(Long chatID, int position) {
+        return getCurrentPage(chatID).getContent().get(position);
     }
 }
