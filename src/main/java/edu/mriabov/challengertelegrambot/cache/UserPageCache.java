@@ -49,4 +49,9 @@ public class UserPageCache implements PageCache<Long, User> {
     public User getOnCurrentPage(Long chatID, int position) {
         return getCurrentPage(chatID).getContent().get(position);
     }
+
+    @Override
+    public void cleanCache(Long chatID) {
+        cache.invalidate(chatID);
+    }
 }

@@ -49,4 +49,9 @@ public class ChatPageCache implements PageCache<Long, Chat> {
     public Chat getOnCurrentPage(Long chatID, int position) {
         return getCurrentPage(chatID).getContent().get(position);
     }
+
+    @Override
+    public void cleanCache(Long chatID) {
+        cache.invalidate(chatID);
+    }
 }

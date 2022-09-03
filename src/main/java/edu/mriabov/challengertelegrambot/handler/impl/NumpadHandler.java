@@ -27,8 +27,6 @@ public class NumpadHandler {
 
 
     public SendMessage handleMessages(long chatID, String message) {
-
-
         if (message.substring(4).equals(Appendix.USER_APPENDIX.getText())) {
             if (userPageFlip(chatID, message)) return SendMessage.builder()
                     .text(Buttons.USER_SELECTION.getMessage())
@@ -36,10 +34,12 @@ public class NumpadHandler {
                     .build();
             if (Character.isDigit(message.charAt(0))) {
                 challengeCreatorService.selectUsers(chatID,userPageCache.getOnCurrentPage(chatID, message.charAt(0)));
+                userPageCache.cleanCache(chatID);
                 return SendMessage.builder()
                         .text(Buttons.CHAT_SELECTION.getMessage())
                         .replyMarkup(dynamicButtonsService.createMarkup(chatID,Appendix.CHAT_APPENDIX))
                         .build();
+
             }
         }
         if (message.substring(4).equals(Appendix.CHAT_APPENDIX.getText())) {
@@ -50,10 +50,10 @@ public class NumpadHandler {
             if (Character.isDigit(message.charAt(0))) {
                 challengeCreatorService.selectChats(chatID,
                         chatPageCache.getOnCurrentPage(chatID, message.charAt(0)).getTelegramID());
+                userPageCache.cleanCache(chatID);
                 return ButtonsMappingUtils.buildMessageWithKeyboard(chatID, Buttons.DIFFICULTY_SELECTION);
             }
         }
-
 
         return ButtonsMappingUtils.buildMessageWithKeyboard(chatID, Buttons.INCORRECT_INPUT);
     }

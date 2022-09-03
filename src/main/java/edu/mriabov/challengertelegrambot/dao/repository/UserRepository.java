@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
 
     boolean existsByTelegramId(long telegramId);
-    Optional<User> getUserByTelegramId(long telegramId);
+    User getUserByTelegramId(long telegramId);
     Optional<User> getUserByUsername(String username);
 
     @Query("SELECT COUNT (c) FROM User u JOIN u.chatList c")

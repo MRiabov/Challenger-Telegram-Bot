@@ -1,13 +1,18 @@
 package edu.mriabov.challengertelegrambot.service;
 
 import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 public interface SenderService {
 
-    void sendMessages(long chatID,String message);
+    void sendMessages(long chatID, String message);
+
     void sendMessages(long chatID, String message, ReplyKeyboardMarkup markup);
+
     void sendMessages(long chatID, Buttons buttons);
+
+    void sendMessages(long chatID, SendMessage sendMessage);
 
 
 }

@@ -3,7 +3,7 @@ package edu.mriabov.challengertelegrambot.cache;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface PageCache<K, V> {
+interface PageCache<K, V> {
 
     void put(K chatID, Page<V> value);
 
@@ -18,4 +18,6 @@ public interface PageCache<K, V> {
     int getPageAmount(K chatID);
 
     V getOnCurrentPage(K chatID,int position);
+
+    void cleanCache(K chatID);
 }

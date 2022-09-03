@@ -67,6 +67,15 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
                 .build()
         );
     }
+    @SneakyThrows
+    @Override
+    public void sendMessages(long chatID, SendMessage sendMessage) {
+        execute(SendMessage.builder()
+                .text(formatService.format(chatID, sendMessage.getText()))
+                .chatId(chatID)
+                .replyMarkup(sendMessage.getReplyMarkup())
+                .build());
+    }
 
     @Override
     public String getBotToken() {

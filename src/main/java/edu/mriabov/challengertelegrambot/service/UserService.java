@@ -11,7 +11,7 @@ public interface UserService {
 
     boolean existsByTelegramId(long telegramId);
 
-    Optional<User> getUserByTelegramId(long telegramId);
+    User getUserByTelegramId(long telegramId);
 
     Optional<User> getUserByUsername(String username);
 

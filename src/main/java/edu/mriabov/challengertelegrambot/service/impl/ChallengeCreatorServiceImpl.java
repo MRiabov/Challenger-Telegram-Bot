@@ -38,7 +38,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     @Override
     public boolean selectUsers(long chatID, User user) {
         if (deletedFromCache(chatID)) return false;
-        challengeCache.get(chatID).getUsers().add();
+        challengeCache.get(chatID).getUsers().add(user);
         return true;
     }
 
