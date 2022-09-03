@@ -17,12 +17,12 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public Page<User> findAllByTelegramID(long chatID, int page) {
-        return chatRepository.findAllByTelegramID(chatID, Pageable.ofSize(ButtonsMappingUtils.PAGE_SIZE)
+        return chatRepository.findUsersByTelegramID(chatID, Pageable.ofSize(ButtonsMappingUtils.PAGE_SIZE)
                 .withPage(page));
     }
 
     @Override
     public Page<User> findAllByPageable(long chatID, Pageable pageable) {
-        return chatRepository.findAllByTelegramID(chatID,pageable);
+        return chatRepository.findUsersByTelegramID(chatID,pageable);
     }
 }

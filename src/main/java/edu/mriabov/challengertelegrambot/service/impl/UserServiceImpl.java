@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<Chat> findAllByTelegramId(long chatID, int page) {
-        return userRepository.findAllByTelegramId(chatID,
+        return userRepository.findChatsByTelegramId(chatID,
                 Pageable.ofSize(ButtonsMappingUtils.PAGE_SIZE).withPage(page));
     }
 
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<Chat> findAllByPageable(long chatID, Pageable pageable) {
-        return userRepository.findAllByTelegramId(chatID,pageable);
+        return userRepository.findChatsByTelegramId(chatID,pageable);
     }
 
 

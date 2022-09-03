@@ -17,10 +17,11 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User getUserByTelegramId(long telegramId);
     Optional<User> getUserByUsername(String username);
 
-    @Query("SELECT COUNT (c) FROM User u JOIN u.chatList c")
+    @Query("SELECT COUNT (c) FROM User u JOIN u.chatList c WHERE u.telegramId=:chatID")
     int countChatsById(long chatID);
 
-    @Query("SELECT c FROM User u JOIN u.chatList c")
-    Page<Chat> findAllByTelegramId(long chatID, Pageable pageable);
+    @Query("SELECT c FROM User u JOIN u.chatList c WHERE u.telegramId=:chatID")
+    Page<Chat> findChatsByTelegramId(long chatID, Pageable pageable);
+
 
 }

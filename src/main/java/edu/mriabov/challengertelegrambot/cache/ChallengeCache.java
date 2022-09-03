@@ -3,9 +3,10 @@ package edu.mriabov.challengertelegrambot.cache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
-
+@Component
 public class ChallengeCache {
 
     private final Cache<Long, Challenge> cache = CacheBuilder

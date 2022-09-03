@@ -11,12 +11,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChatRepository extends JpaRepository<Chat,Integer> {
 
-    @Query("SELECT u FROM Chat c JOIN Chat.users u")
-    Page<User> findAllByTelegramID(long chatID, Pageable pageable);
-    //todo how will it work without the id?
+    @Query("SELECT u FROM Chat c JOIN c.users u WHERE c.telegramID=:chatID")
+    Page<User> findUsersByTelegramID(long chatID, Pageable pageable);
 
-    @Query("SELECT COUNT (u) FROM Chat c JOIN Chat.users u")
-    int countUsersByTelegramID(long chatID);
 
 
 }

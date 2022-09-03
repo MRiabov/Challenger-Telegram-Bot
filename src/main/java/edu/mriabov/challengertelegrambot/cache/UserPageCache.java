@@ -5,9 +5,10 @@ import com.google.common.cache.CacheBuilder;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
-
+@Component
 public class UserPageCache implements PageCache<Long, User> {
 
     private final Cache<Long, Page<User>> cache = CacheBuilder
