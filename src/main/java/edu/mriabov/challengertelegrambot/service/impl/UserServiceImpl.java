@@ -4,13 +4,15 @@ import edu.mriabov.challengertelegrambot.dao.model.Chat;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.repository.UserRepository;
 import edu.mriabov.challengertelegrambot.service.UserService;
-import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils.PAGE_SIZE;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -33,24 +35,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int countChatsById(long chatID) {
-        return userRepository.countChatsById(chatID);
-    }
-
-    @Override
     public Page<Chat> findAllByTelegramId(long chatID, int page) {
         return userRepository.findChatsByTelegramId(chatID,
-                Pageable.ofSize(ButtonsMappingUtils.PAGE_SIZE).withPage(page));
-    }
-
-    @Override
-    public long selectByNumber(long chatID, int page) {
-        return 0;
+                Pageable.ofSize(PAGE_SIZE).withPage(page));
     }
 
     @Override
     public Page<Chat> findAllByPageable(long chatID, Pageable pageable) {
         return userRepository.findChatsByTelegramId(chatID,pageable);
+    }
+
+    @Override
+    public Page<Chat> findMatchingChats(long chatID1, long chatID2) {
+        return userRepository.findMatchingChatsFor2Users(chatID1,chatID2,Pageable.ofSize(PAGE_SIZE));
     }
 
 

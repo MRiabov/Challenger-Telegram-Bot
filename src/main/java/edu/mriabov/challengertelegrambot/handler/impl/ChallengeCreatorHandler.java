@@ -46,7 +46,7 @@ public class ChallengeCreatorHandler {
 
     public Buttons handleUsernames(long id, String message) {
         if (challengeCreatorService.selectUsersByUsername(id, message)) return Buttons.DIFFICULTY_SELECTION;
-        else return Buttons.INCORRECT_INPUT;
+        else return Buttons.OTHER_USER_NOT_FOUND;
     }
 
     private Buttons setDifficulty(long chatID, Difficulty difficulty) {

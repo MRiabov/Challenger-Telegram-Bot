@@ -82,7 +82,7 @@ public enum Buttons {
             Alternatively, you can just send his @"""),
 
     OTHER_USER_NOT_FOUND("""
-            Username not found.
+            Username not found *in your chats*.
             Try to look it up manually.
             """, ButtonsMessages.MAIN_MENU.getText(), null),
 

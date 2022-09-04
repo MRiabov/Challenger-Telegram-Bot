@@ -15,11 +15,9 @@ public interface UserService {
 
     Optional<User> getUserByUsername(String username);
 
-    int countChatsById(long chatID);
-
     Page<Chat> findAllByTelegramId(long chatID, int page);
 
-    long selectByNumber(long chatID, int page);
-
     Page<Chat> findAllByPageable(long chatID, Pageable pageable);
+
+    Page<Chat> findMatchingChats(long chatID1, long chatID2);
 }
