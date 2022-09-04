@@ -60,7 +60,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
         execute(SendMessage.builder()
                 .text(message)
                 .chatId(chatID)
-                .replyMarkup(buttons.getKeyboard().length==0 ?
+                .replyMarkup(buttons.getKeyboard().length==0 ?// FIXME: 9/3/2022 chat appendix is hardcoded
                         dynamicButtonsService.createMarkup(chatID,Appendix.CHAT_APPENDIX) :
                         ButtonsMappingUtils.createStaticMarkup(buttons.getKeyboard()))
                 .build()

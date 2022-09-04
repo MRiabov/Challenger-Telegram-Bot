@@ -14,9 +14,14 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 public class ButtonsMappingUtils {
-    private ButtonsMappingUtils(){}
-    public static SendMessage buildMessageWithKeyboard(long chatID, Buttons buttons){
-        SendMessage sendMessage = new SendMessage(Long.toString(chatID),buttons.getMessage());
+    private ButtonsMappingUtils() {
+    }
+
+    public static String nextPage = "⏩📄 ";
+    public static String previousPage = "⏪📄 ";
+
+    public static SendMessage buildMessageWithKeyboard(long chatID, Buttons buttons) {
+        SendMessage sendMessage = new SendMessage(Long.toString(chatID), buttons.getMessage());
         sendMessage.setReplyMarkup(createStaticMarkup(buttons.getKeyboard()));
         return sendMessage;
     }
@@ -34,7 +39,7 @@ public class ButtonsMappingUtils {
         return new ReplyKeyboardMarkup(rowList);
     }
 
-    public static final int PAGE_SIZE=9;
+    public static final int PAGE_SIZE = 9;
 
     public static ReplyKeyboardMarkup createDynamicMarkup(String appendix, @Max(value = PAGE_SIZE) int pageSize) {
         List<KeyboardRow> rowList = new ArrayList<>();
@@ -52,17 +57,18 @@ public class ButtonsMappingUtils {
         return new ReplyKeyboardMarkup(rowList);
     }
 
-    private static KeyboardRow finalRow(String appendix){
+    private static KeyboardRow finalRow(String appendix) {
         return new KeyboardRow(List.of(
-                new KeyboardButton("⏪ "+appendix + " page"),
+                new KeyboardButton(previousPage + appendix),
                 new KeyboardButton(ReceivedMessages.CANCEL.getReceivedMessage()),
-                new KeyboardButton("⏩ "+appendix + " page")
+                new KeyboardButton(nextPage + appendix)
         ));
     }
 
     private static String symbol(int i) {
-        if (i>PAGE_SIZE) throw new IllegalStateException("Unexpected value: " + i + ". Value must be below "+ PAGE_SIZE);
-        return i +"️⃣"; //returns "1️⃣" or a similar emoji
+        if (i > PAGE_SIZE)
+            throw new IllegalStateException("Unexpected value: " + i + ". Value must be below " + PAGE_SIZE);
+        return i + "️⃣"; //returns "1️⃣" or a similar emoji
     }
 
 }

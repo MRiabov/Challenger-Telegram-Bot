@@ -51,7 +51,7 @@ public class NumpadHandler {
             if (Character.isDigit(message.charAt(0))) {
                 challengeCreatorService.selectChats(chatID,
                         chatPageCache.getOnCurrentPage(chatID, message.charAt(0)).getTelegramID());
-                userPageCache.cleanCache(chatID);
+                chatPageCache.cleanCache(chatID);
                 return ButtonsMappingUtils.buildMessageWithKeyboard(chatID, Buttons.DIFFICULTY_SELECTION);
             }
         }
@@ -60,13 +60,13 @@ public class NumpadHandler {
     }
 
     private boolean chatPageFlip(long chatID, String message) {
-        if (message.startsWith("⏪")) {
-            Page<Chat> page = userService.findAllByPageable(chatID, userPageCache.getPreviousOrLastPageable(chatID));
+        if (message.startsWith(ButtonsMappingUtils.previousPage)) {
+            Page<Chat> page = userService.findAllByPageable(chatID, chatPageCache.getPreviousOrLastPageable(chatID));
             chatPageCache.put(chatID, page);
             return true;
-        }
-        if (message.startsWith("⏩")) {
-            Page<Chat> page = userService.findAllByPageable(chatID, userPageCache.getNextOrLastPageable(chatID));
+        }//it is okay, that here is userService, because we get chats from the list of users.
+        if (message.startsWith(ButtonsMappingUtils.nextPage)) {
+            Page<Chat> page = userService.findAllByPageable(chatID, chatPageCache.getNextOrLastPageable(chatID));
             chatPageCache.put(chatID, page);
             return true;
         }
@@ -74,12 +74,12 @@ public class NumpadHandler {
     }
 
     private boolean userPageFlip(long chatID, String message) {
-        if (message.startsWith("⏪")) {
+        if (message.startsWith(ButtonsMappingUtils.previousPage)) {
             Page<User> page = chatService.findAllByPageable(chatID, userPageCache.getPreviousOrLastPageable(chatID));
             userPageCache.put(chatID, page);
             return true;
         }
-        if (message.startsWith("⏩")) {
+        if (message.startsWith(ButtonsMappingUtils.nextPage)) {
             Page<User> page = chatService.findAllByPageable(chatID, userPageCache.getNextOrLastPageable(chatID));
             userPageCache.put(chatID, page);
             return true;

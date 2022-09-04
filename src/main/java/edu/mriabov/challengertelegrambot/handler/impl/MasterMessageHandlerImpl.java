@@ -7,6 +7,7 @@ import edu.mriabov.challengertelegrambot.dialogs.commands.CommandContainer;
 import edu.mriabov.challengertelegrambot.handler.MessageHandler;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.UserService;
+import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,8 @@ public class MasterMessageHandlerImpl implements MessageHandler {
         }
         Optional<Buttons> logicButtons = challengeCreatorHandler.handleStaticMessages(chatID, message);
         if (logicButtons.isPresent()) senderService.sendMessages(chatID, logicButtons.get());
-        else if (message.startsWith("️⃣⃣",1)) senderService.sendMessages(numpadHandler.handleMessages(chatID, message));
+        else if (message.startsWith("️⃣⃣",1)||message.startsWith(ButtonsMappingUtils.previousPage)||message.startsWith(ButtonsMappingUtils.nextPage))
+            senderService.sendMessages(numpadHandler.handleMessages(chatID, message));
         else senderService.sendMessages(chatID, receivedMessagesContainer.getByText(message));
     }
 }

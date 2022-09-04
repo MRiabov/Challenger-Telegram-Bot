@@ -32,8 +32,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
 
     @Override
     public void fillChatPageCache(long chatID) {
-        chatPageCache.put(chatID,
-                userService.findAllByTelegramId(chatID,1));
+        chatPageCache.put(chatID, userService.findAllByTelegramId(chatID,1));
     }
 
     @Override

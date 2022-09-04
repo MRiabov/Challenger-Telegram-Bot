@@ -3,11 +3,14 @@ package edu.mriabov.challengertelegrambot.cache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import edu.mriabov.challengertelegrambot.dao.model.Chat;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
+
+@Slf4j
 @Component
 public class ChatPageCache implements PageCache<Long, Chat> {
 
@@ -18,6 +21,7 @@ public class ChatPageCache implements PageCache<Long, Chat> {
 
     @Override
     public void put(Long chatID, Page<Chat> page) {
+        log.info("A page of CHATS from chatID " + chatID + " was put into the chatPageCache. " + page.toString());
         cache.put(chatID, page);
     }
 
@@ -28,6 +32,8 @@ public class ChatPageCache implements PageCache<Long, Chat> {
 
     @Override
     public Pageable getNextOrLastPageable(Long chatID) {
+        Page<Chat> page = cache.asMap().get(chatID);
+        log.info("User "+ chatID +" attempted to flip a page forward. Received "+ page.toString()+ "from cache.");
         return cache.asMap().get(chatID).nextOrLastPageable();
     }
 

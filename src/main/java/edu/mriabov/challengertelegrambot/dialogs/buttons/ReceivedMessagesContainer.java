@@ -17,7 +17,7 @@ public class ReceivedMessagesContainer {
     }
 
     public Buttons getByText(String text){
-        return receivedMessagesMap.get(text);
+        return receivedMessagesMap.getOrDefault(text,Buttons.UNKNOWN_COMMAND);
     }
 
     private Map<String, Buttons> fillMap() {
