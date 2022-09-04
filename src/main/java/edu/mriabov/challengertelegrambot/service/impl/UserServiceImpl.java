@@ -24,13 +24,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByTelegramId(long telegramId) {
+    public Optional<User> getUserByTelegramId(long telegramId) {
         return userRepository.getUserByTelegramId(telegramId);
-
     }
 
     @Override
     public Optional<User> getUserByUsername(String username) {
+        if (username.startsWith("@")) username=username.substring(1);
         return userRepository.getUserByUsername(username);
     }
 
@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<Chat> findMatchingChats(long chatID1, long chatID2) {
         return userRepository.findMatchingChatsFor2Users(chatID1,chatID2,Pageable.ofSize(PAGE_SIZE));
+    }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
     }
 
 

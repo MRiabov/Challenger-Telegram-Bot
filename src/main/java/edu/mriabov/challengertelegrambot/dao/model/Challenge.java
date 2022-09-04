@@ -3,7 +3,6 @@ package edu.mriabov.challengertelegrambot.dao.model;
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
@@ -16,15 +15,14 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 public class Challenge {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    int id;
+    private int id;
 
-    String description;
+    private String description;
 
     private long chatID;
 
@@ -44,7 +42,7 @@ public class Challenge {
 
     private LocalDateTime expiresAt;
 
-
     @ManyToMany(mappedBy = "challenges",fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     private Set<User> users;
+
 }

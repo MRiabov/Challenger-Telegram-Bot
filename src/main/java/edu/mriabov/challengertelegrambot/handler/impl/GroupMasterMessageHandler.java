@@ -6,6 +6,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class GroupMasterMessageHandler implements MessageHandler {
     @Override
     public void handleMessages(Update update) {
-        update.getMessage().
+
     }
 }

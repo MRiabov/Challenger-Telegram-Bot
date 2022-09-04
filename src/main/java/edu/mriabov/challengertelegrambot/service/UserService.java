@@ -11,7 +11,7 @@ public interface UserService {
 
     boolean existsByTelegramId(long telegramId);
 
-    User getUserByTelegramId(long telegramId);
+    Optional<User> getUserByTelegramId(long telegramId);
 
     Optional<User> getUserByUsername(String username);
 
@@ -20,4 +20,6 @@ public interface UserService {
     Page<Chat> findChatsByPageable(long chatID, Pageable pageable);
 
     Page<Chat> findMatchingChats(long chatID1, long chatID2);
+
+    void save(User user);
 }

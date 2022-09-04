@@ -2,9 +2,9 @@ package edu.mriabov.challengertelegrambot.dao.enums;
 
 public enum Area {
 
-    RELATIONSHIPS,
+    FINANCES,
     FITNESS,
     MINDFULNESS,
-    INCORRECT,
-    FINANCES
+    RELATIONSHIPS
+
 }
