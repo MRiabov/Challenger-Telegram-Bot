@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dialogs.buttons;
+package edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

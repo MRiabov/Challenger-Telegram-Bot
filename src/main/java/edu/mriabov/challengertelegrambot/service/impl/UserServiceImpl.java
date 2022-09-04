@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils.PAGE_SIZE;
+import static edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils.PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -35,13 +35,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<Chat> findAllByTelegramId(long chatID, int page) {
+    public Page<Chat> findChatsByTelegramId(long chatID, int page) {
         return userRepository.findChatsByTelegramId(chatID,
                 Pageable.ofSize(PAGE_SIZE).withPage(page));
     }
 
     @Override
-    public Page<Chat> findAllByPageable(long chatID, Pageable pageable) {
+    public Page<Chat> findChatsByPageable(long chatID, Pageable pageable) {
         return userRepository.findChatsByTelegramId(chatID,pageable);
     }
 

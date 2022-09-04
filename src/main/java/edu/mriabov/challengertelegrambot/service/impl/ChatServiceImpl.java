@@ -3,7 +3,7 @@ package edu.mriabov.challengertelegrambot.service.impl;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.repository.ChatRepository;
 import edu.mriabov.challengertelegrambot.service.ChatService;
-import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
+import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

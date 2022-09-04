@@ -1,8 +1,8 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
+import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
@@ -37,7 +37,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
 
     @Override
     public void fillChatPageCache(long chatID) {
-        chatPageCache.put(chatID, userService.findAllByTelegramId(chatID, 1));
+        chatPageCache.put(chatID, userService.findChatsByTelegramId(chatID, 1));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         }
         Page<Chat> chats = userService.findMatchingChats(chatID, userOptional.get().getTelegramId());
         log.info("received @" + username + " from " + chatID + ", found user with ID: " +
-                userOptional.get().getTelegramId() + ", there are " + chats.getTotalElements() + "elements");
+                userOptional.get().getTelegramId() + ", there are " + chats.getTotalElements() + " elements");
         if (chats.getTotalElements()==0) return false;
         Challenge challenge = new Challenge();
         challenge.setUsers(Set.of(userOptional.get()));

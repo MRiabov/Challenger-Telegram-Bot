@@ -1,11 +1,11 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.config.BotConfig;
-import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
+import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;
 import edu.mriabov.challengertelegrambot.service.FormatService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
-import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
+import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

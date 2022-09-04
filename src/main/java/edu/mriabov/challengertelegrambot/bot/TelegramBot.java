@@ -16,6 +16,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final MessageHandler messageHandler;
     private final BotConfig config;
 
+
     @Override
     public String getBotUsername() {
         return config.getBotName();
@@ -28,10 +29,13 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.getMessage().hasText()) {
+        if (update.getMessage().hasText()&&update.getMessage().isUserMessage()) {
             log.info("Received an update with text.");
             messageHandler.handleMessages(update);
             log.info("Finished processing an update with text.");
+        }
+        if (update.getMessage().isCommand()&&update.getMessage().isGroupMessage()){
+
         }
     }
 }

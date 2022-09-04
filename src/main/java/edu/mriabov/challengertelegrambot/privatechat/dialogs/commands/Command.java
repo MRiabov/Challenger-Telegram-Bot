@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dialogs.commands;
+package edu.mriabov.challengertelegrambot.privatechat.dialogs.commands;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 

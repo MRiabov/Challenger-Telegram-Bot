@@ -1,9 +1,9 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
-import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
+import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;
-import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
+import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;

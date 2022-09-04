@@ -1,16 +1,16 @@
 package edu.mriabov.challengertelegrambot.handler.impl;
 
-import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
+import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.dao.model.Chat;
 import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
+import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
 import edu.mriabov.challengertelegrambot.service.ChatService;
 import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import edu.mriabov.challengertelegrambot.service.impl.Appendix;
-import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
+import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -61,12 +61,12 @@ public class NumpadHandler {
 
     private boolean chatPageFlip(long chatID, String message) {
         if (message.startsWith(ButtonsMappingUtils.previousPage)) {
-            Page<Chat> page = userService.findAllByPageable(chatID, chatPageCache.getPreviousOrLastPageable(chatID));
+            Page<Chat> page = userService.findChatsByPageable(chatID, chatPageCache.getPreviousOrLastPageable(chatID));
             chatPageCache.put(chatID, page);
             return true;
         }//it is okay, that here is userService, because we get chats from the list of users.
         if (message.startsWith(ButtonsMappingUtils.nextPage)) {
-            Page<Chat> page = userService.findAllByPageable(chatID, chatPageCache.getNextOrLastPageable(chatID));
+            Page<Chat> page = userService.findChatsByPageable(chatID, chatPageCache.getNextOrLastPageable(chatID));
             chatPageCache.put(chatID, page);
             return true;
         }

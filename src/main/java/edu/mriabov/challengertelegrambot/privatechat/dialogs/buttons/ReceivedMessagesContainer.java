@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dialogs.buttons;
+package edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons;
 
 import org.springframework.stereotype.Component;
 

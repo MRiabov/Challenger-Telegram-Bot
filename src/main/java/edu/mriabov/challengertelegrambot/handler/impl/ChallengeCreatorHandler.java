@@ -2,8 +2,8 @@ package edu.mriabov.challengertelegrambot.handler.impl;
 
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
-import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
-import edu.mriabov.challengertelegrambot.dialogs.buttons.LogicButtonsMessages;
+import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
+import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.LogicButtonsMessages;
 import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

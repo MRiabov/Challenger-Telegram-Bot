@@ -1,14 +1,14 @@
 package edu.mriabov.challengertelegrambot.handler.impl;
 
 import com.vdurmont.emoji.EmojiManager;
-import edu.mriabov.challengertelegrambot.dialogs.buttons.Buttons;
-import edu.mriabov.challengertelegrambot.dialogs.buttons.ReceivedMessagesContainer;
-import edu.mriabov.challengertelegrambot.dialogs.commands.CommandContainer;
 import edu.mriabov.challengertelegrambot.handler.MessageHandler;
+import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
+import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.ReceivedMessagesContainer;
+import edu.mriabov.challengertelegrambot.privatechat.dialogs.commands.CommandContainer;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.UserService;
-import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
-import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
+import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
+import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MasterMessageHandlerImpl implements MessageHandler {
+public class PrivateMasterMessageHandlerImpl implements MessageHandler {
 
     private final SenderService senderService;
     private final ReceivedMessagesContainer receivedMessagesContainer;
@@ -33,7 +33,7 @@ public class MasterMessageHandlerImpl implements MessageHandler {
         String message = update.getMessage().getText();
         long chatID = update.getMessage().getChatId();
         log.info("Successfully received the message to the handler: " + message);
-        if (message.charAt(0) == '/') commandContainer.executeByText(update);//if the message is a command
+        if (update.getMessage().isCommand()) commandContainer.executeByText(update);//if the message is a command
         else if (EmojiManager.containsEmoji(message.substring(0, 3))
                 || TelegramUtils.checkForUnsupportedEmoji(message)) {//if the message is a button
             buttonsHandler(chatID, message);

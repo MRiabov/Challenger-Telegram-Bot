@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.utils;
+package edu.mriabov.challengertelegrambot.privatechat.utils;
 
 import java.util.List;
 
