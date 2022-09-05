@@ -17,8 +17,8 @@ public class ButtonsMappingUtils {
     private ButtonsMappingUtils() {
     }
 
-    public static String nextPage = "⏩📄 ";
-    public static String previousPage = "⏪📄 ";
+    public static final String nextPage = "⏩📄 ";
+    public static final String previousPage = "⏪📄 ";
 
     public static SendMessage buildMessageWithKeyboard(long chatID, Buttons buttons) {
         SendMessage sendMessage = new SendMessage(Long.toString(chatID), buttons.getMessage());

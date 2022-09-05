@@ -6,7 +6,7 @@ import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Component
 @RequiredArgsConstructor
@@ -22,10 +22,10 @@ public class StartCommand implements Command {
     }
 
     @Override
-    public void execute(Update update) {
-        if (!userRepository.existsByTelegramId(update.getMessage().getChatId())) {
-            registrationService.register(update);
+    public void execute(Message message) {
+        if (!userRepository.existsByTelegramId(message.getChatId())) {
+            registrationService.register(message);
         }
-        senderService.sendMessages(update.getMessage().getChatId(), Buttons.ON_START_NEW_USER);
+        senderService.sendMessages(message.getChatId(), Buttons.ON_START_NEW_USER);
     }
 }

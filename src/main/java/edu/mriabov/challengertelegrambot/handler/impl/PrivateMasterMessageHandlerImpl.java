@@ -5,14 +5,14 @@ import edu.mriabov.challengertelegrambot.handler.MessageHandler;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.ReceivedMessagesContainer;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.commands.CommandContainer;
-import edu.mriabov.challengertelegrambot.service.SenderService;
-import edu.mriabov.challengertelegrambot.service.UserService;
 import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
+import edu.mriabov.challengertelegrambot.service.SenderService;
+import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.Optional;
 
@@ -29,11 +29,11 @@ public class PrivateMasterMessageHandlerImpl implements MessageHandler {
     private final NumpadHandler numpadHandler;
 
     @Override
-    public void handleMessages(Update update) {
-        String message = update.getMessage().getText();
-        long chatID = update.getMessage().getChatId();
+    public void handleMessages(Message messageCtx) {
+        String message = messageCtx.getText();
+        long chatID = messageCtx.getChatId();
         log.info("Successfully received the message to the handler: " + message);
-        if (update.getMessage().isCommand()) commandContainer.executeByText(update);//if the message is a command
+        if (messageCtx.isCommand()) commandContainer.executeByText(messageCtx);//if the message is a command
         else if (EmojiManager.containsEmoji(message.substring(0, 3))
                 || TelegramUtils.checkForUnsupportedEmoji(message)) {//if the message is a button
             buttonsHandler(chatID, message);
