@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.EntityType;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,6 +39,10 @@ public class InlineChallengeCreatorServiceImpl implements InlineChallengeCreator
             }
         }
         challenge.setUsers(userSet);
+        if (challenge.getDifficulty()==null||challenge.getUsers().size()==0||challenge.getArea()==null) return new Challenge();
+        //todo createdBy
+        challenge.setChatID(message.getChatId());
+        challenge.setCreatedAt(LocalDateTime.now());
         return challenge;
     }
 

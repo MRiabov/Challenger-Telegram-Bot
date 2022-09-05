@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 @Component
 public class CommandContainer {
 
-    private final Map<String, Command> commandMap;
+    private final Map<String, PrivateCommand> commandMap;
 
-    public CommandContainer(@Autowired List<Command> commands) {
-        commandMap = commands.stream().collect(Collectors.toUnmodifiableMap(Command::alias, Function.identity()));
+    public CommandContainer(@Autowired List<PrivateCommand> commands) {
+        commandMap = commands.stream().collect(Collectors.toUnmodifiableMap(PrivateCommand::alias, Function.identity()));
     }
 
     public void executeByText(Message message) {

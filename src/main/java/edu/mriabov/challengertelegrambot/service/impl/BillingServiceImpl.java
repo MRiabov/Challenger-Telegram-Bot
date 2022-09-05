@@ -1,5 +1,6 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
+import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.BillingService;
@@ -47,5 +48,10 @@ public class BillingServiceImpl implements BillingService {
         }
         senderService.sendMessages(chatID, Buttons.NEED_MORE_COINS);
         return false;
+    }
+
+    @Override
+    public int challengePrice(Challenge challenge) {
+        return challenge.getUsers().size()*challenge.getDifficulty().price;
     }
 }
