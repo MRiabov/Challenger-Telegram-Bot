@@ -12,7 +12,7 @@ import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Optional;
 
@@ -29,11 +29,11 @@ public class PrivateMasterMessageHandlerImpl implements MessageHandler {
     private final NumpadHandler numpadHandler;
 
     @Override
-    public void handleMessages(Message messageCtx) {
-        String message = messageCtx.getText();
-        long chatID = messageCtx.getChatId();
+    public void handleMessages(Update update) {
+        String message = update.getMessage().getText();
+        long chatID = update.getMessage().getChatId();
         log.info("Successfully received the message to the handler: " + message);
-        if (messageCtx.isCommand()) commandContainer.executeByText(messageCtx);//if the message is a command
+        if (update.getMessage().isCommand()) commandContainer.executeByText(update.getMessage());//if the message is a command
         else if (EmojiManager.containsEmoji(message.substring(0, 3))
                 || TelegramUtils.checkForUnsupportedEmoji(message)) {//if the message is a button
             buttonsHandler(chatID, message);

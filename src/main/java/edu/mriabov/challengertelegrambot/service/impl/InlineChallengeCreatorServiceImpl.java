@@ -24,7 +24,7 @@ public class InlineChallengeCreatorServiceImpl implements InlineChallengeCreator
     private final UserService userService;
 
     @Override
-    public void createChallenge(Message message) {
+    public Challenge createChallenge(Message message) {
         Challenge challenge = new Challenge();
         //user, difficulty, area, message
         Set<User> userSet = new HashSet<>();
@@ -38,7 +38,7 @@ public class InlineChallengeCreatorServiceImpl implements InlineChallengeCreator
             }
         }
         challenge.setUsers(userSet);
-
+        return challenge;
     }
 
     private static void parametersForChallenge(Message message, Challenge challenge, MessageEntity entity) {

@@ -1,9 +1,9 @@
 package edu.mriabov.challengertelegrambot.handler;
 
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 public interface MessageHandler {
 
-    void handleMessages(Message message);
+    void handleMessages(Update update);
 
 }

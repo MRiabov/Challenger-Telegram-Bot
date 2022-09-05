@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Component
 @RequiredArgsConstructor
-public class StartCommand implements Command {
+public class StartCommand implements PrivateCommand {
 
     private final SenderService senderService;
     private final UserRepository userRepository;
