@@ -38,7 +38,10 @@ public class Challenge {
     private LocalDateTime createdAt;
 
     @CreatedBy
-    private String createdBy;
+    @Column(updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private User createdBy;
 
     private LocalDateTime expiresAt;
 

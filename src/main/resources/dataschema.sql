@@ -25,19 +25,16 @@ CREATE TABLE IF NOT EXISTS `user`
     foreign key (stats_id) references user_stats (id)
 );
 
-
-ALTER TABLE user_stats RENAME COLUMN Relationships to relationships;
-
 CREATE TABLE IF NOT EXISTS `chat`
 (
     id                    int PRIMARY KEY AUTO_INCREMENT,
     total_tasks_completed int,
     telegramId            long,
-    name                  varchar(50)
+    name                  varchar(50),
+    added_at              TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS `challenge`
-
 (
     id                  int PRIMARY KEY AUTO_INCREMENT,
     `challenge_message` varchar(256)                                              NOT NULL,

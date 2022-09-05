@@ -21,6 +21,7 @@ public class User {
 
     private int coins;
 
+    @Column(updatable = false)
     private long telegramId;
 
     private String firstName;
