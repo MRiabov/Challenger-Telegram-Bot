@@ -21,5 +21,7 @@ public interface UserService {
 
     Page<Chat> findMatchingChats(long chatID1, long chatID2);
 
+    boolean addChat(long userID, Chat chat);
+
     void save(User user);
 }

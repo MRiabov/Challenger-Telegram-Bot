@@ -33,4 +33,9 @@ public class ChatServiceImpl implements ChatService {
         chatRepository.save(chat);
         return true;
     }
+
+    @Override
+    public Chat findByTelegramID(long chatID) {
+        return chatRepository.findByTelegramID(chatID);
+    }
 }

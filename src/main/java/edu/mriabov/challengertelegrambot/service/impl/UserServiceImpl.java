@@ -2,6 +2,7 @@ package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.Chat;
 import edu.mriabov.challengertelegrambot.dao.model.User;
+import edu.mriabov.challengertelegrambot.dao.repository.ChatRepository;
 import edu.mriabov.challengertelegrambot.dao.repository.UserRepository;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import static edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMapping
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final ChatRepository chatRepository;
 
     @Override
     public boolean existsByTelegramId(long telegramId) {
@@ -48,6 +50,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<Chat> findMatchingChats(long chatID1, long chatID2) {
         return userRepository.findMatchingChatsFor2Users(chatID1,chatID2,Pageable.ofSize(PAGE_SIZE));
+    }
+
+    @Override
+    public boolean addChat(long userID, Chat chat) {
+        if (!userRepository.findChatsByTelegramId(userID,Pageable.unpaged()).getContent().contains(chat)) return false;
+        if (!chatRepository.existsByTelegramID(chat.getTelegramID())) return false;
+        if (userRepository.existsByTelegramId(userID)) {
+            userRepository.getUserByTelegramId(userID).get().getChatList().add(chat);
+            return true;
+        }
+        return false;
     }
 
     @Override

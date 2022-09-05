@@ -1,10 +1,11 @@
 package edu.mriabov.challengertelegrambot.commands;
 
-import edu.mriabov.challengertelegrambot.dao.repository.UserRepository;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
+import edu.mriabov.challengertelegrambot.service.ChatService;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
+import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -15,7 +16,8 @@ import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScope
 public class StartCommand implements Command {
 
     private final SenderService senderService;
-    private final UserRepository userRepository;
+    private final UserService userService;
+    private final ChatService chatService;
     private final RegistrationService registrationService;
 
     @Override
@@ -34,7 +36,11 @@ public class StartCommand implements Command {
             senderService.sendMessages(message.getChatId(), Replies.WRONG_CHAT_TYPE.text);
             return;
         }
-        if (!userRepository.existsByTelegramId(message.getChatId())) registrationService.registerUser(message);
+        if (!userService.existsByTelegramId(message.getChatId())) registrationService.registerUser(message);
         senderService.sendMessages(message.getChatId(), Buttons.ON_START_NEW_USER);
+        if (message.getText().length()>6) { //if this is a deep linking request, add the chat from the deep linking request.
+            userService.addChat(message.getChatId(),
+                    chatService.findByTelegramID(Long.parseLong(message.getText().substring(7))));
+        }
     }
 }

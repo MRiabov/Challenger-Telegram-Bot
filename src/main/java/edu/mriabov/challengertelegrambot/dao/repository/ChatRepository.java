@@ -16,4 +16,6 @@ public interface ChatRepository extends JpaRepository<Chat,Integer> {
 
     boolean existsByTelegramID(long chatID);
 
+    Chat findByTelegramID(long chatID);
+
 }
