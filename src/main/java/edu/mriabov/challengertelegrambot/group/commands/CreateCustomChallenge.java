@@ -23,6 +23,6 @@ public class CreateCustomChallenge implements GroupCommand {
     @Override
     public void execute(Message message) {
         inlineChallengeCreatorService.createChallenge(message);
-        senderService.replyToMessage(message,"message");
+        senderService.replyToMessage(message,"PLACEHOLDER. THIS IS A CHALLENGE CREATION MESSAGE");
     }
 }

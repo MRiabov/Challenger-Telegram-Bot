@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 @Service
@@ -71,6 +72,17 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     public void sendMessages(SendMessage sendMessage) {
         sendMessage.setText(formatService.format(Long.parseLong(sendMessage.getChatId()), sendMessage.getText()));
         execute(sendMessage);
+    }
+
+    @SneakyThrows
+    @Override
+    public void replyToMessage(Message msgToReply, String message) {
+        message = formatService.format(msgToReply.getChatId(), message);
+        execute(SendMessage.builder().
+                replyToMessageId(msgToReply.getMessageId())
+                .text(message)
+                .chatId(msgToReply.getChatId())
+                .build());
     }
 
     @Override

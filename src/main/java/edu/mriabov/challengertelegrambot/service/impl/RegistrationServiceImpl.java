@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -39,6 +41,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         org.telegram.telegrambots.meta.api.objects.Chat telegramChat = update.getMyChatMember().getChat();
         chat.setTelegramID(telegramChat.getId());
         chat.setName(telegramChat.getTitle());
+        chat.setAddedAt(LocalDateTime.now());
         chatService.save(chat);
     }
 }
