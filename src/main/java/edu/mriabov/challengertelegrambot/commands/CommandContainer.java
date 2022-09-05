@@ -13,9 +13,11 @@ import java.util.stream.Collectors;
 public class CommandContainer {
 
     private final Map<String, Command> commandMap;
+    private final UnknownCommand unknownCommand;
 
-    public CommandContainer(@Autowired List<Command> commands) {
+    public CommandContainer(@Autowired List<Command> commands,@Autowired UnknownCommand unknownCommand) {
         commandMap = commands.stream().collect(Collectors.toUnmodifiableMap(Command::alias, Function.identity()));
+        this.unknownCommand = unknownCommand;
     }
 
     public void executeByText(Message message) {
@@ -25,6 +27,6 @@ public class CommandContainer {
                 commandEnd = i;
                 break;
             }
-        commandMap.get(message.getText().substring(0,commandEnd)).execute(message);
+        commandMap.getOrDefault(message.getText().substring(0,commandEnd),unknownCommand).execute(message);
     }
 }

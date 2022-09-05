@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class InlineChallengeCreatorServiceImpl implements InlineChallengeCreator
     private final UserService userService;
 
     @Override
-    public Challenge createChallenge(Message message) {
+    public Optional<Challenge> createChallenge(Message message) {
         Challenge challenge = new Challenge();
         //user, difficulty, area, message
         Set<User> userSet = new HashSet<>();
@@ -39,11 +40,12 @@ public class InlineChallengeCreatorServiceImpl implements InlineChallengeCreator
             }
         }
         challenge.setUsers(userSet);
-        if (challenge.getDifficulty()==null||challenge.getUsers().size()==0||challenge.getArea()==null) return new Challenge();
+        if (challenge.getDifficulty()==null||challenge.getUsers().size()==0||challenge.getArea()==null)
+            return Optional.empty();
         //todo createdBy
         challenge.setChatID(message.getChatId());
         challenge.setCreatedAt(LocalDateTime.now());
-        return challenge;
+        return Optional.of(challenge);
     }
 
     private static void parametersForChallenge(Message message, Challenge challenge, MessageEntity entity) {
