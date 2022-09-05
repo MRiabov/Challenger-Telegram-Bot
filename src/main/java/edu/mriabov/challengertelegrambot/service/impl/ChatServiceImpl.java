@@ -1,5 +1,6 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
+import edu.mriabov.challengertelegrambot.dao.model.Chat;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.repository.ChatRepository;
 import edu.mriabov.challengertelegrambot.service.ChatService;
@@ -16,13 +17,20 @@ public class ChatServiceImpl implements ChatService {
     private final ChatRepository chatRepository;
 
     @Override
-    public Page<User> findAllByTelegramID(long chatID, int page) {
+    public Page<User> findUsersByTelegramID(long chatID, int page) {
         return chatRepository.findUsersByTelegramID(chatID, Pageable.ofSize(ButtonsMappingUtils.PAGE_SIZE)
                 .withPage(page));
     }
 
     @Override
-    public Page<User> findAllByPageable(long chatID, Pageable pageable) {
+    public Page<User> findUsersByPageable(long chatID, Pageable pageable) {
         return chatRepository.findUsersByTelegramID(chatID,pageable);
+    }
+
+    @Override
+    public boolean save(Chat chat) {
+        if (chatRepository.existsByTelegramID(chat.getTelegramID())) return false;
+        chatRepository.save(chat);
+        return true;
     }
 }

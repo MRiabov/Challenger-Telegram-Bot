@@ -34,11 +34,12 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (update.getMessage().hasText()&&update.getMessage().isUserMessage()) {
             log.info("Received an update with text in a private chat from" + update.getMessage().getChatId());
             privateMasterMessageHandler.handleMessages(update);
-            log.info("Finished processing an update with text from a private chat" + update.getMessage().getChatId());
+            log.info("Finished processing an update with text from a private chat" + update.getMessage().getChat().getTitle());
         }
         if (update.getMessage().hasText()&&update.getMessage().isGroupMessage()){
             log.info("Received an update with text in a group" + update.getMessage().getChat().getTitle());
             groupMasterMessageHandler.handleMessages(update);
+            log.info("Finished processing a command from a private chat" + update.getMessage().getChat().getTitle());
         }
     }
 }

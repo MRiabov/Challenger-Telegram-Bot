@@ -21,7 +21,7 @@ public class Chat {
 
     private String name;
 
-    private int telegramID;
+    private long telegramID;
 
     @Column(name = "total_tasks_completed")
     private int totalTasks;

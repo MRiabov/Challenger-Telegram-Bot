@@ -49,8 +49,7 @@ public class NumpadHandler {
                     .replyMarkup(dynamicButtonsService.createMarkup(chatID, Appendix.CHAT_APPENDIX))
                     .build();
             if (Character.isDigit(message.charAt(0))) {
-                challengeCreatorService.selectChats(chatID,
-                        chatPageCache.getOnCurrentPage(chatID, message.charAt(0)).getTelegramID());
+                challengeCreatorService.selectChats(chatID, message.charAt(0));
                 chatPageCache.cleanCache(chatID);
                 return ButtonsMappingUtils.buildMessageWithKeyboard(chatID, Buttons.DIFFICULTY_SELECTION);
             }
@@ -75,12 +74,12 @@ public class NumpadHandler {
 
     private boolean userPageFlip(long chatID, String message) {
         if (message.startsWith(ButtonsMappingUtils.previousPage)) {
-            Page<User> page = chatService.findAllByPageable(chatID, userPageCache.getPreviousOrLastPageable(chatID));
+            Page<User> page = chatService.findUsersByPageable(chatID, userPageCache.getPreviousOrLastPageable(chatID));
             userPageCache.put(chatID, page);
             return true;
         }
         if (message.startsWith(ButtonsMappingUtils.nextPage)) {
-            Page<User> page = chatService.findAllByPageable(chatID, userPageCache.getNextOrLastPageable(chatID));
+            Page<User> page = chatService.findUsersByPageable(chatID, userPageCache.getNextOrLastPageable(chatID));
             userPageCache.put(chatID, page);
             return true;
         }

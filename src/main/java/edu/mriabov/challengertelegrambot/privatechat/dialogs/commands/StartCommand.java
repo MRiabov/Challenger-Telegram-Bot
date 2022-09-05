@@ -24,7 +24,7 @@ public class StartCommand implements PrivateCommand {
     @Override
     public void execute(Message message) {
         if (!userRepository.existsByTelegramId(message.getChatId())) {
-            registrationService.register(message);
+            registrationService.registerUser(message);
         }
         senderService.sendMessages(message.getChatId(), Buttons.ON_START_NEW_USER);
     }

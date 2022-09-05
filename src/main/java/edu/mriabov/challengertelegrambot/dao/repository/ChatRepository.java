@@ -14,6 +14,6 @@ public interface ChatRepository extends JpaRepository<Chat,Integer> {
     @Query("SELECT u FROM Chat c JOIN c.users u WHERE c.telegramID=:chatID")
     Page<User> findUsersByTelegramID(long chatID, Pageable pageable);
 
-
+    boolean existsByTelegramID(long chatID);
 
 }
