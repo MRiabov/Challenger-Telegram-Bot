@@ -1,23 +1,27 @@
-package edu.mriabov.challengertelegrambot.group.commands;
+package edu.mriabov.challengertelegrambot.commands;
 
-import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.InlineChallengeCreatorService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeAllGroupChats;
 
 @Service
 @RequiredArgsConstructor
-public class CreateCustomChallenge implements GroupCommand {
+public class CreateCustomChallenge implements Command {
 
     private final InlineChallengeCreatorService inlineChallengeCreatorService;
-    private final BillingService billingService;
     private final SenderService senderService;
 
     @Override
     public String alias() {
         return "/custom";
+    }
+
+    @Override
+    public String scope() {
+        return new BotCommandScopeAllGroupChats().getType();
     }
 
     @Override

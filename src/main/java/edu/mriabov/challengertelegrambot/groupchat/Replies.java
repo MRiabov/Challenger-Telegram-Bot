@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.group;
+package edu.mriabov.challengertelegrambot.groupchat;
 
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +12,9 @@ public enum Replies {
             Are you sure you want to create this challenge? It will cost PLACEHOLDER
             """),
 
-    ADDED_TO_CHAT("Time to change lives...")
+    ADDED_TO_CHAT("Time to change lives..."),
+
+    WRONG_CHAT_TYPE("Hey! You are using this command in a wrong chat type! This command is intended elsewhere."),
 
     //!
     ;

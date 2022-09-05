@@ -1,9 +1,12 @@
-package edu.mriabov.challengertelegrambot.privatechat.dialogs.commands;
+package edu.mriabov.challengertelegrambot.commands;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-public interface PrivateCommand {
+public interface Command {
 
     String alias();
+
+    String scope();
+
     void execute(Message message);
 }

@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.privatechat.dialogs.commands;
+package edu.mriabov.challengertelegrambot.commands;
 
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.SenderService;
@@ -8,13 +8,18 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Component
 @RequiredArgsConstructor
-public class UnknownCommand implements PrivateCommand {
+public class UnknownCommand implements Command {
 
     private final SenderService senderService;
 
     @Override
     public String alias() {
         return "/unknownCommand";
+    }
+
+    @Override
+    public String scope() {
+        return null;
     }
 
     @Override

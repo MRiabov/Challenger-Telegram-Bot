@@ -1,7 +1,7 @@
 package edu.mriabov.challengertelegrambot.bot;
 
 import edu.mriabov.challengertelegrambot.config.BotConfig;
-import edu.mriabov.challengertelegrambot.group.Replies;
+import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.handler.impl.GroupMasterMessageHandler;
 import edu.mriabov.challengertelegrambot.handler.impl.PrivateMasterMessageHandlerImpl;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
