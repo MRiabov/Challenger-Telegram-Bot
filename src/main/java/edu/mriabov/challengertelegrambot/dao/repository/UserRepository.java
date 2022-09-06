@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,11 +16,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByTelegramId(long telegramId);
 
-
-
     Optional<User> getUserByTelegramId(long telegramId);
 
     Optional<User> getUserByUsername(String username);
+
+    @Query("SELECT c FROM User u JOIN u.chatList c WHERE u.telegramId=:userID")
+    List<Chat> findChatsByTelegramId(long userID);
 
     @Query("SELECT c FROM User u JOIN u.chatList c WHERE u.telegramId=:chatID")
     Page<Chat> findChatsByTelegramId(long chatID, Pageable pageable);

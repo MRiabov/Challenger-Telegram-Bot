@@ -7,12 +7,14 @@ import edu.mriabov.challengertelegrambot.service.RegistrationService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeAllPrivateChats;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class StartCommand implements Command {
 
     private final SenderService senderService;
@@ -38,9 +40,18 @@ public class StartCommand implements Command {
         }
         if (!userService.existsByTelegramId(message.getChatId())) registrationService.registerUser(message);
         senderService.sendMessages(message.getChatId(), Buttons.ON_START_NEW_USER);
-        if (message.getText().length()>6) { //if this is a deep linking request, add the chat from the deep linking request.
-            userService.addChat(message.getChatId(),
-                    chatService.findByTelegramID(Long.parseLong(message.getText().substring(7))));
-        }
+        //if this is a deep linking request, add the chat from the deep linking request.
+        if (message.getText().length() > 6) addChat(message);
+    }
+
+    private void addChat(Message message) {
+        boolean chatSuccessfullyLinked;
+        chatSuccessfullyLinked = userService.addChat(message.getChatId(),
+                chatService.findByTelegramID(Long.parseLong(message.getText().substring(7))));
+        if (chatSuccessfullyLinked) {
+            log.info("User " + message.getChatId() + " has successfully linked a chat " + message.getText().substring(7));
+            senderService.sendMessages(message.getChatId(), Replies.CHAT_SUCCESSFULLY_LINKED.text.formatted(message.getText().substring(7)));
+        } else
+            log.warn("User " + message.getChatId() + " has failed to add a chat via /start. his payload: " + message.getText().substring(7));
     }
 }

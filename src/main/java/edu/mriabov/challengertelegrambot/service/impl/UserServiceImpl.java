@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils.PAGE_SIZE;
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserByUsername(String username) {
-        if (username.startsWith("@")) username=username.substring(1);
+        if (username.startsWith("@")) username = username.substring(1);
         return userRepository.getUserByUsername(username);
     }
 
@@ -44,23 +45,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<Chat> findChatsByPageable(long chatID, Pageable pageable) {
-        return userRepository.findChatsByTelegramId(chatID,pageable);
+        return userRepository.findChatsByTelegramId(chatID, pageable);
     }
 
     @Override
     public Page<Chat> findMatchingChats(long chatID1, long chatID2) {
-        return userRepository.findMatchingChatsFor2Users(chatID1,chatID2,Pageable.ofSize(PAGE_SIZE));
+        return userRepository.findMatchingChatsFor2Users(chatID1, chatID2, Pageable.ofSize(PAGE_SIZE));
     }
 
     @Override
     public boolean addChat(long userID, Chat chat) {
-        if (!userRepository.findChatsByTelegramId(userID,Pageable.unpaged()).getContent().contains(chat)) return false;
+        if (userRepository.findChatsByTelegramId(userID, Pageable.unpaged()).getContent().contains(chat)) return false;
         if (!chatRepository.existsByTelegramID(chat.getTelegramID())) return false;
-        if (userRepository.existsByTelegramId(userID)) {
-            userRepository.getUserByTelegramId(userID).get().getChatList().add(chat);
-            return true;
-        }
-        return false;
+
+        Optional<User> userOptional = userRepository.getUserByTelegramId(userID);
+        if (userOptional.isEmpty()) return false;
+        User user = userOptional.get();
+        List<Chat> chats = userRepository.findChatsByTelegramId(userID);
+        chats.add(chat);
+        user.setChatList(chats);
+        save(user);
+        return true;
     }
 
     @Override
