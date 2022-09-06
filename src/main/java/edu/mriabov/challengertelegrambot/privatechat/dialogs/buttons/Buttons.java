@@ -79,6 +79,7 @@ public enum Buttons {
 
     USER_SELECTION("""
             Input the ID or of the Gigachad you would like to challenge
+            %8$s
             Alternatively, you can just send his @"""),
 
     OTHER_USER_NOT_FOUND("""
@@ -88,8 +89,8 @@ public enum Buttons {
 
     CONFIRM_SELECTION("""
             So, this is your challenge.
-            Chat: 
-            User: 
+            Chat:
+            User:
             Area:
             It costs:
             Is everything right?

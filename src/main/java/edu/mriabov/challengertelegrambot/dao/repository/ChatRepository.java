@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChatRepository extends JpaRepository<Chat,Integer> {
 
-    @Query("SELECT u FROM Chat c JOIN c.users u WHERE c.telegramID=:chatID")
-    Page<User> findUsersByTelegramID(long chatID, Pageable pageable);
+    @Query("SELECT u FROM Chat c JOIN c.users u WHERE c.telegramID=:groupID AND u.telegramId<>:userID")
+    Page<User> findUsersByTelegramID(long userID, long groupID, Pageable pageable);
 
     boolean existsByTelegramID(long chatID);
 

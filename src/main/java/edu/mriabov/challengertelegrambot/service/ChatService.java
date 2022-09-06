@@ -8,12 +8,12 @@ import org.springframework.data.domain.Pageable;
 
 public interface ChatService {
 
-    Page<User> findUsersByTelegramID(long chatID, int page);
+    Page<User> findUsersByTelegramID(long userID, long groupID, int page);
 
-    Page<User> findUsersByPageable(long chatID, Pageable pageable);
+    Page<User> findUsersByPageable(long userID, long groupID, Pageable pageable);
 
     boolean save(Chat chat);
 
-    Chat findByTelegramID(long chatID);
+    Chat findByTelegramID(long groupID);
 
 }

@@ -39,9 +39,9 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (update.getMessage()!=null) {
             if (update.getMessage().hasText() && update.getMessage().isUserMessage()) {
-                log.info("Received an update with text " + update.getMessage().getText() + "in a private chat from " + update.getMessage().getChatId());
+                log.info("Received an update with text " + update.getMessage().getText() + " in a private chat from " + update.getMessage().getChatId());
                 privateMasterMessageHandler.handleMessages(update);
-                log.info("Finished processing an update with text from a private chat " + update.getMessage().getChat().getTitle());
+                log.info("Finished processing an update with text from a private chat " + update.getMessage().getChatId());
                 return;
             }
             if (update.getMessage().hasText() && update.getMessage().isGroupMessage()) {
@@ -50,7 +50,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 log.info("Finished processing a command from a group " + update.getMessage().getChat().getTitle());
                 return;
             }
-            log.error("onUpdateReceived couldn't find a method to handle a message"+update.getMessage().toString());
+            log.error("onUpdateReceived couldn't find a method to handle a message "+update.getMessage().toString());
         }
         if (update.hasMyChatMember()){
             log.info("The bot was added to a chat. The chat is "+update.getMyChatMember().getChat().getTitle());

@@ -31,8 +31,8 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     private final ChatPageCache chatPageCache;
 
     @Override
-    public void fillUserPageCache(long chatID) {
-        userPageCache.put(chatID, chatService.findUsersByTelegramID(chatID, 0));
+    public void fillUserPageCache(long userID, long groupID) {
+        userPageCache.put(userID, chatService.findUsersByTelegramID(userID, groupID, 0));
     }
 
     @Override
@@ -48,12 +48,13 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     }
 
     @Override
-    public boolean selectChats(long chatID, int selectedNumber) {
-        if (!chatPageCache.contains(chatID)) return false;
+    public long selectChats(long chatID, int selectedNumber) {
+        if (!chatPageCache.contains(chatID)) return 0;
         Challenge challenge = new Challenge();
-        challenge.setChatID(chatPageCache.getCurrentPage(chatID).getContent().get(selectedNumber-1).getTelegramID());
+        long telegramID;
+        challenge.setChatID(telegramID = chatPageCache.getCurrentPage(chatID).getContent().get(selectedNumber - 1).getTelegramID());
         challengeCache.put(chatID, challenge);
-        return true;
+        return telegramID;
     }
 
     @Override
@@ -81,7 +82,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         Page<Chat> chats = userService.findMatchingChats(chatID, userOptional.get().getTelegramId());
         log.info("received @" + username + " from " + chatID + ", found user with ID: " +
                 userOptional.get().getTelegramId() + ", there are " + chats.getTotalElements() + " elements");
-        if (chats.getTotalElements()==0) return false;
+        if (chats.getTotalElements() == 0) return false;
         Challenge challenge = new Challenge();
         challenge.setUsers(Set.of(userOptional.get()));
         challenge.setChatID(userService.findMatchingChats(chatID, userOptional.get().getTelegramId())
@@ -89,6 +90,11 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         // FIXME: 9/4/2022 make an actual page, if there is more then one.
         challengeCache.put(chatID, challenge);
         return true;
+    }
+
+    @Override
+    public long getSelectedGroupID(long userID) {
+        return challengeCache.get(userID).getChatID();
     }
 
     private boolean deletedFromCache(long chatID) {

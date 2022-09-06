@@ -17,14 +17,14 @@ public class ChatServiceImpl implements ChatService {
     private final ChatRepository chatRepository;
 
     @Override
-    public Page<User> findUsersByTelegramID(long chatID, int page) {
-        return chatRepository.findUsersByTelegramID(chatID, Pageable.ofSize(ButtonsMappingUtils.PAGE_SIZE)
+    public Page<User> findUsersByTelegramID(long userID, long groupID, int page) {
+        return chatRepository.findUsersByTelegramID(userID, groupID, Pageable.ofSize(ButtonsMappingUtils.PAGE_SIZE)
                 .withPage(page));
     }
 
     @Override
-    public Page<User> findUsersByPageable(long chatID, Pageable pageable) {
-        return chatRepository.findUsersByTelegramID(chatID,pageable);
+    public Page<User> findUsersByPageable(long userID, long groupID, Pageable pageable) {
+        return chatRepository.findUsersByTelegramID(userID, groupID,pageable);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Chat findByTelegramID(long chatID) {
-        return chatRepository.findByTelegramID(chatID);
+    public Chat findByTelegramID(long groupID) {
+        return chatRepository.findByTelegramID(groupID);
     }
 }

@@ -8,17 +8,19 @@ public interface ChallengeCreatorService {
 
     void fillChatPageCache(long chatID);
 
-    void fillUserPageCache(long chatID);
+    void fillUserPageCache(long userID, long groupID);
 
     boolean selectUsers(long chatID, User user);
 
-    boolean selectChats(long chatID, int selectedNumber);
+    long selectChats(long chatID, int selectedNumber);
 
     boolean selectDifficulty(long chatID, Difficulty difficulty);
 
     boolean selectArea(long chatID, Area area);
 
     boolean selectUsersByUsername(long chatID, String username);
+
+    long getSelectedGroupID(long userID);
 
 
 }

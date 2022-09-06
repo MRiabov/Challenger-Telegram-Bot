@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
 @Service
 @RequiredArgsConstructor
 public class NumpadHandler {
@@ -27,35 +28,36 @@ public class NumpadHandler {
     private final ChatService chatService;
     private final DynamicButtonsService dynamicButtonsService;
 
-    public SendMessage handleMessages(long chatID, String message) {
-        if (message.substring(4).equals(Appendix.USER_APPENDIX.getText())) {
-            if (userPageFlip(chatID, message)) return SendMessage.builder()
-                    .text(Buttons.USER_SELECTION.getMessage())
-                    .replyMarkup(dynamicButtonsService.createMarkup(chatID, Appendix.USER_APPENDIX))
-                    .build();
-            if (Character.isDigit(message.charAt(0))) {
-                challengeCreatorService.selectUsers(chatID,userPageCache.getOnCurrentPage(chatID, message.charAt(0)));
-                userPageCache.cleanCache(chatID);
-                return SendMessage.builder()
-                        .text(Buttons.CHAT_SELECTION.getMessage())
-                        .replyMarkup(dynamicButtonsService.createMarkup(chatID,Appendix.CHAT_APPENDIX))
-                        .build();
-
-            }
-        }
+    public SendMessage handleMessages(long userID, String message) {
         if (message.substring(4).equals(Appendix.CHAT_APPENDIX.getText())) {
-            if (chatPageFlip(chatID, message)) return SendMessage.builder()
+            if (chatPageFlip(userID, message)) return SendMessage.builder()
                     .text(Buttons.CHAT_SELECTION.getMessage())
-                    .replyMarkup(dynamicButtonsService.createMarkup(chatID, Appendix.CHAT_APPENDIX))
+                    .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.CHAT_APPENDIX))
                     .build();
             if (Character.isDigit(message.charAt(0))) {
-                challengeCreatorService.selectChats(chatID, message.charAt(0)- TelegramUtils.CHAR_0);
-                chatPageCache.cleanCache(chatID);
-                return ButtonsMappingUtils.buildMessageWithKeyboard(chatID, Buttons.DIFFICULTY_SELECTION);
+                long selectedGroupID = challengeCreatorService.selectChats(userID, message.charAt(0) - TelegramUtils.CHAR_0);
+                if (selectedGroupID == 0)
+                    return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.INCORRECT_INPUT);
+                challengeCreatorService.fillUserPageCache(userID, selectedGroupID);
+                return SendMessage.builder()
+                        .chatId(userID)
+                        .text(Buttons.USER_SELECTION.getMessage())
+                        .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
+                        .build();
             }
         }
-
-        return ButtonsMappingUtils.buildMessageWithKeyboard(chatID, Buttons.INCORRECT_INPUT);
+        if (message.substring(4).equals(Appendix.USER_APPENDIX.getText())) {
+            if (userPageFlip(userID, challengeCreatorService.getSelectedGroupID(userID), message))
+                return SendMessage.builder()
+                        .text(Buttons.USER_SELECTION.getMessage())
+                        .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
+                        .build();
+            if (Character.isDigit(message.charAt(0))) {
+                challengeCreatorService.selectUsers(userID, userPageCache.getOnCurrentPage(userID, message.charAt(0)));
+                return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.DIFFICULTY_SELECTION);
+            }
+        }
+        return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.INCORRECT_INPUT);
     }
 
     private boolean chatPageFlip(long chatID, String message) {
@@ -72,15 +74,15 @@ public class NumpadHandler {
         return false;
     }
 
-    private boolean userPageFlip(long chatID, String message) {
+    private boolean userPageFlip(long userID, long groupID, String message) {
         if (message.startsWith(ButtonsMappingUtils.previousPage)) {
-            Page<User> page = chatService.findUsersByPageable(chatID, userPageCache.getPreviousOrLastPageable(chatID));
-            userPageCache.put(chatID, page);
+            Page<User> page = chatService.findUsersByPageable(userID, groupID, userPageCache.getPreviousOrLastPageable(userID));
+            userPageCache.put(userID, page);
             return true;
         }
         if (message.startsWith(ButtonsMappingUtils.nextPage)) {
-            Page<User> page = chatService.findUsersByPageable(chatID, userPageCache.getNextOrLastPageable(chatID));
-            userPageCache.put(chatID, page);
+            Page<User> page = chatService.findUsersByPageable(userID, groupID, userPageCache.getNextOrLastPageable(userID));
+            userPageCache.put(userID, page);
             return true;
         }
         return false;
