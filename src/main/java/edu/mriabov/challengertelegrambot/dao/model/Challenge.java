@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,7 +25,9 @@ public class Challenge {
 
     private String description;
 
-    private long chatID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id",insertable = false,updatable = false)
+    private Chat chat;
 
     @Enumerated(EnumType.STRING)
     @Column(updatable = false)
@@ -45,6 +48,5 @@ public class Challenge {
     private LocalDateTime expiresAt;
 
     @ManyToMany(mappedBy = "challenges",fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-    private Set<User> users;
-
+    private Set<User> users=new HashSet<>();
 }

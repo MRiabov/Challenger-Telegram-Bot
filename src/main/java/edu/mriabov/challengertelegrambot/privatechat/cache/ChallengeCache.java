@@ -19,8 +19,8 @@ public class ChallengeCache {
         cache.put(chatID, challenge);
     }
 
-    public Challenge get(Long chatID) {
-        return cache.asMap().get(chatID);
+    public Challenge get(Long userID) {
+        return cache.asMap().get(userID);
     }
 
     public boolean contains(Long key) {

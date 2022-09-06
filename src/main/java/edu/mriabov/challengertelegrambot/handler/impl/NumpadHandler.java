@@ -1,17 +1,16 @@
 package edu.mriabov.challengertelegrambot.handler.impl;
 
-import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.dao.model.Chat;
 import edu.mriabov.challengertelegrambot.dao.model.User;
+import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
+import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
-import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
+import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
 import edu.mriabov.challengertelegrambot.service.ChatService;
 import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import edu.mriabov.challengertelegrambot.service.impl.Appendix;
-import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class NumpadHandler {
                     .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.CHAT_APPENDIX))
                     .build();
             if (Character.isDigit(message.charAt(0))) {
-                long selectedGroupID = challengeCreatorService.selectChats(userID, message.charAt(0) - TelegramUtils.CHAR_0);
+                long selectedGroupID = challengeCreatorService.selectChats(userID, Character.getNumericValue(message.charAt(0)) - 1);
                 if (selectedGroupID == 0)
                     return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.INCORRECT_INPUT);
                 challengeCreatorService.fillUserPageCache(userID, selectedGroupID);
@@ -53,7 +52,7 @@ public class NumpadHandler {
                         .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
                         .build();
             if (Character.isDigit(message.charAt(0))) {
-                challengeCreatorService.selectUsers(userID, userPageCache.getOnCurrentPage(userID, message.charAt(0)));
+                challengeCreatorService.selectUsers(userID, userPageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0) - 1)));
                 return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.DIFFICULTY_SELECTION);
             }
         }
