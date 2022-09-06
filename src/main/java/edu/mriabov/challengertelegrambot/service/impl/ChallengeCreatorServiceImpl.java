@@ -32,12 +32,12 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
 
     @Override
     public void fillUserPageCache(long chatID) {
-        userPageCache.put(chatID, chatService.findUsersByTelegramID(chatID, 1));
+        userPageCache.put(chatID, chatService.findUsersByTelegramID(chatID, 0));
     }
 
     @Override
     public void fillChatPageCache(long chatID) {
-        chatPageCache.put(chatID, userService.findChatsByTelegramId(chatID, 1));
+        chatPageCache.put(chatID, userService.findChatsByTelegramId(chatID, 0));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     public boolean selectChats(long chatID, int selectedNumber) {
         if (!chatPageCache.contains(chatID)) return false;
         Challenge challenge = new Challenge();
-        challenge.setChatID(chatPageCache.getCurrentPage(chatID).getContent().get(selectedNumber).getTelegramID());
+        challenge.setChatID(chatPageCache.getCurrentPage(chatID).getContent().get(selectedNumber-1).getTelegramID());
         challengeCache.put(chatID, challenge);
         return true;
     }

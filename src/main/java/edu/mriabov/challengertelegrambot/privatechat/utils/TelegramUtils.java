@@ -3,7 +3,8 @@ package edu.mriabov.challengertelegrambot.privatechat.utils;
 import java.util.List;
 
 public class TelegramUtils {
-    private TelegramUtils(){}
+
+    public final static int CHAR_0 = '0';
 
     public static boolean checkForUnsupportedEmoji(String message){
         String startOfMessage = message.substring(0,3);
@@ -11,5 +12,7 @@ public class TelegramUtils {
         for (String emoji:emojis) if (startOfMessage.contains(emoji)) return true;
         return false;
     }
+
+    private TelegramUtils(){}
 
 }

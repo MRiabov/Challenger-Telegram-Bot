@@ -86,6 +86,16 @@ public enum Buttons {
             Try to look it up manually.
             """, ButtonsMessages.MAIN_MENU.getText(), null),
 
+    CONFIRM_SELECTION("""
+            So, this is your challenge.
+            Chat: 
+            User: 
+            Area:
+            It costs:
+            Is everything right?
+            """
+    ),
+
     //buy some rest...
 
     IS_ADDICTION("""
@@ -97,6 +107,7 @@ public enum Buttons {
             Binge watching YouTube, Netflix, etc,
             Social media.
             """, ButtonsMessages.ADDICTION.getText(), ButtonsMessages.REST.getText(), null),
+
     ADDICTION_HELP("""
             I don't know what your addiction is, but it has to be treated. It is good, that you have stepped on a path of self-improvement,
             BUT!
@@ -120,9 +131,14 @@ public enum Buttons {
                 But remember, that you are in a constant race, and when you do nothing, you everyone else moves forward.
                 I suggest you watch a video "Stop letting other men pipe your wife" by Hamza in the meantime.
             """, ButtonsMessages.BACK_TO_MENU.getText(), null),
-    //misc
 
+    //misc
     NEED_MORE_COINS("Hey! This action requires more coins then you have!", ButtonsMessages.CONTINUE_WORKING.getText()),
+
+    PURCHASE_SUCCESSFUL("""
+    Purchase successful!
+    Your remaining coin count: %6
+    """, ButtonsMessages.BACK_TO_MENU.getText()),
 
     MENU_FAQ("""
              We don’t grow when things are easy; we grow when we face challenges.
@@ -131,7 +147,7 @@ public enum Buttons {
             """, ButtonsMessages.BACK_TO_MENU.getText()),
 
     //Commands
-    UNKNOWN_COMMAND("Error: this command doesn't seem to be supported...", ButtonsMessages.BACK_TO_MENU.getText(),null),
+    UNKNOWN_COMMAND("Error: this command doesn't seem to be supported...", ButtonsMessages.BACK_TO_MENU.getText(), null),
 
     //On start
     ON_START_NEW_USER(
@@ -160,9 +176,11 @@ public enum Buttons {
             "/start", null),
 
     DELETED_FROM_CACHE("""
-                It seems that you have waited for too long, and your challenge draft has deleted itself(30 minutes).
-                Don't worry, you can just scroll up and copy your inputs from the messages you've sent before.
-                """,ButtonsMessages.BACK_TO_MENU.getText(),null);
+            It seems that you have waited for too long, and your challenge draft has deleted itself(30 minutes).
+            Don't worry, you can just scroll up and copy your inputs from the messages you've sent before.
+            """, ButtonsMessages.BACK_TO_MENU.getText(), null);
+
+
     final private String message;
     final private String[] keyboard;
 

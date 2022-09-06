@@ -5,6 +5,7 @@ import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.dao.model.Chat;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
+import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
 import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
 import edu.mriabov.challengertelegrambot.service.ChatService;
 import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;
@@ -25,7 +26,6 @@ public class NumpadHandler {
     private final UserService userService;
     private final ChatService chatService;
     private final DynamicButtonsService dynamicButtonsService;
-
 
     public SendMessage handleMessages(long chatID, String message) {
         if (message.substring(4).equals(Appendix.USER_APPENDIX.getText())) {
@@ -49,7 +49,7 @@ public class NumpadHandler {
                     .replyMarkup(dynamicButtonsService.createMarkup(chatID, Appendix.CHAT_APPENDIX))
                     .build();
             if (Character.isDigit(message.charAt(0))) {
-                challengeCreatorService.selectChats(chatID, message.charAt(0));
+                challengeCreatorService.selectChats(chatID, message.charAt(0)- TelegramUtils.CHAR_0);
                 chatPageCache.cleanCache(chatID);
                 return ButtonsMappingUtils.buildMessageWithKeyboard(chatID, Buttons.DIFFICULTY_SELECTION);
             }

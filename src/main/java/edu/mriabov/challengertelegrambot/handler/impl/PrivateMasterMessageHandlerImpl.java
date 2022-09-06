@@ -32,7 +32,7 @@ public class PrivateMasterMessageHandlerImpl implements MessageHandler {
     public void handleMessages(Update update) {
         String message = update.getMessage().getText();
         long chatID = update.getMessage().getChatId();
-        log.info("Successfully received the message to the handler: " + message);
+        log.info("Successfully received the message to the PM handler: " + message);
         if (update.getMessage().isCommand()) commandContainer.executeByText(update.getMessage());//if the message is a command
         else if (EmojiManager.containsEmoji(message.substring(0, 3))
                 || TelegramUtils.checkForUnsupportedEmoji(message)) {//if the message is a button
@@ -48,7 +48,7 @@ public class PrivateMasterMessageHandlerImpl implements MessageHandler {
         }
         Optional<Buttons> logicButtons = challengeCreatorHandler.handleStaticMessages(chatID, message);
         if (logicButtons.isPresent()) senderService.sendMessages(chatID, logicButtons.get());
-        else if (message.startsWith("️⃣⃣",1)||message.startsWith(ButtonsMappingUtils.previousPage)||message.startsWith(ButtonsMappingUtils.nextPage))
+        else if (message.startsWith("️⃣",1)||message.startsWith(ButtonsMappingUtils.previousPage)||message.startsWith(ButtonsMappingUtils.nextPage))
             senderService.sendMessages(numpadHandler.handleMessages(chatID, message));
         else senderService.sendMessages(chatID, receivedMessagesContainer.getByText(message));
     }

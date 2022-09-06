@@ -43,7 +43,7 @@ public class FormatServiceImpl implements FormatService {
         Page<Chat> page = chatPageCache.getCurrentPage(chatID);
         StringBuilder result = new StringBuilder();
         if (page.isEmpty()) return "Hey, it seems, that your chat list is empty. How about finding some community to join?";
-        for (int i = 1; i <= page.getNumberOfElements(); i++) {
+        for (int i = 0; i < page.getNumberOfElements(); i++) {
             result.append(i).append("️⃣ ").append(page.getContent().get(i).getName());
         }
         return result.toString();
@@ -53,7 +53,7 @@ public class FormatServiceImpl implements FormatService {
         Page<User> page = userPageCache.getCurrentPage(chatID);
         StringBuilder result = new StringBuilder();
         if (page.isEmpty()) return "Hey, it seems, that your chat list is empty. How about finding some community to join?";
-        for (int i = 1; i <= page.getNumberOfElements(); i++) {
+        for (int i = 0; i < page.getNumberOfElements(); i++) {
             result.append(i).append("️⃣ ")
                     .append(page.getContent().get(i).getFirstName())
                     .append(page.getContent().get(i).getLastName());
