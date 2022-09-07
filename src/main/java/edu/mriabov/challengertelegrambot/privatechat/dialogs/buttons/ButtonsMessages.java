@@ -33,6 +33,7 @@ enum ButtonsMessages {//package-private!
     FITNESS_AREA("\uD83C\uDFCB️\u200D♂️Fitness"),
     MINDFULNESS_AREA("\uD83E\uDDD8\u200D♀️Mindfulness"),
     FINANCES_AREA("\uD83D\uDCB2Finances"),
+    CONFIRM_CHALLENGE_BILLING("\uD83D\uDC8EConfirm billing\uD83D\uDC8E"),
 
     //Buy some rest...
     REST("\uD83E\uDD24I'm just tired..."),
@@ -54,6 +55,7 @@ enum ButtonsMessages {//package-private!
     ON_START_NEW_USER_SECOND_YES("✅Continue"),
     ON_START_NEW_USER_SECOND_NO("⏩Skip"),
     ON_START_NEW_USER_THIRD("\uD83C\uDD97Finish")//last for now
+
 
     //!
     ;

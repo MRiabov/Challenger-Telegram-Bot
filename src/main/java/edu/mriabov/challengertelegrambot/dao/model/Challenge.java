@@ -5,8 +5,6 @@ import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,7 +14,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-public class Challenge {
+public class Challenge extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -36,14 +34,6 @@ public class Challenge {
     @Enumerated(EnumType.STRING)
     @Column(updatable = false)
     private Difficulty difficulty;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @CreatedBy
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id",insertable = false,updatable = false)
-    private User createdBy;
 
     private LocalDateTime expiresAt;
 

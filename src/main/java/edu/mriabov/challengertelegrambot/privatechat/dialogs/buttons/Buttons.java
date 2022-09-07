@@ -92,7 +92,8 @@ public enum Buttons {
             %9$s
             Is everything right?
             """
-    ),
+    ,ButtonsMessages.CONFIRM_CHALLENGE_BILLING.getText(),null,
+            ButtonsMessages.CANCEL.getText(),null),
 
     //buy some rest...
 

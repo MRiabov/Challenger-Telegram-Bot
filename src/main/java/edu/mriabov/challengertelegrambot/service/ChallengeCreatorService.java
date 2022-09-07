@@ -9,21 +9,21 @@ import java.util.Optional;
 
 public interface ChallengeCreatorService {
 
-    void fillChatPageCache(long chatID);
+    void fillChatPageCache(long userID);
 
     void fillUserPageCache(long userID, Chat group);
 
-    boolean selectUsers(long chatID, User user);
+    boolean selectUsers(long thisUserID, User otherUser);
 
-    Optional<Chat> selectChats(long chatID, int selectedNumber);
+    Optional<Chat> selectChats(long userID, int selectedNumber);
 
     boolean selectDifficulty(long chatID, Difficulty difficulty);
 
     boolean selectArea(long chatID, Area area);
 
-    boolean selectUsersByUsername(long chatID, String username);
+    boolean selectUsersByUsername(long userID, String username);
 
     Chat getSelectedGroupID(long userID);
 
-
+    boolean confirm(long userID);
 }

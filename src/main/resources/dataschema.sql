@@ -36,14 +36,14 @@ CREATE TABLE IF NOT EXISTS `chat`
 
 CREATE TABLE IF NOT EXISTS `challenge`
 (
-    id                  int PRIMARY KEY AUTO_INCREMENT,
-    `challenge_message` varchar(256)                                              NOT NULL,
-    `difficulty`        enum ('EASY','MEDIUM','DIFFICULT','GOAL')                 NOT NULL,
-    `area`              enum ('RELATIONSHIPS','FITNESS','MINDFULNESS','FINANCES') NOT NULL,
-    `created_at`        TIMESTAMP                                                 NOT NULL,
-    `expires_at`        TIMESTAMP                                                 NOT NULL,
-    `created_by`        int                                                       NOT NULL,
-    `chat_id`           int                                                       NOT NULL,
+    id           int PRIMARY KEY AUTO_INCREMENT,
+    description  varchar(256)                                              NOT NULL,
+    `difficulty` enum ('EASY','MEDIUM','DIFFICULT','GOAL')                 NOT NULL,
+    `area`       enum ('RELATIONSHIPS','FITNESS','MINDFULNESS','FINANCES') NOT NULL,
+    `created_at` TIMESTAMP                                                 NOT NULL,
+    `expires_at` TIMESTAMP                                                 NOT NULL,
+    `created_by` int                                                       NOT NULL,
+    `chat_id`    int                                                       NOT NULL,
 
     FOREIGN KEY (created_by) references user (id),
     FOREIGN KEY (chat_id) references chat (id)

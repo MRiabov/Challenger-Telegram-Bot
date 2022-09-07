@@ -16,29 +16,32 @@ public class ChallengeCreatorHandler {
 
     private final ChallengeCreatorService challengeCreatorService;
 
-    public Optional<Buttons> handleStaticMessages(long chatID, String message) {
+    public Optional<Buttons> handleStaticMessages(long userID, String message) {
         if (message.equals(LogicButtonsMessages.CHALLENGE_YOUR_FRIENDS.getText())) {
-            challengeCreatorService.fillChatPageCache(chatID);
+            challengeCreatorService.fillChatPageCache(userID);
             return Optional.of(Buttons.CHAT_SELECTION);
         }
         //Nope, can't do enums with switch...
         if (message.equals(LogicButtonsMessages.EASY_DIFFICULTY.getText()))
-            return Optional.ofNullable(setDifficulty(chatID, Difficulty.EASY));
+            return Optional.ofNullable(setDifficulty(userID, Difficulty.EASY));
         if (message.equals(LogicButtonsMessages.MEDIUM_DIFFICULTY.getText()))
-            return Optional.ofNullable(setDifficulty(chatID, Difficulty.MEDIUM));
+            return Optional.ofNullable(setDifficulty(userID, Difficulty.MEDIUM));
         if (message.equals(LogicButtonsMessages.DIFFICULT_DIFFICULTY.getText()))
-            return Optional.ofNullable(setDifficulty(chatID, Difficulty.DIFFICULT));
+            return Optional.ofNullable(setDifficulty(userID, Difficulty.DIFFICULT));
         if (message.equals(LogicButtonsMessages.GOAL_DIFFICULTY.getText()))
-            return Optional.ofNullable(setDifficulty(chatID, Difficulty.GOAL));
+            return Optional.ofNullable(setDifficulty(userID, Difficulty.GOAL));
 
         if (message.equals(LogicButtonsMessages.FINANCES_AREA.getText()))
-            return Optional.ofNullable(setArea(chatID, Area.FINANCES));
+            return Optional.ofNullable(setArea(userID, Area.FINANCES));
         if (message.equals(LogicButtonsMessages.FITNESS_AREA.getText()))
-            return Optional.ofNullable(setArea(chatID, Area.FITNESS));
+            return Optional.ofNullable(setArea(userID, Area.FITNESS));
         if (message.equals(LogicButtonsMessages.MINDFULNESS_AREA.getText()))
-            return Optional.ofNullable(setArea(chatID, Area.MINDFULNESS));
+            return Optional.ofNullable(setArea(userID, Area.MINDFULNESS));
         if (message.equals(LogicButtonsMessages.RELATIONSHIPS_AREA.getText()))
-            return Optional.ofNullable(setArea(chatID, Area.RELATIONSHIPS));
+            return Optional.ofNullable(setArea(userID, Area.RELATIONSHIPS));
+
+        if (message.equals(LogicButtonsMessages.CONFIRM_CHALLENGE_BILLING.getText()))
+            challengeCreatorService.confirm(userID);
 
         return Optional.empty();
     }

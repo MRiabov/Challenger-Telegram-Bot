@@ -19,7 +19,8 @@ public enum LogicButtonsMessages {
     MINDFULNESS_AREA(ButtonsMessages.MINDFULNESS_AREA.getText()),
     FITNESS_AREA(ButtonsMessages.FITNESS_AREA.getText()),
 
-    CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText())
+    CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText()),
+    CONFIRM_CHALLENGE_BILLING(ButtonsMessages.CONFIRM_CHALLENGE_BILLING.getText())
 
     //!
     ;
