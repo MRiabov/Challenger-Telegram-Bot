@@ -1,5 +1,7 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
+import edu.mriabov.challengertelegrambot.dao.model.Challenge;
+import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.dao.model.Chat;
@@ -19,14 +21,21 @@ import java.util.Optional;
 public class FormatServiceImpl implements FormatService {
     private final ChatPageCache chatPageCache;
     private final UserPageCache userPageCache;
+    private final ChallengeCache challengeCache;
     private final UserService userService;
 
     @Override
-    public String format(long chatID, String input) {
-        Optional<User> userOptional = userService.getUserByTelegramId(chatID);
+    public String format(long userID, String input) {
+        Optional<User> userOptional = userService.getUserByTelegramId(userID);
         if (userOptional.isEmpty()) return Buttons.USER_NOT_FOUND.getMessage();
         User user = userOptional.get();
         UserStats userStats = user.getUserStats();
+        Challenge challenge = new Challenge();
+//        if (challengeCache.contains(userID)) challengeCache.get(userID);
+//        else {
+//            Chat chat = new Chat();
+//            challenge.setChat(chat);
+//        }
         return String.format(input,
                 user.getFirstName(),//1s
                 userStats.getFinances(),//2
@@ -34,17 +43,22 @@ public class FormatServiceImpl implements FormatService {
                 userStats.getFitness(),//4
                 userStats.getMindfulness(),//5
                 user.getCoins(),//6
-                chatPageToListConverter(chatID),// 7
-                userPageToListConverter(chatID)//8
+                chatPageToListConverter(userID),// 7
+                userPageToListConverter(userID),//8
+                challenge.getChat().getName(),//9
+                challenge.getUsers(),//10
+                challenge.getDifficulty(),//11
+                challenge.getArea()//12
         );
     }
 
     private String chatPageToListConverter(long chatID) {
         Page<Chat> page = chatPageCache.getCurrentPage(chatID);
         StringBuilder result = new StringBuilder();
-        if (page.isEmpty()) return "Hey, it seems, that your chat list is empty. How about finding some community to join?";
+        if (page.isEmpty())
+            return "Hey, it seems, that your chat list is empty. How about finding some community to join?";
         for (int i = 0; i < page.getNumberOfElements(); i++) {
-            result.append(i+1).append("️⃣ ").append(page.getContent().get(i).getName());
+            result.append(i + 1).append("️⃣ ").append(page.getContent().get(i).getName());
         }
         return result.toString();
     }
@@ -52,13 +66,14 @@ public class FormatServiceImpl implements FormatService {
     private String userPageToListConverter(long chatID) {
         Page<User> page = userPageCache.getCurrentPage(chatID);
         StringBuilder result = new StringBuilder();
-        if (page.isEmpty()) return "Hey, it seems, that your user list is empty. How about finding some community to join?";
+        if (page.isEmpty())
+            return "Hey, it seems, that your user list is empty. How about finding some community to join?";
         for (int i = 0; i < page.getNumberOfElements(); i++) {
-            result.append(i+1).append("️⃣ ")
+            result.append(i + 1).append("️⃣ ")
                     .append(page.getContent().get(i).getFirstName())
                     .append(" ")
-                    .append(page.getContent().get(i).getLastName()!=null?
-                            page.getContent().get(i).getLastName():"")
+                    .append(page.getContent().get(i).getLastName() != null ?
+                            page.getContent().get(i).getLastName() : "")
                     .append("\n");
         }
         return result.toString();

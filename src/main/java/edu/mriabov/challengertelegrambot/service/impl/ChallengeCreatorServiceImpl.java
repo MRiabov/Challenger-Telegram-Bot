@@ -31,36 +31,37 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     private final ChatPageCache chatPageCache;
 
     @Override
-    public void fillUserPageCache(long userID, long groupID) {
-        userPageCache.put(userID, chatService.findUsersByTelegramID(userID, groupID, 0));
+    public void fillUserPageCache(long userID, Chat group) {
+        userPageCache.put(userID, chatService.findUsersByTelegramID(userID, group.getTelegramID(), 0));
     }
 
     @Override
-    public void fillChatPageCache(long chatID) {
-        chatPageCache.put(chatID, userService.findChatsByTelegramId(chatID, 0));
+    public void fillChatPageCache(long userID) {
+        chatPageCache.put(userID, userService.findChatsByTelegramId(userID, 0));
     }
 
     @Override
-    public boolean selectUsers(long chatID, User user) {
-        if (deletedFromCache(chatID)) return false;
-        challengeCache.get(chatID).getUsers().add(user);
+    public boolean selectUsers(long userID, User user) {
+        if (deletedFromCache(userID)) return false;
+        if (challengeCache.get(userID).getUsers()!=null) challengeCache.get(userID).getUsers().add(user);
+        else challengeCache.get(userID).setUsers(Set.of(user));
         return true;
     }
 
     @Override
-    public long selectChats(long chatID, int selectedNumber) {
-        if (!chatPageCache.contains(chatID)) return 0;
+    public Optional<Chat> selectChats(long userID, int selectedNumber) {
+        if (!chatPageCache.contains(userID)) return Optional.empty();
         Challenge challenge = new Challenge();
-        long telegramID;
-        challenge.setChatID(telegramID = chatPageCache.getCurrentPage(chatID).getContent().get(selectedNumber - 1).getTelegramID());
-        challengeCache.put(chatID, challenge);
-        return telegramID;
+        Chat chat;
+        challenge.setChat(chat = chatPageCache.getCurrentPage(userID).getContent().get(selectedNumber));
+        challengeCache.put(userID, challenge);
+        return Optional.ofNullable(chat);
     }
 
     @Override
-    public boolean selectDifficulty(long chatID, Difficulty difficulty) {
-        if (deletedFromCache(chatID)) return false;
-        challengeCache.get(chatID).setDifficulty(difficulty);
+    public boolean selectDifficulty(long userID, Difficulty difficulty) {
+        if (deletedFromCache(userID)) return false;
+        challengeCache.get(userID).setDifficulty(difficulty);
         return true;
     }
 
@@ -85,16 +86,16 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         if (chats.getTotalElements() == 0) return false;
         Challenge challenge = new Challenge();
         challenge.setUsers(Set.of(userOptional.get()));
-        challenge.setChatID(userService.findMatchingChats(chatID, userOptional.get().getTelegramId())
-                .getContent().get(0).getTelegramID());
+        challenge.setChat(userService.findMatchingChats(chatID, userOptional.get().getTelegramId())
+                .getContent().get(0));
         // FIXME: 9/4/2022 make an actual page, if there is more then one.
         challengeCache.put(chatID, challenge);
         return true;
     }
 
     @Override
-    public long getSelectedGroupID(long userID) {
-        return challengeCache.get(userID).getChatID();
+    public Chat getSelectedGroupID(long userID) {
+        return challengeCache.get(userID).getChat();
     }
 
     private boolean deletedFromCache(long chatID) {

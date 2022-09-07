@@ -43,7 +43,7 @@ public class InlineChallengeCreatorServiceImpl implements InlineChallengeCreator
         if (challenge.getDifficulty()==null||challenge.getUsers().size()==0||challenge.getArea()==null)
             return Optional.empty();
         //todo createdBy
-        challenge.setChatID(message.getChatId());
+        challenge.setChat(chatService.findByTelegramID(message.getChatId()));
         challenge.setCreatedAt(LocalDateTime.now());
         return Optional.of(challenge);
     }

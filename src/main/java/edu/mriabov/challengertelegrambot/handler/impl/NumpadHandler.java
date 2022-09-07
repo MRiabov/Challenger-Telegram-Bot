@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class NumpadHandler {
@@ -34,10 +36,10 @@ public class NumpadHandler {
                     .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.CHAT_APPENDIX))
                     .build();
             if (Character.isDigit(message.charAt(0))) {
-                long selectedGroupID = challengeCreatorService.selectChats(userID, Character.getNumericValue(message.charAt(0)) - 1);
-                if (selectedGroupID == 0)
+                Optional<Chat> selectedGroup = challengeCreatorService.selectChats(userID, Character.getNumericValue(message.charAt(0)) - 1);
+                if (selectedGroup.isEmpty())
                     return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.INCORRECT_INPUT);
-                challengeCreatorService.fillUserPageCache(userID, selectedGroupID);
+                challengeCreatorService.fillUserPageCache(userID, selectedGroup.get());
                 return SendMessage.builder()
                         .chatId(userID)
                         .text(Buttons.USER_SELECTION.getMessage())
@@ -46,7 +48,7 @@ public class NumpadHandler {
             }
         }
         if (message.substring(4).equals(Appendix.USER_APPENDIX.getText())) {
-            if (userPageFlip(userID, challengeCreatorService.getSelectedGroupID(userID), message))
+            if (userPageFlip(userID, challengeCreatorService.getSelectedGroupID(userID).getTelegramID(), message))
                 return SendMessage.builder()
                         .text(Buttons.USER_SELECTION.getMessage())
                         .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))

@@ -89,9 +89,10 @@ public enum Buttons {
 
     CONFIRM_SELECTION("""
             So, this is your challenge.
-            Chat:
-            User:
-            Area:
+            Chat: %9$s
+            User:%10$s
+            Difficulty:%11$s
+            Area:%12$s
             It costs:
             Is everything right?
             """

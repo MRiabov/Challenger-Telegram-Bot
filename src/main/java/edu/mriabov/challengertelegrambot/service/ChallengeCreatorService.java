@@ -2,17 +2,20 @@ package edu.mriabov.challengertelegrambot.service;
 
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
+import edu.mriabov.challengertelegrambot.dao.model.Chat;
 import edu.mriabov.challengertelegrambot.dao.model.User;
+
+import java.util.Optional;
 
 public interface ChallengeCreatorService {
 
     void fillChatPageCache(long chatID);
 
-    void fillUserPageCache(long userID, long groupID);
+    void fillUserPageCache(long userID, Chat group);
 
     boolean selectUsers(long chatID, User user);
 
-    long selectChats(long chatID, int selectedNumber);
+    Optional<Chat> selectChats(long chatID, int selectedNumber);
 
     boolean selectDifficulty(long chatID, Difficulty difficulty);
 
@@ -20,7 +23,7 @@ public interface ChallengeCreatorService {
 
     boolean selectUsersByUsername(long chatID, String username);
 
-    long getSelectedGroupID(long userID);
+    Chat getSelectedGroupID(long userID);
 
 
 }
