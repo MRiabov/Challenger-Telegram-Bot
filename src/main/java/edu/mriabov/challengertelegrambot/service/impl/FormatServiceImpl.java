@@ -8,6 +8,7 @@ import edu.mriabov.challengertelegrambot.dao.model.Chat;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
+import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.FormatService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class FormatServiceImpl implements FormatService {
     private final UserPageCache userPageCache;
     private final ChallengeCache challengeCache;
     private final UserService userService;
+    private final BillingService billingService;
 
     @Override
     public String format(long userID, String input) {
@@ -30,12 +32,6 @@ public class FormatServiceImpl implements FormatService {
         if (userOptional.isEmpty()) return Buttons.USER_NOT_FOUND.getMessage();
         User user = userOptional.get();
         UserStats userStats = user.getUserStats();
-        Challenge challenge = new Challenge();
-//        if (challengeCache.contains(userID)) challengeCache.get(userID);
-//        else {
-//            Chat chat = new Chat();
-//            challenge.setChat(chat);
-//        }
         return String.format(input,
                 user.getFirstName(),//1s
                 userStats.getFinances(),//2
@@ -45,10 +41,7 @@ public class FormatServiceImpl implements FormatService {
                 user.getCoins(),//6
                 chatPageToListConverter(userID),// 7
                 userPageToListConverter(userID),//8
-                challenge.getChat().getName(),//9
-                challenge.getUsers(),//10
-                challenge.getDifficulty(),//11
-                challenge.getArea()//12
+                challengeConfirmation(userID)
         );
     }
 
@@ -77,5 +70,27 @@ public class FormatServiceImpl implements FormatService {
                     .append("\n");
         }
         return result.toString();
+    }
+
+    private String challengeConfirmation(long userID) {
+        if (!challengeCache.contains(userID)) return null;
+        Challenge challenge = challengeCache.get(userID);
+        if (challenge.getDifficulty()==null||challenge.getArea()==null||challenge.getUsers()==null) return null;
+        StringBuilder challengeInfo = new StringBuilder();
+        challengeInfo
+                .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getChat().getName())
+                .append("\n\uD83C\uDFCB️\u200D♂️Users: ");
+        for (User user : challenge.getUsers()) challengeInfo.append(user.getFirstName()).append(" ")
+                .append(user.getLastName() != null ? user.getLastName() : "");
+        challengeInfo
+                .append("\n\uD83C\uDF96Difficulty: ").append(challenge.getDifficulty())
+                .append("\n\uD83C\uDFF9Area: ").append(challenge.getArea())
+                .append("\n\n\uD83D\uDCB8It costs:").append(billingFormatter(userID, billingService.challengePrice(challenge)));
+        return challengeInfo.toString();
+    }
+
+    private String billingFormatter(long userID, int price) {
+        if (billingService.isEnoughCoins(userID, price)) return String.valueOf(price);
+        else return "~" + price + "~";
     }
 }

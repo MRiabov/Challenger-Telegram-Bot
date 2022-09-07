@@ -6,10 +6,11 @@ import java.util.List;
 
 public interface BillingService {
 
-    boolean isEnoughCoins(long chatID,int coinCount);
-    List<Boolean> isEnoughCoins(long chatID, int[] coinCount);
-    boolean billCoins(long chatID, int coinCount);
+    boolean isEnoughCoins(long userID, int coinCount);
+    List<Boolean> isEnoughCoins(long userID, int[] coinCount);
+    boolean billCoins(long userID, int coinCount);
     int challengePrice(Challenge challenge);
+
 
 
 }
