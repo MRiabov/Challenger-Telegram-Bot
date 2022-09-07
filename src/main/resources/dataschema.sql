@@ -16,11 +16,11 @@ CREATE TABLE IF NOT EXISTS `user`
 (
     `id`          int PRIMARY KEY AUTO_INCREMENT,
     `first_name`  varchar(50) NOT NULL,
-    `telegram_id` long,
+    `telegram_id` int        NOT NULL,
     `last_name`   varchar(50),
     `username`    varchar(50),
     `coins`       int,
-    `stats_id`    int,
+    `stats_id`    int         NOT NULL,
 
     foreign key (stats_id) references user_stats (id)
 );
@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS `chat`
 (
     id                    int PRIMARY KEY AUTO_INCREMENT,
     total_tasks_completed int,
-    telegramId            long,
-    name                  varchar(50),
-    added_at              TIMESTAMP
+    telegramId            int        NOT NULL,
+    `name`                varchar(50) NOT NULL,
+    added_at              TIMESTAMP   NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `challenge`
@@ -48,6 +48,8 @@ CREATE TABLE IF NOT EXISTS `challenge`
     FOREIGN KEY (created_by) references user (id),
     FOREIGN KEY (chat_id) references chat (id)
 );
+
+
 
 CREATE TABLE IF NOT EXISTS challenge_user
 (

@@ -7,11 +7,11 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 
 public interface SenderService {
 
-    void sendMessages(long chatID, String message);
+    void sendMessages(long userID, String message);
 
-    void sendMessages(long chatID, String message, ReplyKeyboardMarkup markup);
+    void sendMessages(long userID, String message, ReplyKeyboardMarkup markup);
 
-    void sendMessages(long chatID, Buttons buttons);
+    void sendMessages(long userID, Buttons buttons);
 
     void sendMessages(SendMessage sendMessage);
 

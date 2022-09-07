@@ -46,7 +46,6 @@ public class ChallengeCreatorHandler {
         return Optional.empty();
     }
 
-
     public Buttons handleUsernames(long userID, String message) {
         if (challengeCreatorService.selectUsersByUsername(userID, message)) return Buttons.DIFFICULTY_SELECTION;
         else return Buttons.OTHER_USER_NOT_FOUND;
@@ -59,6 +58,11 @@ public class ChallengeCreatorHandler {
 
     private Buttons setArea(long chatID, Area area) {
         challengeCreatorService.selectArea(chatID, area);
+        return Buttons.SET_DESCRIPTION;
+    }
+
+    public Buttons setMessage(long userID, String message) {
+        challengeCreatorService.setDescription(userID, message);
         return Buttons.CONFIRM_SELECTION;
     }
 }

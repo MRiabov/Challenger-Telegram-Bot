@@ -17,12 +17,10 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @CreatedBy
-//    @Column(updatable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id",insertable = false,updatable = false)
-    private User createdBy;
+    @Column(updatable = false)
+    private long createdBy;
 
 }

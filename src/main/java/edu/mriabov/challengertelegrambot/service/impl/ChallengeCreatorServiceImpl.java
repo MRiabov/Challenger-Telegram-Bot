@@ -1,20 +1,21 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
-import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Chat;
 import edu.mriabov.challengertelegrambot.dao.model.User;
+import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
+import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.Set;
 
@@ -74,6 +75,13 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     }
 
     @Override
+    public boolean setDescription(long userID, String message) {
+        if (deletedFromCache(userID)) return false;
+        challengeCache.get(userID).setDescription(message);
+        return true;
+    }
+
+    @Override
     public boolean selectUsersByUsername(long userID, String username) {
         username = username.substring(1);
         Optional<User> userOptional = userService.getUserByUsername(username);
@@ -106,9 +114,9 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
             return false;
         int price = billingService.challengePrice(challenge);
         if (billingService.isEnoughCoins(userID, price)) return false;
-        challenge.setCreatedAt(LocalDateTime.now());
-        //noinspection OptionalGetWithoutIsPresent
+        challenge.setCreatedAt(Instant.now());
         challenge.setCreatedBy(userService.getUserByTelegramId(userID).get());
+        challenge.setExpiresAt(Instant.now().plus(24, ChronoUnit.HOURS));
         challengeService.save(challenge);
         billingService.billCoins(userID, price);
         return true;

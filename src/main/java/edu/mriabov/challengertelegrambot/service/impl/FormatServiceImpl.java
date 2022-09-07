@@ -85,12 +85,13 @@ public class FormatServiceImpl implements FormatService {
         challengeInfo
                 .append("\n\uD83C\uDF96Difficulty: ").append(challenge.getDifficulty())
                 .append("\n\uD83C\uDFF9Area: ").append(challenge.getArea())
-                .append("\n\n\uD83D\uDCB8It costs:").append(billingFormatter(userID, billingService.challengePrice(challenge)));
+                .append("\n\n\uD83D\uDCDDChallenge description: ").append(challenge.getDescription())
+                .append("\n\n\uD83D\uDCB8It costs: ").append(billingFormatter(userID, billingService.challengePrice(challenge)));
         return challengeInfo.toString();
     }
 
     private String billingFormatter(long userID, int price) {
-        if (billingService.isEnoughCoins(userID, price)) return String.valueOf(price);
-        else return "~" + price + "~";
+        if (billingService.isEnoughCoins(userID, price)) return "\uD83D\uDC8E" + price;
+        else return "~\uD83D\uDC8E" + price + "~";
     }
 }

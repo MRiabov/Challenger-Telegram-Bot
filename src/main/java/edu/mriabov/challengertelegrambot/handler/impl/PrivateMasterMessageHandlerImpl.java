@@ -31,14 +31,15 @@ public class PrivateMasterMessageHandlerImpl implements MessageHandler {
     @Override
     public void handleMessages(Update update) {
         String message = update.getMessage().getText();
-        long chatID = update.getMessage().getChatId();
+        long userID = update.getMessage().getChatId();
         log.info("Successfully received the message to the PM handler: " + message);
         if (update.getMessage().isCommand()) commandContainer.executeByText(update.getMessage());//if the message is a command
         else if (EmojiManager.containsEmoji(message.substring(0, 3))
                 || TelegramUtils.checkForUnsupportedEmoji(message)) {//if the message is a button
-            buttonsHandler(chatID, message);
-        } else if (message.startsWith("@")) senderService.sendMessages(chatID,//if the message is a username
-                challengeCreatorHandler.handleUsernames(chatID, message));
+            buttonsHandler(userID, message);
+        } else if (message.startsWith("@")) senderService.sendMessages(userID,//if the message is a username
+                challengeCreatorHandler.handleUsernames(userID, message));
+        else if (message.length()>40) senderService.sendMessages(userID, challengeCreatorHandler.setMessage(userID,message));
     }
 
     private void buttonsHandler(long chatID, String message) {

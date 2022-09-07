@@ -34,10 +34,10 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
 
     @SneakyThrows
     @Override
-    public void sendMessages(long chatID, String message) {
-        message = formatService.format(chatID, message);
+    public void sendMessages(long userID, String message) {
+        message = formatService.format(userID, message);
         log.info("SenderService attempted to send a message: " + message);
-        execute(new SendMessage(Long.toString(chatID), message));
+        execute(new SendMessage(Long.toString(userID), message));
     }
 
     @SneakyThrows
@@ -54,15 +54,15 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
 
     @SneakyThrows
     @Override
-    public void sendMessages(long chatID, Buttons buttons) {
-        String message = formatService.format(chatID, buttons.getMessage());
+    public void sendMessages(long userID, Buttons buttons) {
+        String message = formatService.format(userID, buttons.getMessage());
         log.info("SenderService attempted to send a message with buttons: " + buttons.getMessage());
 
         execute(SendMessage.builder()
                 .text(message)
-                .chatId(chatID)
+                .chatId(userID)
                 .replyMarkup(buttons.getKeyboard().length==0 ?// FIXME: 9/3/2022 chat appendix is hardcoded
-                        dynamicButtonsService.createMarkup(chatID,Appendix.CHAT_APPENDIX) :
+                        dynamicButtonsService.createMarkup(userID,Appendix.CHAT_APPENDIX) :
                         ButtonsMappingUtils.createStaticMarkup(buttons.getKeyboard()))
                 .build()
         );

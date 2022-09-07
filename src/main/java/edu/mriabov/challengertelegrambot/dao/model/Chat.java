@@ -8,7 +8,9 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -35,6 +37,9 @@ public class Chat {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime addedAt;
+
+    @OneToMany(mappedBy = "chat")
+    private Set<Challenge> challenges = new LinkedHashSet<>();
 
     public Chat() {
         users = new ArrayList<>();

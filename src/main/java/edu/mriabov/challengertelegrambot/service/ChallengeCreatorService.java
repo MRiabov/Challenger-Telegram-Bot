@@ -17,6 +17,8 @@ public interface ChallengeCreatorService {
 
     Optional<Chat> selectChats(long userID, int selectedNumber);
 
+    boolean setDescription(long userID, String message);
+
     boolean selectDifficulty(long chatID, Difficulty difficulty);
 
     boolean selectArea(long chatID, Area area);
@@ -26,4 +28,6 @@ public interface ChallengeCreatorService {
     Chat getSelectedGroupID(long userID);
 
     boolean confirm(long userID);
+
+
 }
