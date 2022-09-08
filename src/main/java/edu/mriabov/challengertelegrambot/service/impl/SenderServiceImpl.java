@@ -49,7 +49,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
                 .text(message)
                 .chatId(chatID)
                 .replyMarkup(markup)
-                .parseMode("MarkdownV2")
+                .parseMode("HTML")
                 .build());
     }
 
@@ -65,7 +65,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
                 .replyMarkup(buttons.getKeyboard().length==0 ?// FIXME: 9/3/2022 chat appendix is hardcoded
                         dynamicButtonsService.createMarkup(userID,Appendix.CHAT_APPENDIX) :
                         ButtonsMappingUtils.createStaticMarkup(buttons.getKeyboard()))
-                .parseMode("MarkdownV2")
+                .parseMode("HTML")
                 .build()
         );
     }
@@ -86,7 +86,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
                 replyToMessageId(msgToReply.getMessageId())
                 .text(message)
                 .chatId(msgToReply.getChatId())
-                .parseMode("MarkdownV2")
+                .parseMode("HTML")
                 .build());
     }
 
