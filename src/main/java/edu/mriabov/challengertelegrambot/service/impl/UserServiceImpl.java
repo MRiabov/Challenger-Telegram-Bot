@@ -2,7 +2,7 @@ package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.dao.repository.GroupRepository;
+import edu.mriabov.challengertelegrambot.dao.repository.ChatRepository;
 import edu.mriabov.challengertelegrambot.dao.repository.UserRepository;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils.PAGE_SIZE;
 
@@ -19,7 +19,7 @@ import static edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMapping
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final GroupRepository groupRepository;
+    private final ChatRepository chatRepository;
 
     @Override
     public boolean existsByTelegramId(long telegramId) {
@@ -39,29 +39,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<Group> findChatsByTelegramId(long chatID, int page) {
-        return userRepository.findGroupsByTelegramId(chatID,
+        return userRepository.findChatsByTelegramId(chatID,
                 Pageable.ofSize(PAGE_SIZE).withPage(page));
     }
 
     @Override
     public Page<Group> findChatsByPageable(long chatID, Pageable pageable) {
-        return userRepository.findGroupsByTelegramId(chatID, pageable);
+        return userRepository.findChatsByTelegramId(chatID, pageable);
     }
 
     @Override
     public Page<Group> findMatchingChats(long chatID1, long chatID2) {
-        return userRepository.findMatchingGroupsFor2Users(chatID1, chatID2, Pageable.ofSize(PAGE_SIZE));
+        return userRepository.findMatchingChatsFor2Users(chatID1, chatID2, Pageable.ofSize(PAGE_SIZE));
     }
 
     @Override
     public boolean addChat(long userID, Group group) {
-        if (userRepository.findGroupsByTelegramId(userID, Pageable.unpaged()).getContent().contains(group)) return false;
-        if (!groupRepository.existsByTelegramId(group.getTelegramId())) return false;
+        if (userRepository.findChatsByTelegramId(userID, Pageable.unpaged()).getContent().contains(group)) return false;
+        if (!chatRepository.existsByTelegramID(group.getTelegramID())) return false;
 
         Optional<User> userOptional = userRepository.getUserByTelegramId(userID);
         if (userOptional.isEmpty()) return false;
         User user = userOptional.get();
-        Set<Group> groups = userRepository.findGroupsByTelegramId(userID);
+        List<Group> groups = userRepository.findChatsByTelegramId(userID);
         groups.add(group);
         user.setGroups(groups);
         save(user);

@@ -4,7 +4,7 @@ import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.service.GroupService;
+import edu.mriabov.challengertelegrambot.service.ChatService;
 import edu.mriabov.challengertelegrambot.service.InlineChallengeCreatorService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.Set;
 @Service
 public class InlineChallengeCreatorServiceImpl implements InlineChallengeCreatorService {
 
-    private final GroupService groupService;
+    private final ChatService chatService;
     private final UserService userService;
 
     @Override
@@ -42,7 +42,7 @@ public class InlineChallengeCreatorServiceImpl implements InlineChallengeCreator
         if (challenge.getDifficulty()==null||challenge.getUsers().size()==0||challenge.getArea()==null)
             return Optional.empty();
         //todo createdBy
-        challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
+        challenge.setGroup(chatService.findByTelegramID(message.getChatId()));
         return Optional.of(challenge);
     }
 

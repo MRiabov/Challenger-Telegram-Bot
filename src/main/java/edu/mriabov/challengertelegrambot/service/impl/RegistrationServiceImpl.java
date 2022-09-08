@@ -2,10 +2,10 @@ package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.service.GroupService;
+import edu.mriabov.challengertelegrambot.dao.model.UserStats;
+import edu.mriabov.challengertelegrambot.service.ChatService;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
 import edu.mriabov.challengertelegrambot.service.UserService;
-import edu.mriabov.challengertelegrambot.service.UserStatsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,8 +20,7 @@ import java.time.LocalDateTime;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private final UserService userService;
-    private final UserStatsService userStatsService;
-    private final GroupService groupService;
+    private final ChatService chatService;
 
     @Override
     public void registerUser(Message message) {
@@ -32,19 +31,17 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setLastName(telegramUser.getLastName());
         user.setTelegramId(telegramUser.getId());
         user.setUsername(telegramUser.getUserName());
-        user.setStats(userStatsService.create());
+        user.setUserStats(new UserStats());
         userService.save(user);
-        log.info("Successfully registered a gigachad! His details: " + user);
     }
 
     @Override
     public void registerChat(Update update) {
         Group group = new Group();
         org.telegram.telegrambots.meta.api.objects.Chat telegramChat = update.getMyChatMember().getChat();
-        group.setTelegramId(telegramChat.getId());
+        group.setTelegramID(telegramChat.getId());
         group.setName(telegramChat.getTitle());
         group.setAddedAt(LocalDateTime.now());
-        groupService.save(group);
-        log.info("Successfully registered a group! Its details: " + group);
+        chatService.save(group);
     }
 }

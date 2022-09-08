@@ -9,13 +9,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GroupRepository extends JpaRepository<Group,Integer> {
+public interface ChatRepository extends JpaRepository<Group,Integer> {
 
-    @Query("SELECT u FROM Group g JOIN g.users u WHERE g.telegramId=:groupID AND u.telegramId<>:userID")
+    @Query("SELECT u FROM Group g JOIN g.users u WHERE g.telegramID=:groupID AND u.telegramId<>:userID")
     Page<User> findUsersByTelegramID(long userID, long groupID, Pageable pageable);
 
-    boolean existsByTelegramId(long userID);
+    boolean existsByTelegramID(long chatID);
 
-    Group findByTelegramId(long chatID);
+    Group findByTelegramID(long chatID);
 
 }
