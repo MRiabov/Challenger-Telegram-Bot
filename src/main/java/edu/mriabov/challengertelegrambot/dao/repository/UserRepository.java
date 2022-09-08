@@ -21,14 +21,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> getUserByUsername(String username);
 
     @Query("SELECT c FROM User u JOIN u.groups c WHERE u.telegramId=:userID")
-    Set<Group> findChatsByTelegramId(long userID);
+    Set<Group> findGroupsByTelegramId(long userID);
 
     @Query("SELECT c FROM User u JOIN u.groups c WHERE u.telegramId=:chatID")
-    Page<Group> findChatsByTelegramId(long chatID, Pageable pageable);
+    Page<Group> findGroupsByTelegramId(long chatID, Pageable pageable);
 
     @Query("SELECT c1 FROM User u1 JOIN u1.groups c1 WHERE c1 IN " +
             "(SELECT c2 FROM User u2 JOIN u2.groups c2 WHERE u2.telegramId=:chatID2) " +
             "AND u1.telegramId=:chatID1 " +
             "ORDER BY c1.telegramId")
-    Page<Group> findMatchingChatsFor2Users(long chatID1, long chatID2, Pageable pageable);
+    Page<Group> findMatchingGroupsFor2Users(long chatID1, long chatID2, Pageable pageable);
 }

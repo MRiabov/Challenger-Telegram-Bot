@@ -40,11 +40,6 @@ public class User {
     @Column(name = "coins")
     private Integer coins;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "stats_id", nullable = false)
-    private UserStats stats;
-
     @ManyToMany
     @JoinTable(name = "group_user",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -53,5 +48,10 @@ public class User {
 
     @ManyToMany(mappedBy = "users")
     private Set<Challenge> challenges = new LinkedHashSet<>();
+
+    @NotNull
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "stats_id", nullable = false)
+    private UserStats stats;
 
 }

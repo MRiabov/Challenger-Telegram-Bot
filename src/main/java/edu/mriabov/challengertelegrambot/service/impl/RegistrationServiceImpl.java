@@ -2,10 +2,10 @@ package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.dao.model.UserStats;
 import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
 import edu.mriabov.challengertelegrambot.service.UserService;
+import edu.mriabov.challengertelegrambot.service.UserStatsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private final UserService userService;
+    private final UserStatsService userStatsService;
     private final GroupService groupService;
 
     @Override
@@ -31,8 +32,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setLastName(telegramUser.getLastName());
         user.setTelegramId(telegramUser.getId());
         user.setUsername(telegramUser.getUserName());
-        user.setStats(new UserStats());
+        user.setStats(userStatsService.create());
         userService.save(user);
+        log.info("Successfully registered a gigachad! His details: " + user);
     }
 
     @Override
@@ -43,5 +45,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         group.setName(telegramChat.getTitle());
         group.setAddedAt(LocalDateTime.now());
         groupService.save(group);
+        log.info("Successfully registered a group! Its details: " + group);
     }
 }

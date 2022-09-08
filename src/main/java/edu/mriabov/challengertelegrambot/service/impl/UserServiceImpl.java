@@ -39,29 +39,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<Group> findChatsByTelegramId(long chatID, int page) {
-        return userRepository.findChatsByTelegramId(chatID,
+        return userRepository.findGroupsByTelegramId(chatID,
                 Pageable.ofSize(PAGE_SIZE).withPage(page));
     }
 
     @Override
     public Page<Group> findChatsByPageable(long chatID, Pageable pageable) {
-        return userRepository.findChatsByTelegramId(chatID, pageable);
+        return userRepository.findGroupsByTelegramId(chatID, pageable);
     }
 
     @Override
     public Page<Group> findMatchingChats(long chatID1, long chatID2) {
-        return userRepository.findMatchingChatsFor2Users(chatID1, chatID2, Pageable.ofSize(PAGE_SIZE));
+        return userRepository.findMatchingGroupsFor2Users(chatID1, chatID2, Pageable.ofSize(PAGE_SIZE));
     }
 
     @Override
     public boolean addChat(long userID, Group group) {
-        if (userRepository.findChatsByTelegramId(userID, Pageable.unpaged()).getContent().contains(group)) return false;
+        if (userRepository.findGroupsByTelegramId(userID, Pageable.unpaged()).getContent().contains(group)) return false;
         if (!groupRepository.existsByTelegramId(group.getTelegramId())) return false;
 
         Optional<User> userOptional = userRepository.getUserByTelegramId(userID);
         if (userOptional.isEmpty()) return false;
         User user = userOptional.get();
-        Set<Group> groups = userRepository.findChatsByTelegramId(userID);
+        Set<Group> groups = userRepository.findGroupsByTelegramId(userID);
         groups.add(group);
         user.setGroups(groups);
         save(user);

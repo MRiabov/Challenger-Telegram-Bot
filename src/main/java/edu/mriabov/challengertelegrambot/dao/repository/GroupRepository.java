@@ -18,4 +18,6 @@ public interface GroupRepository extends JpaRepository<Group,Integer> {
 
     Group findByTelegramId(long chatID);
 
+
+
 }
