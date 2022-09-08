@@ -18,14 +18,12 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
 
     @Column(name = "total_tasks_completed")
-    private Integer totalTasksCompleted;
+    private int totalTasksCompleted;
 
-    @Lob
-    @Column(name = "telegramId")
-    private Long telegramId;
+    private long telegramId;
 
     @Size(max = 50)
     @Column(name = "name", length = 50)

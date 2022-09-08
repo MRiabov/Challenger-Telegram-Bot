@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `user_stats`
 CREATE TABLE IF NOT EXISTS `user`
 (
     id          int PRIMARY KEY AUTO_INCREMENT,
-    telegram_id int         NOT NULL,
+    telegram_id long        NOT NULL,
     first_name  varchar(50) NOT NULL,
     last_name   varchar(50),
     username    varchar(50),
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `group`
 (
     id                    int PRIMARY KEY AUTO_INCREMENT,
     total_tasks_completed int,
-    telegramId            int         NOT NULL,
+    telegram_id            long        NOT NULL,
     `name`                varchar(50) NOT NULL,
     added_at              TIMESTAMP   NOT NULL
 );

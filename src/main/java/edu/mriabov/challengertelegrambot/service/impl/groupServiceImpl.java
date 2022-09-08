@@ -29,7 +29,7 @@ public class groupServiceImpl implements GroupService {
 
     @Override
     public boolean save(Group group) {
-        if (groupRepository.existsByTelegramId(group.getTelegramId())) return false;
+//        if (groupRepository.existsByTelegramId(group.getTelegramId())) return false;
         groupRepository.save(group);
         return true;
     }

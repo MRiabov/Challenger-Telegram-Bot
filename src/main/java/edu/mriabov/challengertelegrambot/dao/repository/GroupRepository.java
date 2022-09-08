@@ -14,10 +14,8 @@ public interface GroupRepository extends JpaRepository<Group,Integer> {
     @Query("SELECT u FROM Group g JOIN g.users u WHERE g.telegramId=:groupID AND u.telegramId<>:userID")
     Page<User> findUsersByTelegramID(long userID, long groupID, Pageable pageable);
 
-    boolean existsByTelegramId(long chatID);
+    boolean existsByTelegramId(long userID);
 
     Group findByTelegramId(long chatID);
-
-
 
 }
