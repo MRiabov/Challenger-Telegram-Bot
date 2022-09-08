@@ -36,6 +36,6 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group findByTelegramID(long groupID) {
-        return groupRepository.findByTelegramID(groupID);
+        return groupRepository.findByTelegramId(groupID);
     }
 }

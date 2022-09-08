@@ -48,7 +48,7 @@ public class NumpadHandler {
             }
         }
         if (message.substring(4).equals(Appendix.USER_APPENDIX.getText())) {
-            if (userPageFlip(userID, challengeCreatorService.getSelectedGroupID(userID).getTelegramID(), message))
+            if (userPageFlip(userID, challengeCreatorService.getSelectedGroupID(userID).getTelegramId(), message))
                 return SendMessage.builder()
                         .text(Buttons.USER_SELECTION.getMessage())
                         .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))

@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.Set;
@@ -34,7 +34,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
 
     @Override
     public void fillUserPageCache(long userID, Group group) {
-        userPageCache.put(userID, chatService.findUsersByTelegramID(userID, group.getTelegramID(), 0));
+        userPageCache.put(userID, chatService.findUsersByTelegramID(userID, group.getTelegramId(), 0));
     }
 
     @Override
@@ -114,9 +114,9 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
             return false;
         int price = billingService.challengePrice(challenge);
         if (billingService.isEnoughCoins(userID, price)) return false;
-        challenge.setCreatedAt(Instant.now());
+        challenge.setCreatedAt(LocalDateTime.now());
         challenge.setCreatedBy(userService.getUserByTelegramId(userID).get());
-        challenge.setExpiresAt(Instant.now().plus(24, ChronoUnit.HOURS));
+        challenge.setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
         challengeService.save(challenge);
         billingService.billCoins(userID, price);
         return true;

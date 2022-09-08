@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `group`
 (
     id                    int PRIMARY KEY AUTO_INCREMENT,
     total_tasks_completed int         NOT NULL,
-    telegramId            int         NOT NULL,
+    telegram_id            int         NOT NULL,
     `name`                varchar(50) NOT NULL,
     added_at              TIMESTAMP   NOT NULL
 );

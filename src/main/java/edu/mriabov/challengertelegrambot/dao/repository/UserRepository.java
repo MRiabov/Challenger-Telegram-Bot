@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> getUserByUsername(String username);
 
     @Query("SELECT c FROM User u JOIN u.groups c WHERE u.telegramId=:userID")
-    List<Group> findChatsByTelegramId(long userID);
+    Set<Group> findChatsByTelegramId(long userID);
 
     @Query("SELECT c FROM User u JOIN u.groups c WHERE u.telegramId=:chatID")
     Page<Group> findChatsByTelegramId(long chatID, Pageable pageable);
@@ -29,6 +29,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT c1 FROM User u1 JOIN u1.groups c1 WHERE c1 IN " +
             "(SELECT c2 FROM User u2 JOIN u2.groups c2 WHERE u2.telegramId=:chatID2) " +
             "AND u1.telegramId=:chatID1 " +
-            "ORDER BY c1.telegramID")
+            "ORDER BY c1.telegramId")
     Page<Group> findMatchingChatsFor2Users(long chatID1, long chatID2, Pageable pageable);
 }

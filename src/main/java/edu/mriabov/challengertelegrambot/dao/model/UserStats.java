@@ -2,9 +2,9 @@ package edu.mriabov.challengertelegrambot.dao.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -12,14 +12,26 @@ import javax.persistence.*;
 @Table(name = "user_stats")
 public class UserStats {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
-    int id;
 
-    int relationships;
-    int fitness;
-    int mindfulness;
-    int finances;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
+    @NotNull
+    @Column(name = "mindfulness", nullable = false)
+    private Integer mindfulness;
+
+    @NotNull
+    @Column(name = "fitness", nullable = false)
+    private Integer fitness;
+
+    @NotNull
+    @Column(name = "relationships", nullable = false)
+    private Integer relationships;
+
+    @NotNull
+    @Column(name = "finances", nullable = false)
+    private Integer finances;
 
 }
