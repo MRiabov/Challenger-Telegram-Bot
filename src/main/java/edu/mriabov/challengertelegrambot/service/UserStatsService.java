@@ -8,6 +8,6 @@ public interface UserStatsService {
 
     UserStats create();
 
-    void incrementStats(long userID, Area area, Difficulty difficulty);
+    int incrementStats(long userID, Area area, Difficulty difficulty);
 //todo maybe return int as a currentAmount. dunno though
 }

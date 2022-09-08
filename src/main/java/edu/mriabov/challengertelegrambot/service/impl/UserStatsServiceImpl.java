@@ -20,7 +20,7 @@ public class UserStatsServiceImpl implements UserStatsService {
     }
 
     @Override
-    public void incrementStats(long userID, Area area, Difficulty difficulty) {
-
+    public int incrementStats(long userID, Area area, Difficulty difficulty) {
+        return 0;//todo
     }
 }

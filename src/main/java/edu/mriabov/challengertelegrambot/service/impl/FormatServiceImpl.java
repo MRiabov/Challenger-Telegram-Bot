@@ -1,10 +1,10 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
+import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
-import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;

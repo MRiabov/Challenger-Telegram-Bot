@@ -20,18 +20,18 @@ public class UserStats {
 
     @NotNull
     @Column(name = "mindfulness", nullable = false)
-    private Integer mindfulness;
+    private Integer mindfulness=0;
 
     @NotNull
     @Column(name = "fitness", nullable = false)
-    private Integer fitness;
+    private Integer fitness=0;
 
     @NotNull
     @Column(name = "relationships", nullable = false)
-    private Integer relationships;
+    private Integer relationships=0;
 
     @NotNull
     @Column(name = "finances", nullable = false)
-    private Integer finances;
+    private Integer finances=0;
 
 }

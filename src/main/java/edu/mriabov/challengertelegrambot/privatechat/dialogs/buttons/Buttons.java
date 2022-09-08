@@ -43,12 +43,12 @@ public enum Buttons {
 
     //challenge your friends
     CHAT_SELECTION("""
-            Input the ID group you would like to send:
+            Input the ID groups you would like to send:
             %7$s
             You can also just @ the user you would like to include, the system will find him automatically\\."""
     ),
 
-    ONLY_ONE_CHAT("You have only one group, and it has been selected\\.",
+    ONLY_ONE_CHAT("You have only one groups, and it has been selected\\.",
             ButtonsMessages.CONTINUE.getText(), null),
 
     USER_SELECTION("""
@@ -62,7 +62,7 @@ public enum Buttons {
             """, ButtonsMessages.MAIN_MENU.getText(), null),
 
     DIFFICULTY_SELECTION("""
-            Select a difficulty\\. 
+            Select a difficulty\\.
             Difficulty can be of 3 types:
             1\\. Easy \\- <5 minutes\\. A short, simple task, like doing 10 pushups or calling your family\\. Probably routine\\.
             2\\. Medium \\- <20 minutes\\. Longer, perhaps more difficult task\\. Meditation, talking to that one girl, etc\\.

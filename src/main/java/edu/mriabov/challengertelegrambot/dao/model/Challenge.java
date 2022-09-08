@@ -29,13 +29,13 @@ public class Challenge {
     private String description;
 
     @NotNull
-    @Lob
+//    @Lob
     @Enumerated(EnumType.STRING)
     @Column(name = "difficulty", nullable = false)
     private Difficulty difficulty;
 
     @NotNull
-    @Lob
+//    @Lob
     @Enumerated(EnumType.STRING)
     @Column(name = "area", nullable = false)
     private Area area;

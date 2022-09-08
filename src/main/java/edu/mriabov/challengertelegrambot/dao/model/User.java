@@ -40,10 +40,10 @@ public class User {
 
     @NotNull
     @Column(name = "coins", nullable = false)
-    private Integer coins;
+    private Integer coins=0;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "stats_id", nullable = false)
     private UserStats userStats;
 

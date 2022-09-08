@@ -6,16 +6,14 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "group")
+@Table(name = "groups")
 public class Group {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +22,7 @@ public class Group {
 
     @NotNull
     @Column(name = "total_tasks_completed", nullable = false)
-    private Integer totalTasksCompleted;
+    private Integer totalTasksCompleted=0;
 
     @NotNull
     @Column(name = "telegram_id", nullable = false)
@@ -32,12 +30,8 @@ public class Group {
 
     @Size(max = 50)
     @NotNull
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(name = "group_name", nullable = false, length = 50)
     private String name;
-
-    @NotNull
-    @Column(name = "added_at", nullable = false)
-    private LocalDateTime addedAt;
 
     @OneToMany(mappedBy = "group")
     private Set<Challenge> challenges = new LinkedHashSet<>();

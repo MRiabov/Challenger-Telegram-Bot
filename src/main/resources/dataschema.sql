@@ -3,65 +3,82 @@ CREATE SCHEMA IF NOT EXISTS challengerdb;
 
 use ChallengerDB;
 
-CREATE TABLE IF NOT EXISTS `user_stats`
+
+CREATE TABLE challenge
 (
-    `id`            int AUTO_INCREMENT primary key,
-    `mindfulness`   int NOT NULL,
-    `fitness`       int NOT NULL,
-    `relationships` int NOT NULL,
-    `finances`      int NOT NULL
+    id            INT AUTO_INCREMENT NOT NULL,
+    `description` VARCHAR(256)       NOT NULL,
+    difficulty    VARCHAR(255)       NOT NULL,
+    area          VARCHAR(255)       NOT NULL,
+    created_at    datetime           NOT NULL,
+    expires_at    datetime           NOT NULL,
+    created_by    INT                NOT NULL,
+    group_id      INT                NOT NULL,
+    CONSTRAINT pk_challenge PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS `user`
+CREATE TABLE challenge_user
 (
-    `id`          int PRIMARY KEY AUTO_INCREMENT,
-    `first_name`  varchar(50) NOT NULL,
-    `telegram_id` int         NOT NULL,
-    `last_name`   varchar(50),
-    `username`    varchar(50),
-    `coins`       int         NOT NULL,
-    `stats_id`    int         NOT NULL,
-
-    foreign key (stats_id) references user_stats (id)
+    challenge_id INT NOT NULL,
+    user_id      INT NOT NULL,
+    CONSTRAINT pk_challenge_user PRIMARY KEY (challenge_id, user_id)
 );
 
-CREATE TABLE IF NOT EXISTS `group`
+CREATE TABLE chat_user
 (
-    id                    int PRIMARY KEY AUTO_INCREMENT,
-    total_tasks_completed int         NOT NULL,
-    telegram_id            int         NOT NULL,
-    `name`                varchar(50) NOT NULL,
-    added_at              TIMESTAMP   NOT NULL
+    group_id INT NOT NULL,
+    user_id  INT NOT NULL,
+    CONSTRAINT pk_chat_user PRIMARY KEY (group_id, user_id)
 );
 
-CREATE TABLE IF NOT EXISTS `challenge`
+CREATE TABLE `groups`
 (
-    id           int PRIMARY KEY AUTO_INCREMENT,
-    description  varchar(256)                                              NOT NULL,
-    `difficulty` enum ('EASY','MEDIUM','DIFFICULT','GOAL')                 NOT NULL,
-    `area`       enum ('RELATIONSHIPS','FITNESS','MINDFULNESS','FINANCES') NOT NULL,
-    `created_at` TIMESTAMP                                                 NOT NULL,
-    `expires_at` TIMESTAMP                                                 NOT NULL,
-    `created_by` int                                                       NOT NULL,
-    `group_id`   int                                                       NOT NULL,
-
-    FOREIGN KEY (created_by) references user (id),
-    FOREIGN KEY (group_id) references `group` (id)
+    id                    INT AUTO_INCREMENT NOT NULL,
+    total_tasks_completed INT                NOT NULL,
+    telegram_id           BIGINT             NOT NULL,
+    group_name            VARCHAR(50)        NOT NULL,
+    CONSTRAINT pk_group PRIMARY KEY (id)
 );
 
-
-CREATE TABLE IF NOT EXISTS challenge_user
+CREATE TABLE user
 (
-    user_id      int NOT NULL,
-    challenge_id int NOT NULL,
-    foreign key (user_id) references user (id),
-    foreign key (challenge_id) references challenge (id)
+    id          INT AUTO_INCREMENT NOT NULL,
+    first_name  VARCHAR(50)        NOT NULL,
+    telegram_id BIGINT             NOT NULL,
+    last_name   VARCHAR(50)        NULL,
+    username    VARCHAR(50)        NULL,
+    coins       INT                NOT NULL,
+    stats_id    INT                NOT NULL,
+    CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS chat_user
+CREATE TABLE user_stats
 (
-    user_id  int NOT NULL,
-    group_id int NOT NULL,
-    foreign key (user_id) references user (id),
-    foreign key (group_id) references `group` (id)
-)
+    id            INT AUTO_INCREMENT NOT NULL,
+    mindfulness   INT                NOT NULL,
+    fitness       INT                NOT NULL,
+    relationships INT                NOT NULL,
+    finances      INT                NOT NULL,
+    CONSTRAINT pk_user_stats PRIMARY KEY (id)
+);
+
+ALTER TABLE challenge
+    ADD CONSTRAINT FK_CHALLENGE_ON_CREATED_BY FOREIGN KEY (created_by) REFERENCES user (id);
+
+ALTER TABLE challenge
+    ADD CONSTRAINT FK_CHALLENGE_ON_GROUP FOREIGN KEY (group_id) REFERENCES `groups` (id);
+
+ALTER TABLE user
+    ADD CONSTRAINT FK_USER_ON_STATS FOREIGN KEY (stats_id) REFERENCES user_stats (id);
+
+ALTER TABLE chat_user
+    ADD CONSTRAINT fk_chat_user_on_group FOREIGN KEY (group_id) REFERENCES `groups` (id);
+
+ALTER TABLE chat_user
+    ADD CONSTRAINT fk_chat_user_on_user FOREIGN KEY (user_id) REFERENCES user (id);
+
+ALTER TABLE challenge_user
+    ADD CONSTRAINT fk_chause_on_challenge FOREIGN KEY (challenge_id) REFERENCES challenge (id);
+
+ALTER TABLE challenge_user
+    ADD CONSTRAINT fk_chause_on_user FOREIGN KEY (user_id) REFERENCES user (id);

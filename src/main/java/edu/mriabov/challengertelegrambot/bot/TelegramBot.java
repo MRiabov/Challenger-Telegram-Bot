@@ -45,9 +45,9 @@ public class TelegramBot extends TelegramLongPollingBot {
                 return;
             }
             if (update.getMessage().hasText() && update.getMessage().isGroupMessage()) {
-                log.info("Received an update with text " + update.getMessage().getText() + " in a group " + update.getMessage().getChat().getTitle());
+                log.info("Received an update with text " + update.getMessage().getText() + " in a groups " + update.getMessage().getChat().getTitle());
                 groupMasterMessageHandler.handleMessages(update);
-                log.info("Finished processing a command from a group " + update.getMessage().getChat().getTitle());
+                log.info("Finished processing a command from a groups " + update.getMessage().getChat().getTitle());
                 return;
             }
             log.error("onUpdateReceived couldn't find a method to handle a message "+update.getMessage().toString());
