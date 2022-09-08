@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class groupServiceImpl implements GroupService {
+public class GroupServiceImpl implements GroupService {
 
     private final GroupRepository groupRepository;
 
@@ -36,6 +36,6 @@ public class groupServiceImpl implements GroupService {
 
     @Override
     public Group findByTelegramID(long groupID) {
-        return groupRepository.findByTelegramId(groupID);
+        return groupRepository.findByTelegramID(groupID);
     }
 }

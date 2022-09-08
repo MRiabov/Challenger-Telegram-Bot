@@ -31,7 +31,7 @@ public class FormatServiceImpl implements FormatService {
         Optional<User> userOptional = userService.getUserByTelegramId(userID);
         if (userOptional.isEmpty()) return Buttons.USER_NOT_FOUND.getMessage();
         User user = userOptional.get();
-        UserStats userStats = user.getStats();
+        UserStats userStats = user.getUserStats();
         return String.format(input,
                 user.getFirstName(),//1s
                 userStats.getFinances(),//2

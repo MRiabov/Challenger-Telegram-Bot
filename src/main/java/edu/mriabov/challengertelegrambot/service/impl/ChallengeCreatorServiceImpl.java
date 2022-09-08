@@ -25,7 +25,7 @@ import java.util.Set;
 public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
 
     private final UserService userService;
-    private final ChatService chatService;
+    private final GroupService chatService;
     private final ChallengeCache challengeCache;
     private final UserPageCache userPageCache;
     private final ChatPageCache chatPageCache;

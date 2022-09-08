@@ -3,7 +3,7 @@ package edu.mriabov.challengertelegrambot.service.impl;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
-import edu.mriabov.challengertelegrambot.service.ChatService;
+import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private final UserService userService;
-    private final ChatService chatService;
+    private final GroupService chatService;
 
     @Override
     public void registerUser(Message message) {
