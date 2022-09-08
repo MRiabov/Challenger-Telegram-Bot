@@ -1,6 +1,6 @@
 package edu.mriabov.challengertelegrambot.service;
 
-import edu.mriabov.challengertelegrambot.dao.model.Chat;
+import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +15,13 @@ public interface UserService {
 
     Optional<User> getUserByUsername(String username);
 
-    Page<Chat> findChatsByTelegramId(long chatID, int page);
+    Page<Group> findChatsByTelegramId(long chatID, int page);
 
-    Page<Chat> findChatsByPageable(long chatID, Pageable pageable);
+    Page<Group> findChatsByPageable(long chatID, Pageable pageable);
 
-    Page<Chat> findMatchingChats(long chatID1, long chatID2);
+    Page<Group> findMatchingChats(long chatID1, long chatID2);
 
-    boolean addChat(long userID, Chat chat);
+    boolean addChat(long userID, Group group);
 
     void save(User user);
 }

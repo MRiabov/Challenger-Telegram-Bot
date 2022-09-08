@@ -1,9 +1,9 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
-import edu.mriabov.challengertelegrambot.dao.model.Chat;
+import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
-import edu.mriabov.challengertelegrambot.service.ChatService;
+import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private final UserService userService;
-    private final ChatService chatService;
+    private final GroupService groupService;
 
     @Override
     public void registerUser(Message message) {
@@ -31,17 +31,17 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setLastName(telegramUser.getLastName());
         user.setTelegramId(telegramUser.getId());
         user.setUsername(telegramUser.getUserName());
-        user.setUserStats(new UserStats());
+        user.setStats(new UserStats());
         userService.save(user);
     }
 
     @Override
     public void registerChat(Update update) {
-        Chat chat = new Chat();
+        Group group = new Group();
         org.telegram.telegrambots.meta.api.objects.Chat telegramChat = update.getMyChatMember().getChat();
-        chat.setTelegramID(telegramChat.getId());
-        chat.setName(telegramChat.getTitle());
-        chat.setAddedAt(LocalDateTime.now());
-        chatService.save(chat);
+        group.setTelegramId(telegramChat.getId());
+        group.setName(telegramChat.getTitle());
+        group.setAddedAt(LocalDateTime.now());
+        groupService.save(group);
     }
 }

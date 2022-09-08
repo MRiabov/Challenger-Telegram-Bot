@@ -4,12 +4,12 @@ import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.Instant;
-import java.util.HashSet;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -17,41 +17,51 @@ import java.util.Set;
 @Setter
 public class Challenge {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
-    private int id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
+    @Size(max = 256)
     @NotNull
+    @Column(name = "description", nullable = false, length = 256)
     private String description;
 
+    @NotNull
+    @Lob
     @Enumerated(EnumType.STRING)
-    @Column(updatable = false)
-    private Area area;
-
-    @Enumerated(EnumType.STRING)
-    @Column(updatable = false)
+    @Column(name = "difficulty", nullable = false)
     private Difficulty difficulty;
 
-    @ManyToMany(mappedBy = "challenges",fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-    private Set<User> users=new HashSet<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_id",insertable = false,updatable = false,
-            nullable = false, referencedColumnName = "id")
-    private Chat chat;
+    @NotNull
+    @Lob
+    @Enumerated(EnumType.STRING)
+    @Column(name = "area", nullable = false)
+    private Area area;
 
     @NotNull
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     @NotNull
     @Column(name = "expires_at", nullable = false)
-    private Instant expiresAt;
+    private LocalDateTime expiresAt;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group;
+
+    @ManyToMany
+    @JoinTable(name = "challenge_user",
+            joinColumns = @JoinColumn(name = "challenge_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new LinkedHashSet<>();
 
 }

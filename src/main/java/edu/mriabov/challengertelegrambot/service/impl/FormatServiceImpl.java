@@ -4,7 +4,7 @@ import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
-import edu.mriabov.challengertelegrambot.dao.model.Chat;
+import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
@@ -31,7 +31,7 @@ public class FormatServiceImpl implements FormatService {
         Optional<User> userOptional = userService.getUserByTelegramId(userID);
         if (userOptional.isEmpty()) return Buttons.USER_NOT_FOUND.getMessage();
         User user = userOptional.get();
-        UserStats userStats = user.getUserStats();
+        UserStats userStats = user.getStats();
         return String.format(input,
                 user.getFirstName(),//1s
                 userStats.getFinances(),//2
@@ -46,7 +46,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     private String chatPageToListConverter(long chatID) {
-        Page<Chat> page = chatPageCache.getCurrentPage(chatID);
+        Page<Group> page = chatPageCache.getCurrentPage(chatID);
         StringBuilder result = new StringBuilder();
         if (page.isEmpty())
             return "Hey, it seems, that your chat list is empty. How about finding some community to join?";
@@ -78,7 +78,7 @@ public class FormatServiceImpl implements FormatService {
         if (challenge.getDifficulty()==null||challenge.getArea()==null||challenge.getUsers()==null) return null;
         StringBuilder challengeInfo = new StringBuilder();
         challengeInfo
-                .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getChat().getName())
+                .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getGroup().getName())
                 .append("\n\uD83C\uDFCB️\u200D♂️Users: ");
         for (User user : challenge.getUsers()) challengeInfo.append(user.getFirstName()).append(" ")
                 .append(user.getLastName() != null ? user.getLastName() : "");

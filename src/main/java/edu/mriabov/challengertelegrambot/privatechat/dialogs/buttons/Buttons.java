@@ -48,12 +48,12 @@ public enum Buttons {
 
     //challenge your friends
     CHAT_SELECTION("""
-            Input the ID chat you would like to send:
+            Input the ID group you would like to send:
             %7$s
             You can also just @ the user you would like to include, the system will find him automatically."""
     ),
 
-    ONLY_ONE_CHAT("You have only one chat, and it has been selected.",
+    ONLY_ONE_CHAT("You have only one group, and it has been selected.",
             ButtonsMessages.CONTINUE.getText(), null),
 
     USER_SELECTION("""
@@ -62,7 +62,7 @@ public enum Buttons {
             Alternatively, you can just send his @"""),
 
     OTHER_USER_NOT_FOUND("""
-            Username not found *in your chats*.
+            Username not found *in your groups*.
             Try to look it up manually.
             """, ButtonsMessages.MAIN_MENU.getText(), null),
 

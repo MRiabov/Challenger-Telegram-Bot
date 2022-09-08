@@ -2,7 +2,7 @@ package edu.mriabov.challengertelegrambot.commands;
 
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
-import edu.mriabov.challengertelegrambot.service.ChatService;
+import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.UserService;
@@ -19,7 +19,7 @@ public class StartCommand implements Command {
 
     private final SenderService senderService;
     private final UserService userService;
-    private final ChatService chatService;
+    private final GroupService groupService;
     private final RegistrationService registrationService;
 
     @Override
@@ -47,7 +47,7 @@ public class StartCommand implements Command {
     private void addChat(Message message) {
         boolean chatSuccessfullyLinked;
         chatSuccessfullyLinked = userService.addChat(message.getChatId(),
-                chatService.findByTelegramID(Long.parseLong(message.getText().substring(7))));
+                groupService.findByTelegramID(Long.parseLong(message.getText().substring(7))));
         if (chatSuccessfullyLinked) {
             log.info("User " + message.getChatId() + " has successfully linked a chat " + message.getText().substring(7));
             senderService.sendMessages(message.getChatId(), Replies.CHAT_SUCCESSFULLY_LINKED.text.formatted(message.getText().substring(7)));

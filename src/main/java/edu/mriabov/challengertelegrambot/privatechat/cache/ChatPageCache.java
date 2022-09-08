@@ -2,7 +2,7 @@ package edu.mriabov.challengertelegrambot.privatechat.cache;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import edu.mriabov.challengertelegrambot.dao.model.Chat;
+import edu.mriabov.challengertelegrambot.dao.model.Group;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,27 +12,27 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class ChatPageCache implements PageCache<Long, Chat> {
+public class ChatPageCache implements PageCache<Long, Group> {
 
-    private static final Cache<Long, Page<Chat>> cache = CacheBuilder
+    private static final Cache<Long, Page<Group>> cache = CacheBuilder
             .newBuilder()
             .expireAfterWrite(30, TimeUnit.MINUTES)
             .build();
 
     @Override
-    public void put(Long chatID, Page<Chat> page) {
+    public void put(Long chatID, Page<Group> page) {
         log.info("A page of CHATS from chatID " + chatID + " was put into the chatPageCache. " + page.toString());
         cache.put(chatID, page);
     }
 
     @Override
-    public Page<Chat> getCurrentPage(Long chatID) {
+    public Page<Group> getCurrentPage(Long chatID) {
         return cache.asMap().getOrDefault(chatID, Page.empty());
     }
 
     @Override
     public Pageable getNextOrLastPageable(Long chatID) {
-        Page<Chat> page = cache.asMap().get(chatID);
+        Page<Group> page = cache.asMap().get(chatID);
         log.info("User "+ chatID +" attempted to flip a page forward. Received "+ page.toString()+ "from cache.");
         return cache.asMap().get(chatID).nextOrLastPageable();
     }
@@ -53,7 +53,7 @@ public class ChatPageCache implements PageCache<Long, Chat> {
     }
 
     @Override
-    public Chat getOnCurrentPage(Long chatID, int position) {
+    public Group getOnCurrentPage(Long chatID, int position) {
         return getCurrentPage(chatID).getContent().get(position);
     }
 
