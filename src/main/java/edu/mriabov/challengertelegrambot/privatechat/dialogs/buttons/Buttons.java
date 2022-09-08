@@ -62,7 +62,7 @@ public enum Buttons {
             """, ButtonsMessages.MAIN_MENU.getText(), null),
 
     DIFFICULTY_SELECTION("""
-            Select a difficulty\\.
+            Select a difficulty\\. 
             Difficulty can be of 3 types:
             1\\. Easy \\- <5 minutes\\. A short, simple task, like doing 10 pushups or calling your family\\. Probably routine\\.
             2\\. Medium \\- <20 minutes\\. Longer, perhaps more difficult task\\. Meditation, talking to that one girl, etc\\.
