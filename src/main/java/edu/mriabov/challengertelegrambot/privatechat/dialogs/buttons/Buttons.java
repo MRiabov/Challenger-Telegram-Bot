@@ -12,15 +12,13 @@ public enum Buttons {
     //Main menu
     MAIN_MENU(
             """
-                    Welcome, %1$s
-
                     Your stats:
-                    Finance: %2$d
-                    Relationships: %3$d
-                    Fitness: %4$d
-                    Mindfulness: %5$d
-                    Your current coin count: %6$d
-                    Challenges to be completed:
+                    💰Finance: _%2$d_
+                    🫶Relationships: _%3$d_
+                    💪Fitness: _%4$d_
+                    🧘Mindfulness: _%5$d_
+                    Your current coin count: _%6$d_💎
+                    *Challenges to be completed:*
 
                     PICK A RANDOM QUOTE""",
             ButtonsMessages.MENU_MY_CHALLENGES.getText(), null,

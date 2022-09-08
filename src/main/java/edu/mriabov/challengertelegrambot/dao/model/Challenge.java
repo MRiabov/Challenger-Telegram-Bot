@@ -37,7 +37,7 @@ public class Challenge {
     private Set<User> users=new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_id",insertable = false,updatable = false,
+    @JoinColumn(name = "group_id",insertable = false,updatable = false,
             nullable = false, referencedColumnName = "id")
     private Group group;
 

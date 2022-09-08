@@ -16,7 +16,7 @@ public enum Replies {
 
     WRONG_CHAT_TYPE("Hey! You are using this command in a wrong chat type! This command is intended elsewhere."),
 
-    CHAT_SUCCESSFULLY_LINKED("Chat %s was successfully linked!"),
+    CHAT_SUCCESSFULLY_LINKED("Chat `%s` was successfully linked!"),
 
 
     //!

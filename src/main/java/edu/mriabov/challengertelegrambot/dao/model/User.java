@@ -33,7 +33,7 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "chat_user",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "chat_id", referencedColumnName = "id")})
+            inverseJoinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "id")})
     private List<Group> groups;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
