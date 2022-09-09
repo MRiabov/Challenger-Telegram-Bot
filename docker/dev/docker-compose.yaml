@@ -1,16 +1,17 @@
 version: '3.3'
 
 services:
-  mysql:
-    image: mysql:latest
+  postgres:
+    image: postgres:14
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: JustZed32+
-      MYSQL_DATABASE: challengerdb
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: JustZed32+
+      POSTGRES_DB: challengerdb
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - db-dev_challenger-bot:/var/lib/mysql
+      - db-dev_challenger-bot:/var/lib/postgres
 
 volumes:
   db-dev_challenger-bot:

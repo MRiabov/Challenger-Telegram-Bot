@@ -3,35 +3,38 @@ package edu.mriabov.challengertelegrambot.dao.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @Table(name = "user_stats")
 public class UserStats {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
 
-    @NotNull
     @Column(name = "mindfulness", nullable = false)
-    private Integer mindfulness=0;
+    private int mindfulness;
 
-    @NotNull
     @Column(name = "fitness", nullable = false)
-    private Integer fitness=0;
+    private int fitness;
 
-    @NotNull
     @Column(name = "relationships", nullable = false)
-    private Integer relationships=0;
+    private int relationships;
 
-    @NotNull
     @Column(name = "finances", nullable = false)
-    private Integer finances=0;
+    private int finances;
 
+    @OneToMany(mappedBy = "userStats")
+    private Set<User> users = new LinkedHashSet<>();
 }

@@ -38,7 +38,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         Group group = new Group();
         org.telegram.telegrambots.meta.api.objects.Chat telegramChat = update.getMyChatMember().getChat();
         group.setTelegramId(telegramChat.getId());
-        group.setName(telegramChat.getTitle());
+        group.setGroupName(telegramChat.getTitle());
         chatService.save(group);
     }
 }
