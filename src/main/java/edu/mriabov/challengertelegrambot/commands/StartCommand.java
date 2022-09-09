@@ -45,8 +45,7 @@ public class StartCommand implements Command {
     }
 
     private void addChat(Message message) {
-        boolean chatSuccessfullyLinked;
-        chatSuccessfullyLinked = userService.addChat(message.getChatId(),
+        boolean chatSuccessfullyLinked = userService.addChat(message.getChatId(),
                 groupService.findByTelegramID(Long.parseLong(message.getText().substring(7))));
         if (chatSuccessfullyLinked) {
             log.info("User " + message.getChatId() + " has successfully linked a chat " + message.getText().substring(7));

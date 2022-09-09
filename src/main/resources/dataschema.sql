@@ -12,8 +12,8 @@ CREATE TABLE challenge
     area          VARCHAR(255)       NOT NULL,
     created_at    datetime           NOT NULL,
     expires_at    datetime           NOT NULL,
-    created_by    INT                NOT NULL,
-    group_id      INT                NOT NULL,
+    created_by    int                NOT NULL,
+    group_id      int                NOT NULL,
     CONSTRAINT pk_challenge PRIMARY KEY (id)
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE `groups`
 (
     id                    INT AUTO_INCREMENT NOT NULL,
     total_tasks_completed INT                NOT NULL,
-    telegram_id           BIGINT             NOT NULL,
+    telegram_id           BIGINT             NOT NULL UNIQUE,
     group_name            VARCHAR(50)        NOT NULL,
     CONSTRAINT pk_group PRIMARY KEY (id)
 );
@@ -44,7 +44,7 @@ CREATE TABLE user
 (
     id          INT AUTO_INCREMENT NOT NULL,
     first_name  VARCHAR(50)        NOT NULL,
-    telegram_id BIGINT             NOT NULL,
+    telegram_id BIGINT             NOT NULL UNIQUE,
     last_name   VARCHAR(50)        NULL,
     username    VARCHAR(50)        NULL,
     coins       INT                NOT NULL,
