@@ -8,10 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -34,7 +31,4 @@ public class UserStats {
 
     @Column(name = "finances", nullable = false)
     private int finances;
-
-    @OneToMany(mappedBy = "userStats")
-    private Set<User> users = new LinkedHashSet<>();
 }
