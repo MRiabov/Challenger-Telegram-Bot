@@ -5,55 +5,54 @@ import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "challenge")
 public class Challenge {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
 
-    @Size(max = 256)
-    @NotNull
-    @Column(name = "description", nullable = false, length = 256)
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @NotNull
-//    @Lob
-    @Enumerated(EnumType.STRING)
     @Column(name = "difficulty", nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
-    @NotNull
-//    @Lob
-    @Enumerated(EnumType.STRING)
     @Column(name = "area", nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private Area area;
 
-    @NotNull
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
-    @NotNull
     @Column(name = "expires_at", nullable = false)
-    private LocalDateTime expiresAt;
+    private Instant expiresAt;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
@@ -63,5 +62,4 @@ public class Challenge {
             joinColumns = @JoinColumn(name = "challenge_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new LinkedHashSet<>();
-
 }

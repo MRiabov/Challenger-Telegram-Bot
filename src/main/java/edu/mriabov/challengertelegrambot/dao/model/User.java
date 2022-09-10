@@ -3,57 +3,58 @@ package edu.mriabov.challengertelegrambot.dao.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Setter
 @Getter
-@Table(name = "user")
+@Setter
+@Table(name = "telegram_user")
 public class User {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
 
-    @Size(max = 50)
-    @NotNull
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "stats_id")
+    private UserStats userStats;
+
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
-    @NotNull
     @Column(name = "telegram_id", nullable = false)
     private long telegramId;
 
-    @Size(max = 50)
     @Column(name = "last_name", length = 50)
     private String lastName;
 
-    @Size(max = 50)
     @Column(name = "username", length = 50)
     private String username;
 
-    @NotNull
     @Column(name = "coins", nullable = false)
-    private Integer coins=0;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "stats_id", nullable = false)
-    private UserStats userStats;
+    private int coins;
 
     @OneToMany(mappedBy = "createdBy")
-    private Set<Challenge> createdChallenges = new LinkedHashSet<>();
-
-    @ManyToMany(mappedBy = "users")
     private Set<Challenge> challenges = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
+    @JoinTable(name = "chat_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
     private Set<Group> groups = new LinkedHashSet<>();
 
 }

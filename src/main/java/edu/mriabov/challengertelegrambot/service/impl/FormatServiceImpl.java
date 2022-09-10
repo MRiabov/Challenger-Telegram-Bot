@@ -2,11 +2,11 @@ package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
+import edu.mriabov.challengertelegrambot.dao.model.User;
+import edu.mriabov.challengertelegrambot.dao.model.UserStats;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
-import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.dao.model.UserStats;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.FormatService;
@@ -51,7 +51,7 @@ public class FormatServiceImpl implements FormatService {
         if (page.isEmpty())
             return "Hey, it seems, that your chat list is empty. How about finding some community to join?";
         for (int i = 0; i < page.getNumberOfElements(); i++) {
-            result.append(i + 1).append("️⃣ ").append(page.getContent().get(i).getName());
+            result.append(i + 1).append("️⃣ ").append(page.getContent().get(i).getGroupName());
         }
         return result.toString();
     }
@@ -78,7 +78,7 @@ public class FormatServiceImpl implements FormatService {
         if (challenge.getDifficulty()==null||challenge.getArea()==null||challenge.getUsers()==null) return null;
         StringBuilder challengeInfo = new StringBuilder();
         challengeInfo
-                .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getGroup().getName())
+                .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getGroup().getGroupName())
                 .append("\n\uD83C\uDFCB️\u200D♂️Users: ");
         for (User user : challenge.getUsers()) challengeInfo.append(user.getFirstName()).append(" ")
                 .append(user.getLastName() != null ? user.getLastName() : "");

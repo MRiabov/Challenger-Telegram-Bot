@@ -10,12 +10,12 @@ public enum Buttons {
     MAIN_MENU(
             """
                     Your stats:
-                    💰Finance: _%2$d_
-                    🫶Relationships: _%3$d_
-                    💪Fitness: _%4$d_
-                    🧘Mindfulness: _%5$d_
-                    Your current coin count: _%6$d_💎
-                    *Challenges to be completed:*
+                    💰Finance: %2$d
+                    🫶Relationships: %3$d
+                    💪Fitness: %4$d
+                    🧘Mindfulness: %5$d
+                    Your current coin count: %6$d💎
+                    Challenges to be completed:
 
                     PICK A RANDOM QUOTE""",
             ButtonsMessages.MENU_MY_CHALLENGES.getText(), null,
@@ -57,7 +57,7 @@ public enum Buttons {
             Alternatively, you can just send his @"""),
 
     OTHER_USER_NOT_FOUND("""
-            Username not found *in your groups*\\.
+            Username not found in your groups\\.
             Try to look it up manually\\.
             """, ButtonsMessages.MAIN_MENU.getText(), null),
 

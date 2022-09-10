@@ -3,9 +3,14 @@ package edu.mriabov.challengertelegrambot.dao.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -14,31 +19,23 @@ import java.util.Set;
 @Setter
 @Table(name = "groups")
 public class Group {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
 
-    @NotNull
     @Column(name = "total_tasks_completed", nullable = false)
-    private Integer totalTasksCompleted=0;
+    private int totalTasksCompleted;
 
-    @NotNull
     @Column(name = "telegram_id", nullable = false)
     private long telegramId;
 
-    @Size(max = 50)
-    @NotNull
     @Column(name = "group_name", nullable = false, length = 50)
-    private String name;
+    private String groupName;
 
     @OneToMany(mappedBy = "group")
     private Set<Challenge> challenges = new LinkedHashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "chat_user",
-            joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @ManyToMany(mappedBy = "groups")
     private Set<User> users = new LinkedHashSet<>();
 }
