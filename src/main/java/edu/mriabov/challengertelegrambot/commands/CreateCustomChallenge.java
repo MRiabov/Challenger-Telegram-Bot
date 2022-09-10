@@ -1,6 +1,7 @@
 package edu.mriabov.challengertelegrambot.commands;
 
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
+import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.service.InlineChallengeCreatorService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class CreateCustomChallenge extends BotCommand implements Command {
     @Override
     public void execute(Message message) {
         Optional<Challenge> challenge = inlineChallengeCreatorService.createChallenge(message);
-        if (challenge.isEmpty()) senderService.replyToMessage(message,"FAILURE");
-        senderService.replyToMessage(message,"SUCCESS");
+        if (challenge.isEmpty()) senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
+        senderService.replyToMessage(message,"SUCCESS. The operation will take ... coins.");
     }
 }
