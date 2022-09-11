@@ -31,13 +31,6 @@ public class CreateGlobalChallenge extends BotCommand {
         this.senderService = senderService;
     }
 
-
-    @Override
-    public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        this.message=message;
-        super.processMessage(absSender, message, arguments);
-    }
-
     @SneakyThrows
     @Override
     public void execute(AbsSender absSender, org.telegram.telegrambots.meta.api.objects.User user, Chat chat, String[] arguments) {
@@ -50,5 +43,11 @@ public class CreateGlobalChallenge extends BotCommand {
         //todo validate that the user is admin.
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(creator.get());
+    }
+
+    @Override
+    public void processMessage(AbsSender absSender, Message message, String[] arguments) {
+        this.message=message;
+        super.processMessage(absSender, message, arguments);
     }
 }

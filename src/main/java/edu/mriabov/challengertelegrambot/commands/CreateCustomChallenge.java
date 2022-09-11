@@ -4,6 +4,7 @@ import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
 import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
@@ -34,27 +35,19 @@ public class CreateCustomChallenge extends BotCommand {
         this.groupService = groupService;
         this.challengeCache = challengeCache;
     }
-
-    @Override
-    public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        this.message=message;
-        super.processMessage(absSender, message, arguments);
-    }
-
     @Override
     public void execute(AbsSender absSender, org.telegram.telegrambots.meta.api.objects.User user, Chat chat, String[] arguments) {
         if (!userService.existsByTelegramId(user.getId())) senderService.replyToMessage(message,
                 String.format(Replies.USER_NOT_REGISTERED.text, TelegramUtils.linkBuilder(message.getChatId())));
-
+        if (chat.isUserChat()) {
+            senderService.sendMessages(chat.getId(), Buttons.USER_NOT_FOUND);
+        }
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(userService.getUserByTelegramId(user.getId()).get());
         challenge.setUsers(getMentionedUsers(message, challenge));
         challenge.setDescription(message.getText().substring(getOffset(message)));
         challenge.setGroup(groupService.findByTelegramID(chat.getId()));
         if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
-
-
-
             senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
         else {
             senderService.replyToMessage(message, "SUCCESS. The operation will take ... coins.");
@@ -82,4 +75,10 @@ public class CreateCustomChallenge extends BotCommand {
                 offset = entity.getOffset() + entity.getLength();
         return offset;
     }
+    @Override
+    public void processMessage(AbsSender absSender, Message message, String[] arguments) {
+        this.message=message;
+        super.processMessage(absSender, message, arguments);
+    }
+
 }

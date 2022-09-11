@@ -9,7 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -18,27 +19,28 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class TelegramBot extends TelegramLongPollingBot {
+public class TelegramBot extends TelegramLongPollingCommandBot {
 
     private final PrivateMasterMessageHandlerImpl privateMasterMessageHandler;
     private final GroupMasterMessageHandler groupMasterMessageHandler;
     private final BotConfig config;
     private final RegistrationService registrationService;
-
+    private final List<BotCommand> commandList;
 
     @Override
-    public String getBotUsername() {
-        return config.getBotName();
+    public void onRegister() {
+        for (BotCommand botCommand : commandList) register(botCommand);
+        super.onRegister();
     }
 
     @Override
-    public String getBotToken() {
-        return config.getToken();
+    public void onUpdatesReceived(List<Update> updates) {
+        super.onUpdatesReceived(updates);
     }
 
     @SneakyThrows
     @Override
-    public void onUpdateReceived(Update update) {
+    public void processNonCommandUpdate(Update update) {
         if (update.getMessage()!=null) {
             if (update.getMessage().hasText() && update.getMessage().isUserMessage()) {
                 log.info("Received an update with text " + update.getMessage().getText() + " in a private chat from " + update.getMessage().getChatId());
@@ -49,7 +51,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             if (update.getMessage().hasText() && update.getMessage().isGroupMessage()) {
                 log.info("Received an update with text " + update.getMessage().getText() + " in a groups " + update.getMessage().getChat().getTitle());
                 groupMasterMessageHandler.handleMessages(update);
-                log.info("Finished processing a command from a groups " + update.getMessage().getChat().getTitle());
+                log.info("Finished processing a non-command message from a group " + update.getMessage().getChat().getTitle());
                 return;
             }
             log.error("onUpdateReceived couldn't find a method to handle a message "+update.getMessage().toString());
@@ -64,9 +66,13 @@ public class TelegramBot extends TelegramLongPollingBot {
             return;
         }
     }
+    @Override
+    public String getBotUsername() {
+        return config.getBotName();
+    }
 
     @Override
-    public void onUpdatesReceived(List<Update> updates) {
-        super.onUpdatesReceived(updates);
+    public String getBotToken() {
+        return config.getToken();
     }
 }
