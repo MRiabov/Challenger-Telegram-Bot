@@ -38,4 +38,6 @@ public class Group {
 
     @ManyToMany(mappedBy = "groups")
     private Set<User> users = new LinkedHashSet<>();
+
+
 }

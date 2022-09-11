@@ -29,9 +29,9 @@ public class TelegramUtils {
         return offset;
     }
 
-    public static Challenge challengeBasicInfo(String message) {
+    public static Challenge challengeBasicInfo(String[] arguments) {
         Challenge challenge = new Challenge();
-        for (String word : message.split(" ", 3)) parametersForChallenge(word, challenge);
+        for (String arg : arguments) parametersForChallenge(arg, challenge);
         return challenge;
     }
 

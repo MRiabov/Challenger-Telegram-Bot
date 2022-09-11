@@ -20,4 +20,6 @@ public interface GroupService {
 
     Group findByTelegramID(long groupID);
 
+    boolean isUserAdmin();
+
 }
