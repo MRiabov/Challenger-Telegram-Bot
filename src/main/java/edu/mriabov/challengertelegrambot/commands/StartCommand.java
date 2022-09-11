@@ -2,55 +2,63 @@ package edu.mriabov.challengertelegrambot.commands;
 
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
+import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
-import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.UserService;
-import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeAllPrivateChats;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
-public class StartCommand implements Command {
+public class StartCommand extends BotCommand {
 
-    private final SenderService senderService;
     private final UserService userService;
     private final GroupService groupService;
     private final RegistrationService registrationService;
 
-    @Override
-    public String alias() {
-        return "/start";
+    public StartCommand(UserService userService, GroupService groupService, RegistrationService registrationService) {
+        super("start", "(re)Start the bot!");
+        this.userService = userService;
+        this.groupService = groupService;
+        this.registrationService = registrationService;
     }
 
+    @SneakyThrows
     @Override
-    public String scope() {
-        return new BotCommandScopeAllPrivateChats().getType();
-    }
-
-    @Override
-    public void execute(Message message) {
-        if (!message.getChat().getType().equals("private")) {
-            senderService.sendMessages(message.getChatId(), Replies.WRONG_CHAT_TYPE.text);
+    public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
+        if (chat.getType().equals("private")) {
+            absSender.execute(SendMessage.builder()
+                    .chatId(chat.getId())
+                    .text(Replies.WRONG_CHAT_TYPE.text)
+                    .build());
             return;
         }
-        if (!userService.existsByTelegramId(message.getChatId())) registrationService.registerUser(message);
-        senderService.sendMessages(message.getChatId(), Buttons.ON_START_NEW_USER);
+        if (!userService.existsByTelegramId(chat.getId())) registrationService.registerUser(user);
+        absSender.execute(ButtonsMappingUtils.buildMessageWithKeyboard(chat.getId(), Buttons.ON_START_NEW_USER));
         //if this is a deep linking request, add the chat from the deep linking request.
-        if (message.getText().length() > 6) addChat(message);
+        if (arguments.length > 0) addChat(arguments[0], chat, absSender);
     }
 
-    private void addChat(Message message) {
-        boolean chatSuccessfullyLinked = userService.addChat(message.getChatId(),
-                groupService.findByTelegramID(Long.parseLong(message.getText().substring(7))));
+    @SneakyThrows
+    private void addChat(String payload, Chat chat, AbsSender absSender) {
+        boolean chatSuccessfullyLinked = userService.addChat(chat.getId(),
+                groupService.findByTelegramID(Long.parseLong(payload.substring(7))));
         if (chatSuccessfullyLinked) {
-            log.info("User " + message.getChatId() + " has successfully linked a chat " + message.getText().substring(7));
-            senderService.sendMessages(message.getChatId(), Replies.CHAT_SUCCESSFULLY_LINKED.text.formatted(message.getText().substring(7)));
+            log.info("User " + chat.getId() + " has successfully linked a chat " + chat.getTitle());
+            absSender.execute(SendMessage.builder()
+                    .text(Replies.CHAT_SUCCESSFULLY_LINKED.text.formatted(chat.getTitle()))
+                    .chatId(chat.getId())
+                    .build());
         } else
-            log.warn("User " + message.getChatId() + " has failed to add a chat via /start. his payload: " + message.getText().substring(7));
+            log.warn("User " + chat.getId() + " has failed to add a chat via /start. his payload: " + payload.substring(7));
     }
+
+
 }

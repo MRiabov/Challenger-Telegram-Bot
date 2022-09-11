@@ -9,7 +9,6 @@ import edu.mriabov.challengertelegrambot.service.UserStatsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Service
@@ -22,9 +21,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final UserStatsService userStatsService;
 
     @Override
-    public void registerUser(Message message) {
+    public void registerUser(org.telegram.telegrambots.meta.api.objects.User telegramUser) {
         User user = new User();//our project User
-        org.telegram.telegrambots.meta.api.objects.User telegramUser = message.getFrom();//tg user
         user.setFirstName(telegramUser.getFirstName());
         user.setLastName(telegramUser.getLastName());
         user.setTelegramId(telegramUser.getId());

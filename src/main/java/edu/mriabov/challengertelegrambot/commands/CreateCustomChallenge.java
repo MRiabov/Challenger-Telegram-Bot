@@ -8,59 +8,58 @@ import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
 import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
+import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
-import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
-import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeAllGroupChats;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
-public class CreateCustomChallenge extends BotCommand implements Command {
+public class CreateCustomChallenge extends BotCommand {
 
     private final SenderService senderService;
     private final UserService userService;
     private final GroupService groupService;
     private final ChallengeCache challengeCache;
-
-    @Override
-    public String alias() {
-        return "/custom";
+    private Message message;
+    public CreateCustomChallenge(SenderService senderService, UserService userService, GroupService groupService, ChallengeCache challengeCache) {
+        super("custom", "Create a custom challenge");
+        this.senderService = senderService;
+        this.userService = userService;
+        this.groupService = groupService;
+        this.challengeCache = challengeCache;
     }
 
     @Override
-    public String scope() {
-        return new BotCommandScopeAllGroupChats().getType();
+    public void processMessage(AbsSender absSender, Message message, String[] arguments) {
+        this.message=message;
+        super.processMessage(absSender, message, arguments);
     }
 
     @Override
-    public void execute(Message message) {
-        if (!userService.existsByTelegramId(message.getFrom().getId())) senderService.replyToMessage(message,
+    public void execute(AbsSender absSender, org.telegram.telegrambots.meta.api.objects.User user, Chat chat, String[] arguments) {
+        if (!userService.existsByTelegramId(user.getId())) senderService.replyToMessage(message,
                 String.format(Replies.USER_NOT_REGISTERED.text, TelegramUtils.linkBuilder(message.getChatId())));
-        Challenge challenge = createChallenge(message);
+
+        Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
+        challenge.setCreatedBy(userService.getUserByTelegramId(user.getId()).get());
+        challenge.setUsers(getMentionedUsers(message, challenge));
+        challenge.setDescription(message.getText().substring(getOffset(message)));
+        challenge.setGroup(groupService.findByTelegramID(chat.getId()));
         if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
+
+
+
             senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
         else {
             senderService.replyToMessage(message, "SUCCESS. The operation will take ... coins.");
             challengeCache.put(message.getFrom().getId(),challenge);
         }
-    }
-
-    private Challenge createChallenge(Message message) {
-        Challenge challenge = TelegramUtils.challengeBasicInfo(message.getText());
-        //difficulty, area, user, message
-        challenge.setCreatedBy(userService.getUserByTelegramId(message.getFrom().getId()).get());
-        challenge.setUsers(getMentionedUsers(message, challenge));
-        challenge.setDescription(message.getText().substring(getOffset(message)));
-        if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
-            return challenge;
-        challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
-        return challenge;
     }
 
     private Set<User> getMentionedUsers(Message message, Challenge challenge) {

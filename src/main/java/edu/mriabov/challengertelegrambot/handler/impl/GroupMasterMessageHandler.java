@@ -18,7 +18,7 @@ public class GroupMasterMessageHandler implements MessageHandler {
         if (update.getMessage().isCommand()) {
             log.info("Received a command from chat " + update.getMessage().getChat().getTitle() +
                     " with text " + update.getMessage().getText());
-            commandContainer.executeByText(update.getMessage());
+//            commandContainer.executeByText(update.getMessage());
         }
     }
 }
