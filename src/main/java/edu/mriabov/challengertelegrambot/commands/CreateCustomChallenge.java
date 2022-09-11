@@ -3,6 +3,7 @@ package edu.mriabov.challengertelegrambot.commands;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
+import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
 import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
@@ -25,6 +26,7 @@ public class CreateCustomChallenge extends BotCommand implements Command {
     private final SenderService senderService;
     private final UserService userService;
     private final GroupService groupService;
+    private final ChallengeCache challengeCache;
 
     @Override
     public String alias() {
@@ -43,11 +45,14 @@ public class CreateCustomChallenge extends BotCommand implements Command {
         Challenge challenge = createChallenge(message);
         if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
             senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
-        senderService.replyToMessage(message, "SUCCESS. The operation will take ... coins.");
+        else {
+            senderService.replyToMessage(message, "SUCCESS. The operation will take ... coins.");
+            challengeCache.put(message.getFrom().getId(),challenge);
+        }
     }
 
     private Challenge createChallenge(Message message) {
-        Challenge challenge = TelegramUtils.challengeBasicInfo(message);
+        Challenge challenge = TelegramUtils.challengeBasicInfo(message.getText());
         //difficulty, area, user, message
         challenge.setCreatedBy(userService.getUserByTelegramId(message.getFrom().getId()).get());
         challenge.setUsers(getMentionedUsers(message, challenge));

@@ -1,23 +1,23 @@
 package edu.mriabov.challengertelegrambot.handler.impl;
 
 import com.vdurmont.emoji.EmojiManager;
+import edu.mriabov.challengertelegrambot.commands.CommandContainer;
 import edu.mriabov.challengertelegrambot.handler.MessageHandler;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.ReceivedMessagesContainer;
-import edu.mriabov.challengertelegrambot.commands.CommandContainer;
 import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Optional;
 
 @Slf4j
-@Service
+@Controller
 @RequiredArgsConstructor
 public class PrivateMasterMessageHandlerImpl implements MessageHandler {
 

@@ -3,30 +3,38 @@ package edu.mriabov.challengertelegrambot.privatechat.utils;
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.List;
 
 public class TelegramUtils {
 
-    private TelegramUtils(){}
+    private TelegramUtils() {
+    }
 
-    public static boolean checkForUnsupportedEmoji(String message){
-        String startOfMessage = message.substring(0,3);
-        List<String> emojis = List.of("\uD83D\uDFE2","🟣","⃣");
-        for (String emoji:emojis) if (startOfMessage.contains(emoji)) return true;
+    public static boolean checkForUnsupportedEmoji(String message) {
+        String startOfMessage = message.substring(0, 3);
+        List<String> emojis = List.of("\uD83D\uDFE2", "🟣", "⃣");
+        for (String emoji : emojis) if (startOfMessage.contains(emoji)) return true;
         return false;
     }
 
-    public static String linkBuilder(long chatID){
-        return "https://t.me/BecomeGigachad_Bot?start="+chatID;
+    public static String linkBuilder(long chatID) {
+        return "https://t.me/BecomeGigachad_Bot?start=" + chatID;
     }
 
-    public static Challenge challengeBasicInfo(Message message){
-        Challenge challenge=new Challenge();
-        for (String word : message.getText().split(" ", 3)) parametersForChallenge(word, challenge);
+    public static int getOffset(String message) {
+        int offset;
+        int spaceCount = 0;
+        for (offset = 0; spaceCount!=3; offset++) if (message.charAt(offset) == ' ') spaceCount++;
+        return offset;
+    }
+
+    public static Challenge challengeBasicInfo(String message) {
+        Challenge challenge = new Challenge();
+        for (String word : message.split(" ", 3)) parametersForChallenge(word, challenge);
         return challenge;
     }
+
 
     private static void parametersForChallenge(String word, Challenge challenge) {
         switch (word.toLowerCase()) {

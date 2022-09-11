@@ -7,18 +7,18 @@ import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
-import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;
+import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import edu.mriabov.challengertelegrambot.service.impl.Appendix;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.Optional;
 
-@Service
+@Controller
 @RequiredArgsConstructor
 public class NumpadHandler {
 

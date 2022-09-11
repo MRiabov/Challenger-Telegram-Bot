@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @RequiredArgsConstructor
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -25,6 +27,11 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public Page<User> findUsersByPageable(long userID, long groupID, Pageable pageable) {
         return groupRepository.findUsersByTelegramID(userID, groupID,pageable);
+    }
+
+    @Override
+    public Set<User> findAllUsers(long groupID) {
+        return groupRepository.findAllUsersByTelegramID(groupID);
     }
 
     @Override

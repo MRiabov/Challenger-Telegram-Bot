@@ -6,11 +6,11 @@ import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.LogicButtonsMessages;
 import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 
 import java.util.Optional;
 
-@Service
+@Controller
 @RequiredArgsConstructor
 public class ChallengeCreatorHandler {
 
