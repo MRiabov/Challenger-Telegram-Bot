@@ -22,13 +22,13 @@ public enum Replies {
 
     INVALID_DAILY_CHALLENGE("""
             Invalid /daily arguments! Custom challenges are set in format:
-            1. Time of the task, in format HH:MM
+            1. [fitness/finances/mindfulness/relationships]
             2. [easy/medium/difficult/goal]
-            3. [fitness/finances/mindfulness/relationships]
-            4. Description of the message...
+            3. Description of the message.
+            If you would like to set a time for the task, e.g. 14:00, just tag it somewhere along the lines.
             So, the message should look like:
-                
-            /daily 14:00 medium fitness @user do 15 do a workout.
+            
+            /daily medium fitness do a workout at 14:00.
             """),
 
     INVALID_GLOBAL_CHALLENGE("""

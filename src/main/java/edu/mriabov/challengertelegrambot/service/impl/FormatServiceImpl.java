@@ -75,13 +75,16 @@ public class FormatServiceImpl implements FormatService {
     private String challengeConfirmation(long userID) {
         if (!challengeCache.contains(userID)) return null;
         Challenge challenge = challengeCache.get(userID);
-        if (challenge.getDifficulty()==null||challenge.getArea()==null||challenge.getUsers()==null) return null;
+        if (challenge.getDifficulty() == null || challenge.getArea() == null || challenge.getUsers() == null)
+            return null;
         StringBuilder challengeInfo = new StringBuilder();
         challengeInfo
                 .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getGroup().getGroupName())
                 .append("\n\uD83C\uDFCB️\u200D♂️Users: ");
-        for (User user : challenge.getUsers()) challengeInfo.append(user.getFirstName()).append(" ")
-                .append(user.getLastName() != null ? user.getLastName() : "");
+        if (challenge.getUsers().size() > 4) challengeInfo.append(challenge.getUsers().size()).append(" users");
+        else for (User user : challenge.getUsers())
+            challengeInfo.append(user.getFirstName()).append(" ")
+                    .append(user.getLastName() != null ? user.getLastName() : "");
         challengeInfo
                 .append("\n\uD83C\uDF96Difficulty: ").append(challenge.getDifficulty())
                 .append("\n\uD83C\uDFF9Area: ").append(challenge.getArea())
