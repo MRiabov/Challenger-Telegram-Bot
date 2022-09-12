@@ -1,8 +1,11 @@
 package edu.mriabov.challengertelegrambot.commands;
 
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
+import edu.mriabov.challengertelegrambot.dao.model.User;
+import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
 import edu.mriabov.challengertelegrambot.service.GroupService;
+import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +25,13 @@ public class CreateDailyChallenge implements IBotCommand {
 
     private final UserService userService;
     private final GroupService groupService;
-    private Optional<Time> getChallengeTime(String message) {
-        for (String s : message.split(" ")) {
-            if (s.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) return Optional.of(Time.valueOf(s));
+    private final SenderService senderService;
+
+    private Time getChallengeTime(String[] arguments) {
+        for (String word : arguments) {
+            if (word.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) return Time.valueOf(word);
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override
@@ -41,10 +46,21 @@ public class CreateDailyChallenge implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
+        if (message.getChat().isUserChat()) {
+            senderService.replyToMessage(message, Replies.WRONG_CHAT_TYPE.text);
+            return;
+        }
+        Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
+        if (userByTelegramId.isEmpty()){
+            senderService.replyToMessage(message,Replies.USER_NOT_REGISTERED.text);
+            return;
+        }
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
-        challenge.setCreatedBy(userService.getUserByTelegramId(message.getFrom().getId()).get());
+        challenge.setCreatedBy(userByTelegramId.get());
         challenge.setUsers(groupService.findAllUsers(message.getChatId()));
         challenge.setDescription(message.getText().substring(TelegramUtils.getOffset(message.getText())));
+        challenge.setRecurringTime(getChallengeTime(arguments));
+        challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setCreatedAt(Instant.now());
     }
 }

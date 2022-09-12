@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -46,13 +47,14 @@ public class CreateCustomChallenge implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        if (!userService.existsByTelegramId(message.getFrom().getId())) senderService.replyToMessage(message,
+        Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
+        if (userByTelegramId.isEmpty()) senderService.replyToMessage(message,
                 String.format(Replies.USER_NOT_REGISTERED.text, TelegramUtils.linkBuilder(message.getChatId())));
         if (message.getChat().isUserChat()) {
-            senderService.sendMessages(message.getChatId(), "WRONG CHAT TYPE!");
+            senderService.sendMessages(message.getChatId(), Replies.WRONG_CHAT_TYPE.text);
         }
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
-        challenge.setCreatedBy(userService.getUserByTelegramId(message.getFrom().getId()).get());
+        challenge.setCreatedBy(userByTelegramId.get());
         challenge.setUsers(getMentionedUsers(message, challenge));
         challenge.setDescription(message.getText().substring(getOffset(message)));
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
