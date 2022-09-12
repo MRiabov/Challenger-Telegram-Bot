@@ -34,6 +34,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "ORDER BY c1.telegramId")
     Page<Group> findMatchingChatsFor2Users(long chatID1, long chatID2, Pageable pageable);
 
-    @Query("SELECT c FROM User u JOIN u.challenges c WHERE u.telegramId=:userID")
+    @Query("SELECT c FROM User u JOIN u.challenges c WHERE u.telegramId=:userID ORDER BY c.expiresAt")
     List<Challenge> findAllChallengesByTelegramId(long userID);
 }

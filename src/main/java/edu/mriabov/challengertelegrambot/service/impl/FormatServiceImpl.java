@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,7 +42,7 @@ public class FormatServiceImpl implements FormatService {
                 user.getCoins(),//6
                 chatPageToListConverter(userID),// 7
                 userPageToListConverter(userID),//8
-                challengeConfirmation(userID)
+                challengeInPrivateConfirmation(userID)//9
         );
     }
 
@@ -72,7 +73,7 @@ public class FormatServiceImpl implements FormatService {
         return result.toString();
     }
 
-    private String challengeConfirmation(long userID) {
+    private String challengeInPrivateConfirmation(long userID) {
         if (!challengeCache.contains(userID)) return null;
         Challenge challenge = challengeCache.get(userID);
         if (challenge.getDifficulty() == null || challenge.getArea() == null || challenge.getUsers() == null)
@@ -86,8 +87,8 @@ public class FormatServiceImpl implements FormatService {
             challengeInfo.append(user.getFirstName()).append(" ")
                     .append(user.getLastName() != null ? user.getLastName() : "");
         challengeInfo
-                .append("\n\uD83C\uDF96Difficulty: ").append(challenge.getDifficulty())
-                .append("\n\uD83C\uDFF9Area: ").append(challenge.getArea())
+                .append("\n\uD83C\uDF96Difficulty: ").append(challenge.getDifficulty().text)
+                .append("\n\uD83C\uDFF9Area: ").append(challenge.getArea().text)
                 .append("\n\n\uD83D\uDCDDChallenge description: ").append(challenge.getDescription())
                 .append("\n\n\uD83D\uDCB8It costs: ").append(billingFormatter(userID, billingService.challengePrice(challenge)));
         return challengeInfo.toString();
@@ -96,5 +97,40 @@ public class FormatServiceImpl implements FormatService {
     private String billingFormatter(long userID, int price) {
         if (billingService.isEnoughCoins(userID, price)) return "\uD83D\uDC8E" + price;
         else return "~\uD83D\uDC8E" + price + "~";
+    }
+
+    private String challengeInGroupConfirmation(long userID) {
+        if (!challengeCache.contains(userID)) return null;
+        Challenge challenge = challengeCache.get(userID);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\n\uD83C\uDFF9Area: ")
+                .append(challenge.getArea() != null ? challenge.getArea().text : "NO AREA FOUND!")
+                .append("\n\uD83C\uDF96Difficulty: ")
+                .append(challenge.getDifficulty() != null ? challenge.getDifficulty().text : "NO DIFFICULTY FOUND!")
+                .append("\n\n\uD83D\uDCDDChallenge description: ")
+                .append(challenge.getDescription().length() > 40 ? challenge.getDescription() :
+                        stringBuilder.append("INVALID!").append(challenge.getDescription())
+                                .append("\n The description is too short!"))
+                .append(challenge.getRecurringTime() != null)
+                .append("\n").append(!challenge.isFree() ? "\n\n\uD83D\uDCB8It costs: " + billingService.challengePrice(challenge)
+                        : "The challenge is free as it is created by an admin.");
+        return stringBuilder.toString();
+    }
+
+    private String myChallengesList(long userID) {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<Challenge> challenges = userService.findAllChallenges(userID);
+        for (int i = 0; i < challenges.size(); i++) {
+            stringBuilder.append(i).append(". ")
+                    .append("\uD83C\uDFF9Area: ").append(challenges.get(i).getArea().text)
+                    .append("\n\uD83C\uDF96Difficulty: ").append(challenges.get(i).getDifficulty().text)
+                    .append("\n\uD83D\uDCDDChallenge description: ").append(challenges.get(i).getDescription())
+                    .append("\nExpires at: ").append(challenges.get(i).getExpiresAt()).append(". ")
+                    .append("")//todo how much time left
+                    .append("\n");
+
+
+        }
+        return stringBuilder.toString();
     }
 }
