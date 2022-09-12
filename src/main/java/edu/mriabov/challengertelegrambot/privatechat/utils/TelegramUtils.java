@@ -3,6 +3,11 @@ package edu.mriabov.challengertelegrambot.privatechat.utils;
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
+import org.telegram.telegrambots.meta.bots.AbsSender;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
 
@@ -27,6 +32,13 @@ public class TelegramUtils {
         int spaceCount = 0;
         for (offset = 0; spaceCount!=3; offset++) if (message.charAt(offset) == ' ') spaceCount++;
         return offset;
+    }
+
+    public static boolean isUserAdmin(AbsSender absSender, Message message) throws TelegramApiException {
+        for (ChatMember admin : absSender.execute(GetChatAdministrators.builder().chatId(message.getChatId()).build())) {
+            if (admin.getUser().getId().equals(message.getFrom().getId())) return true;
+        }
+        return false;
     }
 
     public static Challenge challengeBasicInfo(String[] arguments) {

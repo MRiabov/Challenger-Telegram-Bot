@@ -18,6 +18,8 @@ public enum Replies {
 
     WRONG_CHAT_TYPE("Hey! You are using this command in a wrong chat type! This command is intended elsewhere."),
 
+    USER_NOT_ADMIN("This command is accessible to admins only admins!"),
+
     CHAT_SUCCESSFULLY_LINKED("Chat `%s` was successfully linked!"),
 
     INVALID_DAILY_CHALLENGE("""
