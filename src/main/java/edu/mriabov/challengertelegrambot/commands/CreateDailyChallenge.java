@@ -3,6 +3,7 @@ package edu.mriabov.challengertelegrambot.commands;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
+import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
 import edu.mriabov.challengertelegrambot.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
@@ -26,6 +27,7 @@ public class CreateDailyChallenge implements IBotCommand {
     private final UserService userService;
     private final GroupService groupService;
     private final SenderService senderService;
+    private final ChallengeCache challengeCache;
 
     private Time getChallengeTime(String[] arguments) {
         for (String word : arguments) {
@@ -62,5 +64,11 @@ public class CreateDailyChallenge implements IBotCommand {
         challenge.setRecurringTime(getChallengeTime(arguments));
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setCreatedAt(Instant.now());
+        if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
+            senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
+        else {
+            senderService.replyToMessage(message, "SUCCESS. The operation will take ... coins.");
+            challengeCache.put(message.getFrom().getId(), challenge);
+        }
     }
 }

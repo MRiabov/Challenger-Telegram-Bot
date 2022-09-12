@@ -37,7 +37,7 @@ public class User {
     private int coins;
 
     @OneToMany(mappedBy = "createdBy")
-    private Set<Challenge> challenges = new LinkedHashSet<>();
+    private Set<Challenge> createdChallenges = new LinkedHashSet<>();
 
     @ManyToMany
     @JoinTable(name = "chat_user",
@@ -45,5 +45,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     private Set<Group> groups = new LinkedHashSet<>();
 
+
+    @ManyToMany
+    @JoinTable(name = "challenge_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "challenge_id"))
+    private Set<Challenge> challenges = new LinkedHashSet<>();
 
 }

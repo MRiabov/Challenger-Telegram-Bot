@@ -54,4 +54,7 @@ public class Challenge {
             joinColumns = @JoinColumn(name = "challenge_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new LinkedHashSet<>();
+
+    @Transient//todo transient/transactional?...
+    private boolean isFree;
 }

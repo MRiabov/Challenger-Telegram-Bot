@@ -23,7 +23,10 @@ public enum Buttons {
             ButtonsMessages.MENU_REST.getText(), ButtonsMessages.MENU_FAQ.getText(), null
     ),
     //My challenges
-    MENU_MY_CHALLENGES("PLACEHOLDER",
+    MENU_MY_CHALLENGES("""
+            Your uncompleted challenges list:
+            %
+            """,
             ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(), null,
             ButtonsMessages.SET_GOAL_DESCRIPTION.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null,
             ButtonsMessages.MAIN_MENU.getText(), null
