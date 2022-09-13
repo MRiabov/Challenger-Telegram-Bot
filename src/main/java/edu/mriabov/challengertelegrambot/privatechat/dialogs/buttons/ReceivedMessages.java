@@ -21,7 +21,7 @@ public enum ReceivedMessages {
     MENU_FAQ(ButtonsMessages.MENU_FAQ.getText(), Buttons.MENU_FAQ),
 
     //my challenges
-    MARK_CHALLENGE_AS_COMPLETED(ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(),Buttons.MARK_CHALLENGE_AS_COMPLETED),
+    MARK_CHALLENGE_AS_COMPLETED(ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(), Buttons.MARK_CHALLENGE_AS_COMPLETED),
     SET_GOAL(ButtonsMessages.SET_GOAL_DESCRIPTION.getText(), Buttons.SET_GOAL_DESCRIPTION),
     SKIP_CHALLENGES(ButtonsMessages.SKIP_CHALLENGE.getText(), Buttons.SKIP_CHALLENGES),
 

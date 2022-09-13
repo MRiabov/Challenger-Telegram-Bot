@@ -6,10 +6,10 @@ import edu.mriabov.challengertelegrambot.dao.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -35,5 +35,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<Group> findMatchingChatsFor2Users(long chatID1, long chatID2, Pageable pageable);
 
     @Query("SELECT c FROM User u JOIN u.challenges c WHERE u.telegramId=:userID ORDER BY c.expiresAt")
-    List<Challenge> findAllChallengesByTelegramId(long userID);
+    Page<Challenge> findAllChallengesByTelegramId(long userID,Pageable pageable);
+
+    @Modifying
+    @Query("DELETE c FROM User u JOIN u.challenges c WHERE c.id=:challengeID")
+    void deleteChallenge(long userID, int challengeID);//todo wrong!
 }

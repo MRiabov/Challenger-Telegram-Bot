@@ -25,17 +25,17 @@ public enum Buttons {
     //My challenges
     MENU_MY_CHALLENGES("""
             Your uncompleted challenges list:
-            %
+            %11$s
             """,
             ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(), null,
             ButtonsMessages.SET_GOAL_DESCRIPTION.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null,
             ButtonsMessages.MAIN_MENU.getText(), null
     ),
 
-    MARK_CHALLENGE_AS_COMPLETED("Well done for completing a challenge!" +
-            "\n If you would like to complete a challenge, enter an ID next to it." +
-            "LIST OF CHALLENGES",
-            ButtonsMessages.CANCEL.getText(), null),
+    MARK_CHALLENGE_AS_COMPLETED("""
+            Well done for completing a challenge!
+            If you would like to complete a challenge, enter an ID next to it.
+            %11$s"""),
 
     SET_GOAL_DESCRIPTION("Goals is a burning desire which you think of each time you wake up" +
             "\n Set a goal's description...",
@@ -104,7 +104,7 @@ public enum Buttons {
     IS_ADDICTION("""
             Is your rest caused by an addiction?
             Addictions ALSO include:
-            
+                        
             Pornography,
             Gaming,
             Binge watching YouTube, Netflix, etc,

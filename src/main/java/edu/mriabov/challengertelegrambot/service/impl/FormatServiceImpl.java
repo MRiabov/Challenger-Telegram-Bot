@@ -13,6 +13,7 @@ import edu.mriabov.challengertelegrambot.service.FormatService;
 import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +43,9 @@ public class FormatServiceImpl implements FormatService {
                 user.getCoins(),//6
                 chatPageToListConverter(userID),// 7
                 userPageToListConverter(userID),//8
-                challengeInPrivateConfirmation(userID)//9
+                challengeInPrivateConfirmation(userID),//9
+                challengeInGroupConfirmation(userID),//10
+                myChallengesList(userID)//11
         );
     }
 
@@ -99,6 +102,14 @@ public class FormatServiceImpl implements FormatService {
         else return "~\uD83D\uDC8E" + price + "~";
     }
 
+    private String billingFormatter(Challenge challenge) {
+        if (challenge.getCreatedBy() == null) return "Cannot calculate price! Creator is not registered!";
+        if (challenge.getDifficulty() == null) return "Cannot calculate price! Difficulty is required!";
+        int price = billingService.challengePrice(challenge);
+        if (billingService.isEnoughCoins(challenge.getCreatedBy().getId(), price)) return "\uD83D\uDC8E" + price;
+        else return "~\uD83D\uDC8E" + price + "~";
+    }
+
     private String challengeInGroupConfirmation(long userID) {
         if (!challengeCache.contains(userID)) return null;
         Challenge challenge = challengeCache.get(userID);
@@ -109,17 +120,21 @@ public class FormatServiceImpl implements FormatService {
                 .append(challenge.getDifficulty() != null ? challenge.getDifficulty().text : "NO DIFFICULTY FOUND!")
                 .append("\n\n\uD83D\uDCDDChallenge description: ")
                 .append(challenge.getDescription().length() > 40 ? challenge.getDescription() :
-                        stringBuilder.append("INVALID!").append(challenge.getDescription())
-                                .append("\n The description is too short!"))
+                        stringBuilder.append("INVALID! \"").append(challenge.getDescription())
+                                .append("\n\" The description is too short!"))
                 .append(challenge.getRecurringTime() != null)
-                .append("\n").append(!challenge.isFree() ? "\n\n\uD83D\uDCB8It costs: " + billingService.challengePrice(challenge)
+                .append("\n").append(!challenge.isFree() ? "\n\n\uD83D\uDCB8It costs: " + billingFormatter(challenge)
                         : "The challenge is free as it is created by an admin.");
         return stringBuilder.toString();
     }
 
     private String myChallengesList(long userID) {
+        List<Challenge> challenges = userService.findChallengesByTelegramID(userID, Pageable.unpaged()).getContent();
+        if (challenges.size() == 0) {
+            return "All your challenges are completed! Time to advance in fields, other then listed here." +
+                    "\nJust don't stop!";
+        }
         StringBuilder stringBuilder = new StringBuilder();
-        List<Challenge> challenges = userService.findAllChallenges(userID);
         for (int i = 0; i < challenges.size(); i++) {
             stringBuilder.append(i).append(". ")
                     .append("\uD83C\uDFF9Area: ").append(challenges.get(i).getArea().text)
@@ -128,8 +143,6 @@ public class FormatServiceImpl implements FormatService {
                     .append("\nExpires at: ").append(challenges.get(i).getExpiresAt()).append(". ")
                     .append("")//todo how much time left
                     .append("\n");
-
-
         }
         return stringBuilder.toString();
     }

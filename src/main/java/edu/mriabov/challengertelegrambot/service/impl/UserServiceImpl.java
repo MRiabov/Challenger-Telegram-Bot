@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,8 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<Group> findChatsByTelegramId(long chatID, int page) {
-        return userRepository.findChatsByTelegramId(chatID,
-                Pageable.ofSize(PAGE_SIZE).withPage(page));
+        return userRepository.findChatsByTelegramId(chatID, Pageable.ofSize(PAGE_SIZE).withPage(page));
     }
 
     @Override
@@ -76,8 +74,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Challenge> findAllChallenges(long userID) {
-        return userRepository.findAllChallengesByTelegramId(userID);
+    public void completeChallenge(long userID, Challenge challenge) {
+        User user = userRepository.getUserByTelegramId(userID).get();
+        int incrementBy = challenge.getDifficulty().reward;//should it be like this? should tasks be rewarded so little?
+        switch (challenge.getArea()) {
+            case FINANCES -> user.getUserStats().setFinances(user.getUserStats().getFinances() + incrementBy);
+            case MINDFULNESS -> user.getUserStats().setMindfulness(user.getUserStats().getMindfulness() + incrementBy);
+            case FITNESS -> user.getUserStats().setFitness(user.getUserStats().getFitness() + incrementBy);
+            case RELATIONSHIPS -> user.getUserStats().setRelationships(user.getUserStats().getRelationships() + incrementBy);
+        }
+        user.setCoins(user.getCoins()+incrementBy);//custom and global challenges differ in reward?...
+        userRepository.deleteChallenge(userID, challenge.getId());
+    }
+
+    @Override
+    public Page<Challenge> findChallengesByTelegramID(long userID, Pageable pageable) {
+        return userRepository.findAllChallengesByTelegramId(userID, pageable);
     }
 
 

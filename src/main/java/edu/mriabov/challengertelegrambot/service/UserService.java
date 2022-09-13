@@ -6,7 +6,6 @@ import edu.mriabov.challengertelegrambot.dao.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -27,5 +26,7 @@ public interface UserService {
 
     void save(User user);
 
-    List<Challenge> findAllChallenges(long userID);
+    void completeChallenge(long userID, Challenge challenge);
+
+    Page<Challenge> findChallengesByTelegramID(long userID, Pageable pageable);
 }
