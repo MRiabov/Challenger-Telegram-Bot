@@ -23,8 +23,8 @@ public class TelegramUtils {
         return false;
     }
 
-    public static String linkBuilder(long chatID) {
-        return "https://t.me/BecomeGigachad_Bot?start=" + chatID;
+    public static String linkBuilder(long groupID) {
+        return "https://t.me/BecomeGigachad_Bot?start=" + groupID;
     }
 
     public static int getOffset(String message) {

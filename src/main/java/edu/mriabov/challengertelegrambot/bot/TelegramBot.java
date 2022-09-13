@@ -10,7 +10,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -25,17 +25,12 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
     private final GroupMasterMessageHandler groupMasterMessageHandler;
     private final BotConfig config;
     private final RegistrationService registrationService;
-    private final List<BotCommand> commandList;
+    private final List<IBotCommand> commandList;
 
     @Override
     public void onRegister() {
-        for (BotCommand botCommand : commandList) register(botCommand);
+        for (IBotCommand botCommand : commandList) register(botCommand);
         super.onRegister();
-    }
-
-    @Override
-    public void onUpdatesReceived(List<Update> updates) {
-        super.onUpdatesReceived(updates);
     }
 
     @SneakyThrows
