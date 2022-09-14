@@ -10,7 +10,8 @@ import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
-import edu.mriabov.challengertelegrambot.service.*;
+import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
+import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;
 import edu.mriabov.challengertelegrambot.service.impl.Appendix;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,6 @@ public class NumpadHandler {
     private final UserPageCache userPageCache;
     private final UserService userService;
     private final GroupService groupService;
-    private final ChallengeService challengeService;
     private final ChallengePageCache challengePageCache;
     private final DynamicButtonsService dynamicButtonsService;
 
