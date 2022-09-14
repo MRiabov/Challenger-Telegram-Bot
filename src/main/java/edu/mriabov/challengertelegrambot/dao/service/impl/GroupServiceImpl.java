@@ -1,9 +1,9 @@
-package edu.mriabov.challengertelegrambot.service.impl;
+package edu.mriabov.challengertelegrambot.dao.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.repository.GroupRepository;
-import edu.mriabov.challengertelegrambot.service.GroupService;
+import edu.mriabov.challengertelegrambot.dao.service.GroupService;
 import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

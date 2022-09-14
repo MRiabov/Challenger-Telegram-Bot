@@ -1,12 +1,13 @@
-package edu.mriabov.challengertelegrambot.service.impl;
+package edu.mriabov.challengertelegrambot.dao.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.repository.GroupRepository;
 import edu.mriabov.challengertelegrambot.dao.repository.UserRepository;
-import edu.mriabov.challengertelegrambot.service.UserService;
+import edu.mriabov.challengertelegrambot.dao.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Set;
 import static edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils.PAGE_SIZE;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -76,7 +78,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void completeChallenge(long userID, Challenge challenge) {
-        User user = userRepository.getUserByTelegramId(userID).get();
+        User user;
+        Optional<User> userOptional = userRepository.getUserByTelegramId(userID);
+        if (userOptional.isPresent()) user=userOptional.get();
+        else {
+            log.error("Unregistered user " + userID + " attempted to complete a challenge");
+            return;
+        }
         int incrementBy = challenge.getDifficulty().reward;//should it be like this? should tasks be rewarded so little?
         switch (challenge.getArea()) {
             case FINANCES -> user.getUserStats().setFinances(user.getUserStats().getFinances() + incrementBy);

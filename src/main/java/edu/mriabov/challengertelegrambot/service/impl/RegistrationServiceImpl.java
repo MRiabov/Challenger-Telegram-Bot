@@ -2,10 +2,10 @@ package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.service.GroupService;
+import edu.mriabov.challengertelegrambot.dao.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
-import edu.mriabov.challengertelegrambot.service.UserService;
-import edu.mriabov.challengertelegrambot.service.UserStatsService;
+import edu.mriabov.challengertelegrambot.dao.service.UserService;
+import edu.mriabov.challengertelegrambot.dao.service.UserStatsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

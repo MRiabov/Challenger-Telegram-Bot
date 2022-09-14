@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.service;
+package edu.mriabov.challengertelegrambot.dao.service;
 
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 

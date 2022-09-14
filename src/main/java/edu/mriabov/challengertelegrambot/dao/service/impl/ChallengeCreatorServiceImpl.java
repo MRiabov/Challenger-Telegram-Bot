@@ -1,10 +1,13 @@
-package edu.mriabov.challengertelegrambot.service.impl;
+package edu.mriabov.challengertelegrambot.dao.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
+import edu.mriabov.challengertelegrambot.dao.service.ChallengeService;
+import edu.mriabov.challengertelegrambot.dao.service.GroupService;
+import edu.mriabov.challengertelegrambot.dao.service.UserService;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
@@ -15,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.Set;

@@ -9,7 +9,7 @@ import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.ReceivedMes
 import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
 import edu.mriabov.challengertelegrambot.service.SenderService;
-import edu.mriabov.challengertelegrambot.service.UserService;
+import edu.mriabov.challengertelegrambot.dao.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

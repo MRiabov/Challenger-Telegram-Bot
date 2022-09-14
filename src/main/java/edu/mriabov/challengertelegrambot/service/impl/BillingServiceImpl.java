@@ -3,7 +3,7 @@ package edu.mriabov.challengertelegrambot.service.impl;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.service.BillingService;
-import edu.mriabov.challengertelegrambot.service.UserService;
+import edu.mriabov.challengertelegrambot.dao.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

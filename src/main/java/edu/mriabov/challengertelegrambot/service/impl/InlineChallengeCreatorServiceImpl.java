@@ -1,9 +1,9 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
-import edu.mriabov.challengertelegrambot.service.GroupService;
+import edu.mriabov.challengertelegrambot.dao.service.GroupService;
 import edu.mriabov.challengertelegrambot.service.InlineChallengeCreatorService;
-import edu.mriabov.challengertelegrambot.service.UserService;
+import edu.mriabov.challengertelegrambot.dao.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
