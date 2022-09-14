@@ -84,7 +84,8 @@ public class UserServiceImpl implements UserService {
             case RELATIONSHIPS -> user.getUserStats().setRelationships(user.getUserStats().getRelationships() + incrementBy);
         }
         user.setCoins(user.getCoins()+incrementBy);//custom and global challenges differ in reward?...
-        userRepository.deleteChallenge(userID, challenge.getId());
+        user.setChallenges(userRepository.getAllChallengesButOne(userID, challenge.getId()));
+        userRepository.save(user);
     }
 
     @Override

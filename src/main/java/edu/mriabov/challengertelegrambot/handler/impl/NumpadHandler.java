@@ -1,5 +1,6 @@
 package edu.mriabov.challengertelegrambot.handler.impl;
 
+import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengePageCache;
@@ -101,13 +102,13 @@ public class NumpadHandler {
 
     private boolean challengePageFlip(long userID, String message) {
         if (message.startsWith(ButtonsMappingUtils.previousPage)) {
-            Page<User> page = challengeService.findUsersByPageable(userID, challengePageCache.getPreviousOrLastPageable(userID));
-            userPageCache.put(userID, page);
+            Page<Challenge> page = userService.findChallengesByTelegramID(userID, challengePageCache.getPreviousOrLastPageable(userID));
+            challengePageCache.put(userID, page);
             return true;
         }
         if (message.startsWith(ButtonsMappingUtils.nextPage)) {
-            Page<User> page = challengeService.findUsersByPageable(userID, challengePageCache.getNextOrLastPageable(userID));
-            userPageCache.put(userID, page);
+            Page<Challenge> page = userService.findChallengesByTelegramID(userID, challengePageCache.getNextOrLastPageable(userID));
+            challengePageCache.put(userID, page);
             return true;
         }
         return false;

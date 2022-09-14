@@ -8,6 +8,6 @@ import org.springframework.data.domain.Pageable;
 public interface ChallengeService {
 
     void save(Challenge challenge);
-    Page<User> findUsersByPageable(long userID, Pageable pageable);
+    Page<User> findUsers(int userID, Pageable pageable);
 
 }
