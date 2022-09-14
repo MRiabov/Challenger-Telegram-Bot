@@ -36,4 +36,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT c FROM User u JOIN u.challenges c WHERE u.telegramId=:userID ORDER BY c.expiresAt")
     Page<Challenge> findAllChallengesByTelegramId(long userID,Pageable pageable);
 
+    @Query("SELECT c FROM User u JOIN u.challenges c WHERE c.id<>:challengeID AND u=:userID")
+    Set<Challenge> getAllChallengesButOne(long userID,int challengeID);
 }

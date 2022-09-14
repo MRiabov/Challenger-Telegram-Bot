@@ -28,6 +28,7 @@ public class NumpadHandler {
     private final UserPageCache userPageCache;
     private final UserService userService;
     private final GroupService groupService;
+    private final ChallengeService challengeService;
     private final ChallengePageCache challengePageCache;
     private final DynamicButtonsService dynamicButtonsService;
 
@@ -66,7 +67,7 @@ public class NumpadHandler {
                     .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
                     .build();
             if (Character.isDigit(message.charAt(0))) {
-                userService.completeChallenge(userID, challengePageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0) - 1)));
+                userService.completeChallenge(userID,challengePageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0) - 1)));
                 return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.DIFFICULTY_SELECTION);
             }
         }

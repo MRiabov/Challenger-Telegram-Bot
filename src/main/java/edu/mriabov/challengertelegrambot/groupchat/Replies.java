@@ -12,7 +12,7 @@ public enum Replies {
             Are you sure you want to create this challenge? It will cost PLACEHOLDER
             """),
 
-    USER_NOT_REGISTERED("User not registered! Please register through this "),
+    USER_NOT_REGISTERED("User not registered! Please register through this %d"),
 
     ADDED_TO_CHAT("Time to change lives..."),
 

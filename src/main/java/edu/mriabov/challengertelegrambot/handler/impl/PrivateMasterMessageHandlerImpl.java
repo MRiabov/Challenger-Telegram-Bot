@@ -2,7 +2,6 @@ package edu.mriabov.challengertelegrambot.handler.impl;
 
 import com.vdurmont.emoji.EmojiManager;
 import edu.mriabov.challengertelegrambot.commands.CommandContainer;
-import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.handler.MessageHandler;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.ReceivedMessagesContainer;
@@ -34,7 +33,7 @@ public class PrivateMasterMessageHandlerImpl implements MessageHandler {
         String message = update.getMessage().getText();
         long userID = update.getMessage().getChatId();
         log.info("Successfully received the message to the PM handler: " + message);
-        if (update.getMessage().isCommand()) log.info("A command was attempted to execute"); //commandContainer.execut(update.getMessage());//if the message is a command
+        if (update.getMessage().isCommand()) log.info("Attempted to use a command!"); /*commandContainer.executeByText(update.getMessage());*///if the message is a command
         else if (EmojiManager.containsEmoji(message.substring(0, 3))
                 || TelegramUtils.checkForUnsupportedEmoji(message)) {//if the message is a button
             buttonsHandler(userID, message);
@@ -45,8 +44,7 @@ public class PrivateMasterMessageHandlerImpl implements MessageHandler {
 
     private void buttonsHandler(long chatID, String message) {
         if (!userService.existsByTelegramId(chatID)) {
-            if (chatID > 0) senderService.sendMessages(chatID, Buttons.USER_NOT_FOUND);
-            else senderService.sendMessages(chatID, Replies.USER_NOT_REGISTERED.text);
+            senderService.sendMessages(chatID, Buttons.USER_NOT_FOUND);
             return;
         }
         Optional<Buttons> logicButtons = challengeCreatorHandler.handleStaticMessages(chatID, message);

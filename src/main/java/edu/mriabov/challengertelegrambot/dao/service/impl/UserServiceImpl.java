@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -90,17 +89,17 @@ public class UserServiceImpl implements UserService {
             case FINANCES -> user.getUserStats().setFinances(user.getUserStats().getFinances() + incrementBy);
             case MINDFULNESS -> user.getUserStats().setMindfulness(user.getUserStats().getMindfulness() + incrementBy);
             case FITNESS -> user.getUserStats().setFitness(user.getUserStats().getFitness() + incrementBy);
-            case RELATIONSHIPS ->
-                    user.getUserStats().setRelationships(user.getUserStats().getRelationships() + incrementBy);
+            case RELATIONSHIPS -> user.getUserStats().setRelationships(user.getUserStats().getRelationships() + incrementBy);
         }
-        user.setCoins(user.getCoins() + incrementBy);//custom and global challenges differ in reward?...
-        List<Challenge> content = userRepository.findAllChallengesByTelegramId(userID, Pageable.unpaged()).getContent();
-        content.remove(challenge);
-        user.setChallenges(Set.copyOf(content));
+        user.setCoins(user.getCoins()+incrementBy);//custom and global challenges differ in reward?...
+        user.setChallenges(userRepository.getAllChallengesButOne(userID, challenge.getId()));
+        userRepository.save(user);
     }
 
     @Override
     public Page<Challenge> findChallengesByTelegramID(long userID, Pageable pageable) {
         return userRepository.findAllChallengesByTelegramId(userID, pageable);
     }
+
+
 }
