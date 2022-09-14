@@ -1,6 +1,5 @@
 package edu.mriabov.challengertelegrambot.handler.impl;
 
-import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengePageCache;
@@ -26,6 +25,7 @@ public class NumpadHandler {
     private final UserPageCache userPageCache;
     private final UserService userService;
     private final GroupService groupService;
+    private final ChallengeService challengeService;
     private final ChallengePageCache challengePageCache;
     private final DynamicButtonsService dynamicButtonsService;
 
@@ -64,7 +64,7 @@ public class NumpadHandler {
                     .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
                     .build();
             if (Character.isDigit(message.charAt(0))) {
-                userService.completeChallenge(userID, challengePageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0) - 1)));
+                userService.completeChallenge(userID,challengePageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0) - 1)));
                 return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.DIFFICULTY_SELECTION);
             }
         }
@@ -101,13 +101,13 @@ public class NumpadHandler {
 
     private boolean challengePageFlip(long userID, String message) {
         if (message.startsWith(ButtonsMappingUtils.previousPage)) {
-            Page<Challenge> page = userService.findChallengesByTelegramID(userID, challengePageCache.getPreviousOrLastPageable(userID));
-            challengePageCache.put(userID, page);
+            Page<User> page = challengeService.findUsersByPageable(userID, challengePageCache.getPreviousOrLastPageable(userID));
+            userPageCache.put(userID, page);
             return true;
         }
         if (message.startsWith(ButtonsMappingUtils.nextPage)) {
-            Page<Challenge> page = userService.findChallengesByTelegramID(userID, challengePageCache.getNextOrLastPageable(userID));
-            challengePageCache.put(userID, page);
+            Page<User> page = challengeService.findUsersByPageable(userID, challengePageCache.getNextOrLastPageable(userID));
+            userPageCache.put(userID, page);
             return true;
         }
         return false;

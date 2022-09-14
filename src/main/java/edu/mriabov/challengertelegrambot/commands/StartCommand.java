@@ -9,24 +9,41 @@ import edu.mriabov.challengertelegrambot.service.UserService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 @Component
 @Slf4j
-public class StartCommand implements IBotCommand {
+public class StartCommand extends BotCommand {
 
     private final UserService userService;
     private final GroupService groupService;
     private final RegistrationService registrationService;
 
     public StartCommand(UserService userService, GroupService groupService, RegistrationService registrationService) {
+        super("start", "(re)Start the bot!");
         this.userService = userService;
         this.groupService = groupService;
         this.registrationService = registrationService;
+    }
+
+    @SneakyThrows
+    @Override
+    public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
+        if (chat.getType().equals("private")) {
+            absSender.execute(SendMessage.builder()
+                    .chatId(chat.getId())
+                    .text(Replies.WRONG_CHAT_TYPE.text)
+                    .build());
+            return;
+        }
+        if (!userService.existsByTelegramId(chat.getId())) registrationService.registerUser(user);
+        absSender.execute(ButtonsMappingUtils.buildMessageWithKeyboard(chat.getId(), Buttons.ON_START_NEW_USER));
+        //if this is a deep linking request, add the chat from the deep linking request.
+        if (arguments.length > 0) addChat(arguments[0], chat, absSender);
     }
 
     @SneakyThrows
@@ -44,29 +61,4 @@ public class StartCommand implements IBotCommand {
     }
 
 
-    @Override
-    public String getCommandIdentifier() {
-        return "start";
-    }
-
-    @Override
-    public String getDescription() {
-        return "(re)Start the bot!";
-    }
-
-    @SneakyThrows
-    @Override
-    public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        if (!message.getChat().getType().equals("private")) {
-            absSender.execute(SendMessage.builder()
-                    .chatId(message.getChatId())
-                    .text(Replies.WRONG_CHAT_TYPE.text)
-                    .build());
-            return;
-        }
-        if (!userService.existsByTelegramId(message.getChatId())) registrationService.registerUser(message.getFrom());
-        absSender.execute(ButtonsMappingUtils.buildMessageWithKeyboard(message.getChatId(), Buttons.ON_START_NEW_USER));
-        //if this is a deep linking request, add the chat from the deep linking request.
-        if (arguments.length > 0) addChat(arguments[0], message.getChat(), absSender);
-    }
 }

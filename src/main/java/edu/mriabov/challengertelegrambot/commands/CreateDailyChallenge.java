@@ -54,7 +54,7 @@ public class CreateDailyChallenge implements IBotCommand {
         }
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
         if (userByTelegramId.isEmpty()){
-            senderService.replyToMessage(message,Replies.USER_NOT_REGISTERED.text.formatted(TelegramUtils.linkBuilder(message.getChatId())));
+            senderService.replyToMessage(message,Replies.USER_NOT_REGISTERED.text);
             return;
         }
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);

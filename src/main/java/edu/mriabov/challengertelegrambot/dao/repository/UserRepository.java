@@ -6,6 +6,7 @@ import edu.mriabov.challengertelegrambot.dao.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -36,4 +37,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT c FROM User u JOIN u.challenges c WHERE u.telegramId=:userID ORDER BY c.expiresAt")
     Page<Challenge> findAllChallengesByTelegramId(long userID,Pageable pageable);
 
+    @Modifying
+    @Query("DELETE c FROM User u JOIN u.challenges c WHERE c.id=:challengeID")
+    void deleteChallenge(long userID, int challengeID);//todo wrong!
 }
