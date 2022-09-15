@@ -1,5 +1,6 @@
 package edu.mriabov.challengertelegrambot.commands;
 
+import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.service.GroupService;
 import edu.mriabov.challengertelegrambot.dao.service.UserService;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
@@ -32,7 +33,7 @@ public class StartCommand implements IBotCommand {
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        if (message.getChat().getType().equals("private")) {
+        if (!message.getChat().getType().equals("private")) {
             absSender.execute(SendMessage.builder()
                     .chatId(message.getChat().getId())
                     .text(Replies.WRONG_CHAT_TYPE.text)
@@ -48,16 +49,16 @@ public class StartCommand implements IBotCommand {
 
     @SneakyThrows
     private void addChat(String payload, Chat chat, AbsSender absSender) {
-        boolean chatSuccessfullyLinked = userService.addChat(chat.getId(),
-                groupService.findByTelegramID(Long.parseLong(payload.substring(7))));
+        Group group = groupService.findByTelegramID(Long.parseLong(payload));
+        boolean chatSuccessfullyLinked = userService.addChat(chat.getId(), group);
         if (chatSuccessfullyLinked) {
-            log.info("User " + chat.getId() + " has successfully linked a chat " + chat.getTitle());
+            log.info("User " + chat.getId() + " has successfully linked a chat " + group.getGroupName());
             absSender.execute(SendMessage.builder()
-                    .text(Replies.CHAT_SUCCESSFULLY_LINKED.text.formatted(chat.getTitle()))
+                    .text(Replies.CHAT_SUCCESSFULLY_LINKED.text.formatted(group.getGroupName()))
                     .chatId(chat.getId())
                     .build());
         } else
-            log.warn("User " + chat.getId() + " has failed to add a chat via /start. his payload: " + payload.substring(7));
+            log.warn("User " + chat.getId() + " has failed to add a chat via /start. his payload: " + payload);
     }
 
 

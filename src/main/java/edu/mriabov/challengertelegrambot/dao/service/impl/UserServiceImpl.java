@@ -100,6 +100,4 @@ public class UserServiceImpl implements UserService {
     public Page<Challenge> findChallengesByTelegramID(long userID, Pageable pageable) {
         return userRepository.findAllChallengesByTelegramId(userID, pageable);
     }
-
-
 }

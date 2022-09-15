@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -30,14 +32,15 @@ public class Group {
     @Column(name = "telegram_id", nullable = false)
     private long telegramId;
 
-    @Column(name = "group_name", nullable = false, length = 50)
-    private String groupName;
-
     @OneToMany(mappedBy = "group")
     private Set<Challenge> challenges = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "groups")
     private Set<User> users = new LinkedHashSet<>();
 
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "group_name", nullable = false, length = 50)
+    private String groupName;
 
 }
