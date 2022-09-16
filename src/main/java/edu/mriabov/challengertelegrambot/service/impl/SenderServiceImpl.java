@@ -60,15 +60,16 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
         log.info("SenderService attempted to send a message with buttons: " + buttons.getMessage());
 
         execute(SendMessage.builder()
-                .text(message)
-                .chatId(userID)
-                .replyMarkup(buttons.getKeyboard().length==0 ?// todo: 9/3/2022 chat appendix is hardcoded. 13.9 unused?
-                        dynamicButtonsService.createMarkup(userID,Appendix.CHAT_APPENDIX) :
-                        ButtonsMappingUtils.createStaticMarkup(buttons.getKeyboard()))
+                        .text(message)
+                        .chatId(userID)
+                        .replyMarkup(buttons.getKeyboard().length == 0 ?// todo: 9/3/2022 chat appendix is hardcoded. 13.9 unused?
+                                dynamicButtonsService.createMarkup(userID, Appendix.CHAT_APPENDIX) :
+                                ButtonsMappingUtils.createStaticMarkup(buttons.getKeyboard()))
 //                .parseMode("HTML")
-                .build()
+                        .build()
         );
     }
+
     @SneakyThrows
     @Override
     public void sendMessages(SendMessage sendMessage) {
@@ -81,9 +82,9 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     @SneakyThrows
     @Override
     public void replyToMessage(Message msgToReply, String message) {
-        message = formatService.format(msgToReply.getChatId(), message);
-        execute(SendMessage.builder().
-                replyToMessageId(msgToReply.getMessageId())
+        message = formatService.format(msgToReply.getFrom().getId(), message);//this one
+        execute(SendMessage.builder()
+                .replyToMessageId(msgToReply.getMessageId())
                 .text(message)
                 .chatId(msgToReply.getChatId())
 //                .parseMode("HTML")

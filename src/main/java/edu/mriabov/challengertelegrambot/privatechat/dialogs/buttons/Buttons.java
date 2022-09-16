@@ -175,7 +175,7 @@ public enum Buttons {
             Just click the buttons, please.
             """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
-    USER_NOT_FOUND("Error: User does did not register! Please use /start.",
+    USER_NOT_FOUND("Error: User did not register! Please use /start.",
             "/start", null),
 
     DELETED_FROM_CACHE("""

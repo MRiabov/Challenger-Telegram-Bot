@@ -113,19 +113,15 @@ public class FormatServiceImpl implements FormatService {
     private String challengeInGroupConfirmation(long userID) {
         if (!challengeCache.contains(userID)) return null;
         Challenge challenge = challengeCache.get(userID);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\n\uD83C\uDFF9Area: ")
-                .append(challenge.getArea() != null ? challenge.getArea().text : "NO AREA FOUND!")
-                .append("\n\uD83C\uDF96Difficulty: ")
-                .append(challenge.getDifficulty() != null ? challenge.getDifficulty().text : "NO DIFFICULTY FOUND!")
-                .append("\n\n\uD83D\uDCDDChallenge description: ")
-                .append(challenge.getDescription().length() > 40 ? challenge.getDescription() :
-                        stringBuilder.append("INVALID! \"").append(challenge.getDescription())
-                                .append("\n\" The description is too short!"))
-                .append(challenge.getRecurringTime() != null)
-                .append("\n").append(!challenge.isFree() ? "\n\n\uD83D\uDCB8It costs: " + billingFormatter(challenge)
-                        : "The challenge is free as it is created by an admin.");
-        return stringBuilder.toString();
+        return "\n\uD83C\uDFF9Area: " +
+                (challenge.getArea() != null ? challenge.getArea().text : "NO AREA FOUND!") +
+                "\n\uD83C\uDF96Difficulty: " +
+                (challenge.getDifficulty() != null ? challenge.getDifficulty().text : "NO DIFFICULTY FOUND!") +
+                "\nRecurring time: " + (challenge.getRecurringTime() != null ? challenge.getRecurringTime() : "Challenge is not recurring") +
+                "\n\n\uD83D\uDCDDChallenge description: " +
+                challenge.getDescription() +
+                "\n" + (challenge.isFree() ? "The challenge is free as it is created by an admin." :
+                "\n\n\uD83D\uDCB8It costs: " + billingFormatter(challenge));
     }
 
     private String myChallengesList(long userID) {

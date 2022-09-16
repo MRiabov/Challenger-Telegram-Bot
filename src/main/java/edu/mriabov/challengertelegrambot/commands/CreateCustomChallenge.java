@@ -52,6 +52,7 @@ public class CreateCustomChallenge implements IBotCommand {
                 String.format(Replies.USER_NOT_REGISTERED.text, TelegramUtils.linkBuilder(message.getChatId())));
         if (message.getChat().isUserChat()) {
             senderService.sendMessages(message.getChatId(), Replies.WRONG_CHAT_TYPE.text);
+            return;
         }
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(userByTelegramId.get());
@@ -59,11 +60,11 @@ public class CreateCustomChallenge implements IBotCommand {
         challenge.setDescription(message.getText().substring(getOffset(message)));
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setCreatedAt(Instant.now());
-        if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
-            senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
-        else {
-            senderService.replyToMessage(message, "SUCCESS. The operation will take ... coins.");
+        if (challenge.getDifficulty() != null && challenge.getUsers().size() != 0 && challenge.getArea() != null) {
             challengeCache.put(message.getFrom().getId(), challenge);
+            senderService.replyToMessage(message, "%10$s");
+        } else {
+            senderService.replyToMessage(message, challenge+Replies.INVALID_CUSTOM_CHALLENGE.text);
         }
     }
 
