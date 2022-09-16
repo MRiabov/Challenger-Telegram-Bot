@@ -52,7 +52,9 @@ public enum Replies {
             So, the message should look like:
                 
             /custom medium fitness @user do 15 do a workout.
-            """)
+            """),
+    NOTHING_TO_CONFIRM("Nothing to confirm! How about creating a challenge for someone? Use /custom.")
+
     //!
     ;
     //!

@@ -121,7 +121,9 @@ public class FormatServiceImpl implements FormatService {
                 "\n\n\uD83D\uDCDDChallenge description: " +
                 challenge.getDescription() +
                 "\n" + (challenge.isFree() ? "The challenge is free as it is created by an admin." :
-                "\n\n\uD83D\uDCB8It costs: " + billingFormatter(challenge));
+                "\n\n\uD83D\uDCB8It costs: " + billingFormatter(challenge)) + "\n" +
+                (challenge.getDifficulty() != null && challenge.getDescription() != null && challenge.getArea() != null ?
+                "Press /confirm to bill coins and confirm the challenge" : "Challenge is incorrect!");
     }
 
     private String myChallengesList(long userID) {

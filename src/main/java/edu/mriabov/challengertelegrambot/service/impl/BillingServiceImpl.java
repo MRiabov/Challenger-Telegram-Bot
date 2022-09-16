@@ -48,4 +48,9 @@ public class BillingServiceImpl implements BillingService {
     public int challengePrice(Challenge challenge) {
         return challenge.getUsers().size() * challenge.getDifficulty().price;
     }
+
+    @Override
+    public boolean isEnoughCoinsForChallenge(Challenge challenge) {
+        return isEnoughCoins(challenge.getCreatedBy().getTelegramId(),challengePrice(challenge));
+    }
 }

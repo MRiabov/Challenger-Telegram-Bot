@@ -149,6 +149,10 @@ public enum Buttons {
             So let's become the strong men this world desires!
             """, ButtonsMessages.BACK_TO_MENU.getText()),
 
+    ASSIGNED_NEW_CHALLENGE(
+            "You have been assigned a new challenge! ",
+            ButtonsMessages.MENU_MY_CHALLENGES.getText(),ButtonsMessages.MENU_MY_CHALLENGES.getText(),null),
+
     //Commands
     UNKNOWN_COMMAND("Error: this command doesn't seem to be supported...", ButtonsMessages.BACK_TO_MENU.getText(), null),
 

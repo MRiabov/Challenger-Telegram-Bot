@@ -10,6 +10,7 @@ public interface BillingService {
     List<Boolean> isEnoughCoins(long userID, int[] coinCount);
     boolean billCoins(long userID, int coinCount);
     int challengePrice(Challenge challenge);
+    boolean isEnoughCoinsForChallenge(Challenge challenge);
 
 
 
