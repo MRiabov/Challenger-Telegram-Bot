@@ -24,17 +24,24 @@ public class ConfirmChallengeCommand implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        if (!challengeCache.contains(message.getFrom().getId()))
-            senderService.sendMessages(message.getFrom().getId(), Replies.NOTHING_TO_CONFIRM.text);
+        if (!challengeCache.contains(message.getFrom().getId())) {
+            senderService.replyToMessage(message, Replies.NOTHING_TO_CONFIRM.text);
+            return;
+        }
         Challenge challenge = challengeCache.get(message.getFrom().getId());
-        if (challenge.getDifficulty() != null && challenge.getDescription() != null && challenge.getArea() != null)
+        if (challenge.getDifficulty() == null && challenge.getDescription() == null && challenge.getArea() == null) {
             senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
-        if (!billingService.isEnoughCoinsForChallenge(challenge))
-            senderService.sendMessages(message.getFrom().getId(), Replies.NEED_MORE_COINS.text);
-        billingService.billCoins(message.getFrom().getId(),billingService.challengePrice(challenge));
+            return;
+        }
+        if (!billingService.isEnoughCoinsForChallenge(challenge)) {
+            senderService.replyToMessage(message, Replies.NEED_MORE_COINS.text);
+            return;
+        }
+        billingService.billCoins(message.getFrom().getId(), billingService.challengePrice(challenge));
         challengeService.save(challenge);
+        senderService.replyToMessage(message,Replies.CHALLENGE_CREATION_SUCCESSFUL.text);
         for (edu.mriabov.challengertelegrambot.dao.model.User challengeUser : challenge.getUsers()) {
-            senderService.sendMessages(message.getFrom().getId(), Buttons.ASSIGNED_NEW_CHALLENGE);
+            senderService.sendMessages(challengeUser.getId(), Buttons.ASSIGNED_NEW_CHALLENGE);
         }
     }
 

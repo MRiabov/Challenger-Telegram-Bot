@@ -53,8 +53,8 @@ public enum Replies {
                 
             /custom medium fitness @user do 15 do a workout.
             """),
-    NOTHING_TO_CONFIRM("Nothing to confirm! How about creating a challenge for someone? Use /custom.")
-
+    NOTHING_TO_CONFIRM("Nothing to confirm! How about creating a challenge for someone? Use /custom."),
+    CHALLENGE_CREATION_SUCCESSFUL("Success! Challenge was successfully added");
     //!
     ;
     //!
