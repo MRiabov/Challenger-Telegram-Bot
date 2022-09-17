@@ -151,7 +151,11 @@ public enum Buttons {
 
     ASSIGNED_NEW_CHALLENGE(
             "You have been assigned a new challenge! ",
-            ButtonsMessages.MENU_MY_CHALLENGES.getText(),ButtonsMessages.MENU_MY_CHALLENGES.getText(),null),
+            ButtonsMessages.MENU_MY_CHALLENGES.getText(), ButtonsMessages.MENU_MY_CHALLENGES.getText(), null),
+
+    FAILED_CHALLENGE(
+            "You have failed a challenge! How about completing it now?",
+            ButtonsMessages.COMPLETE_FAILED_CHALLENGE.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(),null),
 
     //Commands
     UNKNOWN_COMMAND("Error: this command doesn't seem to be supported...", ButtonsMessages.BACK_TO_MENU.getText(), null),

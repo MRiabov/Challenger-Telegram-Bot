@@ -12,6 +12,7 @@ enum ButtonsMessages {//package-private!
     CANCEL("❌Cancel"),
     CONTINUE("✅Continue!"),
     CONTINUE_WORKING("\uD83D\uDE16 Continue working..."),
+    COMPLETE_FAILED_CHALLENGE("✅I've completed it now."),
     //Menu
     MENU_MY_CHALLENGES("\uD83D\uDCAA My Challenges"),
     MENU_CHALLENGE_YOUR_FRIENDS("\uD83C\uDFC3\u200D♂️Challenge your friends"),
