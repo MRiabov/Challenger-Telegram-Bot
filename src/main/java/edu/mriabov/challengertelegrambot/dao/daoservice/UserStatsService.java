@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dao.service;
+package edu.mriabov.challengertelegrambot.dao.daoservice;
 
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;

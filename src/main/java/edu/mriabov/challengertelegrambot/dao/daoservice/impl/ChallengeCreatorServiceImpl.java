@@ -1,16 +1,17 @@
-package edu.mriabov.challengertelegrambot.dao.service.impl;
+package edu.mriabov.challengertelegrambot.dao.daoservice.impl;
 
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.dao.service.ChallengeService;
-import edu.mriabov.challengertelegrambot.dao.service.GroupService;
-import edu.mriabov.challengertelegrambot.dao.service.UserService;
+import edu.mriabov.challengertelegrambot.dao.daoservice.ChallengeService;
+import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
+import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     private final ChatPageCache chatPageCache;
     private final BillingService billingService;
     private final ChallengeService challengeService;
+    private final SenderService senderService;
 
     @Override
     public void fillUserPageCache(long userID, Group group) {
@@ -122,6 +124,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         challenge.setExpiresAt(Instant.now().plus(24, ChronoUnit.HOURS));
         challengeService.save(challenge);
         billingService.billCoins(userID, price);
+        challenge.getUsers().forEach(user -> senderService.sendMessages(user.getTelegramId(), Buttons.ASSIGNED_NEW_CHALLENGE));
         return true;
     }
 

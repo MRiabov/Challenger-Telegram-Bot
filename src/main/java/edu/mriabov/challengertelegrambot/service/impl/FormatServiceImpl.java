@@ -10,7 +10,7 @@ import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.FormatService;
-import edu.mriabov.challengertelegrambot.dao.service.UserService;
+import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
