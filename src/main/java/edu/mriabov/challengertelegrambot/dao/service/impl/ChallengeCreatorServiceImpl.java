@@ -116,7 +116,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         if (challenge.getDifficulty() == null || challenge.getArea() == null || challenge.getUsers() == null)
             return false;
         int price = billingService.challengePrice(challenge);
-        if (billingService.isEnoughCoins(userID, price)) return false;
+        if (!billingService.isEnoughCoins(userID, price)) return false;
         challenge.setCreatedAt(Instant.now());
         challenge.setCreatedBy(userService.getUserByTelegramId(userID).get());
         challenge.setExpiresAt(Instant.now().plus(24, ChronoUnit.HOURS));

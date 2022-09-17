@@ -41,7 +41,7 @@ public class ChallengeCreatorHandler {
             return Optional.ofNullable(setArea(userID, Area.RELATIONSHIPS));
 
         if (message.equals(LogicButtonsMessages.CONFIRM_CHALLENGE_BILLING.getText()))
-            challengeCreatorService.confirm(userID);
+            return Optional.of(challengeCreatorService.confirm(userID) ? Buttons.PURCHASE_SUCCESSFUL : Buttons.NEED_MORE_COINS);
 
         return Optional.empty();
     }

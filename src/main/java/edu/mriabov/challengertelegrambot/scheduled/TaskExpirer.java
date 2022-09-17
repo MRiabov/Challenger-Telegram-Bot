@@ -5,6 +5,7 @@ import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.repository.ChallengeRepository;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.SenderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,10 +16,11 @@ import java.util.List;
 
 @Component
 @EnableScheduling
+@RequiredArgsConstructor
 public class TaskExpirer {
 
-    ChallengeRepository challengeRepository;
-    SenderService senderService;
+    private final ChallengeRepository challengeRepository;
+    private final SenderService senderService;
 
     @Async
     @Scheduled(fixedRate = 60000)

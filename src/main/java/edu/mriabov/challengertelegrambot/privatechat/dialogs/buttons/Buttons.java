@@ -99,6 +99,9 @@ public enum Buttons {
             ButtonsMessages.CONFIRM_CHALLENGE_BILLING.getText(), null,
             ButtonsMessages.CANCEL.getText(), null),
 
+    CHALLENGE_CONFIRMATION_ERROR("Either you have too few coins %6$d, or something is wrong with your challenge. " +
+            "\n%9$s", ButtonsMessages.BACK_TO_MENU.getText()),
+
     //buy some rest...
 
     IS_ADDICTION("""
@@ -136,11 +139,11 @@ public enum Buttons {
             """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
     //misc
-    NEED_MORE_COINS("Hey! This action requires more coins then you have!", ButtonsMessages.CONTINUE_WORKING.getText()),
+    NEED_MORE_COINS("Hey! This action requires more coins then you have! Now go and grind them.", ButtonsMessages.CONTINUE_WORKING.getText()),
 
     PURCHASE_SUCCESSFUL("""
             Purchase successful!
-            Your remaining coin count: %6
+            Your remaining coin count: %6$d
             """, ButtonsMessages.BACK_TO_MENU.getText()),
 
     MENU_FAQ("""
@@ -155,7 +158,7 @@ public enum Buttons {
 
     FAILED_CHALLENGE(
             "You have failed a challenge! How about completing it now?",
-            ButtonsMessages.COMPLETE_FAILED_CHALLENGE.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(),null),
+            ButtonsMessages.COMPLETE_FAILED_CHALLENGE.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null),
 
     //Commands
     UNKNOWN_COMMAND("Error: this command doesn't seem to be supported...", ButtonsMessages.BACK_TO_MENU.getText(), null),
