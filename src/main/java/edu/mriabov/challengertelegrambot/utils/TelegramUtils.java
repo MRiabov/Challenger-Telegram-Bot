@@ -17,7 +17,7 @@ public class TelegramUtils {
     private TelegramUtils() {
     }
 
-    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd kk:HH:ss");
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     public static boolean checkForUnsupportedEmoji(String message) {
         String startOfMessage = message.substring(0, 3);

@@ -135,7 +135,7 @@ public class FormatServiceImpl implements FormatService {
         }
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < challenges.size(); i++) {
-            stringBuilder.append(i).append(". ")
+            stringBuilder.append(i+1).append(". ")
                     .append("\uD83C\uDFF9Area: ").append(challenges.get(i).getArea().text)
                     .append("\n\uD83C\uDF96Difficulty: ").append(challenges.get(i).getDifficulty().text)
                     .append("\n\uD83D\uDCDDChallenge description: ").append(challenges.get(i).getDescription())

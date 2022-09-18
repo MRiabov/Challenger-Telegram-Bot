@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -19,5 +19,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
     @Query("SELECT u FROM Challenge c JOIN c.users u WHERE c.id=:id")
     List<User> findUsersById(int id);
 
-    Set<Challenge> findByExpiresAtBetween(Instant expiresAt, Instant expiresAt2);
+    Set<Challenge> findByExpiresAtBetween(LocalDateTime expiresAt, LocalDateTime expiresAt2);
 }

@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -25,7 +25,7 @@ public class TaskExpirer {
     @Async
     @Scheduled(fixedRate = 60000)
     public void checkForExpiration() {
-        for (Challenge challenge : challengeRepository.findByExpiresAtBetween(Instant.now(), Instant.now().plusSeconds(60))) {
+        for (Challenge challenge : challengeRepository.findByExpiresAtBetween(LocalDateTime.now(), LocalDateTime.now().plusSeconds(60))) {
             List<User> users = challengeRepository.findUsersById(challenge.getId());
             for (User user : users) {
                 senderService.sendMessages(user.getTelegramId(), Buttons.FAILED_CHALLENGE);
