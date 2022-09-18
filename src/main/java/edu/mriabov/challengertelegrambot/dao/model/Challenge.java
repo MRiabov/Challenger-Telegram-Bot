@@ -7,9 +7,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Time;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -36,12 +37,6 @@ public class Challenge {
     @Enumerated(value = EnumType.STRING)
     private Area area;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @Column(name = "expires_at", nullable = false)
-    private Instant expiresAt;
-
     @Column(name = "recurring_time")
     private Time recurringTime;
 
@@ -61,4 +56,13 @@ public class Challenge {
 
     @Transient//todo transient/transactional?...
     private boolean isFree;
+
+    @NotNull
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @NotNull
+    @Column(name = "expires_at", nullable = false)
+    private LocalDateTime expiresAt;
+
 }

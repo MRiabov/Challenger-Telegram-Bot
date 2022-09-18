@@ -1,13 +1,13 @@
 package edu.mriabov.challengertelegrambot.commands;
 
+import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
+import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
-import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
-import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
+import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static edu.mriabov.challengertelegrambot.utils.TelegramUtils.getOffset;
@@ -56,7 +56,8 @@ public class CreateGlobalChallenge implements IBotCommand {
         challenge.setUsers(groupService.findAllUsers(message.getChatId()));
         challenge.setDescription(message.getText().substring(getOffset(message.getText())));
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
-        challenge.setCreatedAt(Instant.now());
+        challenge.setCreatedAt(LocalDateTime.now());
+        challenge.setExpiresAt(LocalDateTime.now().plusHours(24));
         if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
             senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
         else {

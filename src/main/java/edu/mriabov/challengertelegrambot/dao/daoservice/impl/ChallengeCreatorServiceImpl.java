@@ -1,24 +1,26 @@
 package edu.mriabov.challengertelegrambot.dao.daoservice.impl;
 
+import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
+import edu.mriabov.challengertelegrambot.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.dao.daoservice.ChallengeService;
+import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
+import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.dao.daoservice.ChallengeService;
-import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
-import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
-import edu.mriabov.challengertelegrambot.service.*;
+import edu.mriabov.challengertelegrambot.service.BillingService;
+import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
+import edu.mriabov.challengertelegrambot.service.SenderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.Set;
@@ -119,9 +121,9 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
             return false;
         int price = billingService.challengePrice(challenge);
         if (!billingService.isEnoughCoins(userID, price)) return false;
-        challenge.setCreatedAt(Instant.now());
+        challenge.setCreatedAt(LocalDateTime.now());
         challenge.setCreatedBy(userService.getUserByTelegramId(userID).get());
-        challenge.setExpiresAt(Instant.now().plus(24, ChronoUnit.HOURS));
+        challenge.setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
         challengeService.save(challenge);
         billingService.billCoins(userID, price);
         challenge.getUsers().forEach(user -> senderService.sendMessages(user.getTelegramId(), Buttons.ASSIGNED_NEW_CHALLENGE));
