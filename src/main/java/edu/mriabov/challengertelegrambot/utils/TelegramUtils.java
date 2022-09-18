@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.privatechat.utils;
+package edu.mriabov.challengertelegrambot.utils;
 
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
@@ -9,12 +9,15 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TelegramUtils {
 
     private TelegramUtils() {
     }
+
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd kk:HH:ss");
 
     public static boolean checkForUnsupportedEmoji(String message) {
         String startOfMessage = message.substring(0, 3);

@@ -5,7 +5,7 @@ import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
-import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
+import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

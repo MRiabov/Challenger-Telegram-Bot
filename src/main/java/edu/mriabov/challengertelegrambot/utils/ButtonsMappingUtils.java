@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.privatechat.utils;
+package edu.mriabov.challengertelegrambot.utils;
 
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.ReceivedMessages;

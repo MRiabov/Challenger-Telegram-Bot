@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.privatechat.cache;
+package edu.mriabov.challengertelegrambot.cache;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

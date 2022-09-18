@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.Set;
 
-import static edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils.PAGE_SIZE;
+import static edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils.PAGE_SIZE;
 
 @Service
 @Slf4j

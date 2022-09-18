@@ -4,13 +4,14 @@ import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
-import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.privatechat.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.privatechat.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
+import edu.mriabov.challengertelegrambot.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.FormatService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
+import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -138,7 +139,7 @@ public class FormatServiceImpl implements FormatService {
                     .append("\uD83C\uDFF9Area: ").append(challenges.get(i).getArea().text)
                     .append("\n\uD83C\uDF96Difficulty: ").append(challenges.get(i).getDifficulty().text)
                     .append("\n\uD83D\uDCDDChallenge description: ").append(challenges.get(i).getDescription())
-                    .append("\nExpires at: ").append(challenges.get(i).getExpiresAt()).append(". ")
+                    .append("\nExpires at: ").append(TelegramUtils.formatter.format(challenges.get(i).getExpiresAt())).append(". ")
                     .append("")//todo how much time left
                     .append("\n");
         }

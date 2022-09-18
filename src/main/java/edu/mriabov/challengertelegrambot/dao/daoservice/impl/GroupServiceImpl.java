@@ -4,7 +4,7 @@ import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.repository.GroupRepository;
 import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
-import edu.mriabov.challengertelegrambot.privatechat.utils.ButtonsMappingUtils;
+import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

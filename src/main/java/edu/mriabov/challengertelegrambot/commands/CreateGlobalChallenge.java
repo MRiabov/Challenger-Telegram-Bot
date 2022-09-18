@@ -3,8 +3,8 @@ package edu.mriabov.challengertelegrambot.commands;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
-import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
+import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
@@ -18,8 +18,8 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import java.time.Instant;
 import java.util.Optional;
 
-import static edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils.getOffset;
-import static edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils.isUserAdmin;
+import static edu.mriabov.challengertelegrambot.utils.TelegramUtils.getOffset;
+import static edu.mriabov.challengertelegrambot.utils.TelegramUtils.isUserAdmin;
 
 @Slf4j
 @RequiredArgsConstructor

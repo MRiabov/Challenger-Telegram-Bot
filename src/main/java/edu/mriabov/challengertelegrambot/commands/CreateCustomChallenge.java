@@ -1,13 +1,13 @@
 package edu.mriabov.challengertelegrambot.commands;
 
+import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
+import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
-import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.privatechat.utils.TelegramUtils;
-import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
+import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import edu.mriabov.challengertelegrambot.service.SenderService;
-import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -60,6 +61,7 @@ public class CreateCustomChallenge implements IBotCommand {
         challenge.setDescription(message.getText().substring(getOffset(message)));
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setCreatedAt(Instant.now());
+        challenge.setExpiresAt(Instant.now().plus(24, ChronoUnit.HOURS));
         if (challenge.getDifficulty() != null && challenge.getUsers().size() != 0 && challenge.getArea() != null) {
             challengeCache.put(message.getFrom().getId(), challenge);
             senderService.replyToMessage(message, "%10$s");
@@ -89,5 +91,4 @@ public class CreateCustomChallenge implements IBotCommand {
         }
         return userSet;
     }
-
 }

@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.privatechat.cache;
+package edu.mriabov.challengertelegrambot.cache;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

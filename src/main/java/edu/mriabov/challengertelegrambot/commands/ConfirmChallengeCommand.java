@@ -3,7 +3,7 @@ package edu.mriabov.challengertelegrambot.commands;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.daoservice.ChallengeService;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
-import edu.mriabov.challengertelegrambot.privatechat.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
 import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
@@ -39,9 +39,9 @@ public class ConfirmChallengeCommand implements IBotCommand {
         }
         billingService.billCoins(message.getFrom().getId(), billingService.challengePrice(challenge));
         challengeService.save(challenge);
-        senderService.replyToMessage(message,Replies.CHALLENGE_CREATION_SUCCESSFUL.text);
+        senderService.replyToMessage(message, Replies.CHALLENGE_CREATION_SUCCESSFUL.text);
         for (edu.mriabov.challengertelegrambot.dao.model.User challengeUser : challenge.getUsers()) {
-            senderService.sendMessages(challengeUser.getId(), Buttons.ASSIGNED_NEW_CHALLENGE);
+            senderService.sendMessages(challengeUser.getTelegramId(), Buttons.ASSIGNED_NEW_CHALLENGE);
         }
     }
 
