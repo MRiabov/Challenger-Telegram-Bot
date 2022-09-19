@@ -31,7 +31,7 @@ public class PrivateMasterMessageHandlerImpl implements MessageHandler {
         String message = update.getMessage().getText();
         long userID = update.getMessage().getChatId();
         log.info("Successfully received the message to the PM handler: " + message);
-        if (update.getMessage().isCommand()) log.info("Attempted to use a command!"); /*commandContainer.executeByText(update.getMessage());*///if the message is a command
+        if (update.getMessage().isCommand()) log.info("Attempted to use a command!");
         else if (EmojiManager.containsEmoji(message.substring(0, 3))
                 || TelegramUtils.checkForUnsupportedEmoji(message)) {//if the message is a button
             buttonsHandler(userID, message);

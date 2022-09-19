@@ -25,4 +25,9 @@ public class DynamicButtonServiceImpl implements DynamicButtonsService {
             case CHALLENGE_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.CHALLENGE_APPENDIX.getText(),challengePageCache.getPageAmount(chatID));
         };
     }
+
+    @Override
+    public ReplyKeyboardMarkup createMarkup(long chatID, String appendix) {
+        return createMarkup(chatID, Appendix.valueOf((appendix+"_appendix").toUpperCase()));
+    }
 }

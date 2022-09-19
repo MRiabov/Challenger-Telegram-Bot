@@ -6,4 +6,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 public interface DynamicButtonsService {
 
     ReplyKeyboardMarkup createMarkup(long chatID, Appendix appendix);
+    ReplyKeyboardMarkup createMarkup(long chatID, String appendix);
+
 }

@@ -1,5 +1,6 @@
 package edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons;
 
+import edu.mriabov.challengertelegrambot.service.impl.Appendix;
 import lombok.Getter;
 
 @Getter
@@ -35,7 +36,7 @@ public enum Buttons {
     MARK_CHALLENGE_AS_COMPLETED("""
             Well done for completing a challenge!
             If you would like to complete a challenge, enter an ID next to it.
-            %11$s"""),
+            %11$s""", Appendix.CHALLENGE_APPENDIX.getText()),
 
     SET_GOAL_DESCRIPTION("Goals is a burning desire which you think of each time you wake up" +
             "\n Set a goal's description...",
@@ -48,8 +49,8 @@ public enum Buttons {
     CHAT_SELECTION("""
             Input the ID groups you would like to send:
             %7$s
-            You can also just @ the user you would like to include, the system will find him automatically\\."""
-    ),
+            You can also just @ the user you would like to include, the system will find him automatically\\.""",
+    Appendix.CHAT_APPENDIX.getText()),
 
     ONLY_ONE_CHAT("You have only one groups, and it has been selected\\.",
             ButtonsMessages.CONTINUE.getText(), null),
@@ -57,7 +58,7 @@ public enum Buttons {
     USER_SELECTION("""
             Input the ID or of the Gigachad you would like to challenge
             %8$s
-            Alternatively, you can just send his @"""),
+            Alternatively, you can just send his @""",Appendix.USER_APPENDIX.getText()),
 
     OTHER_USER_NOT_FOUND("""
             Username not found in your groups\\.
@@ -100,7 +101,7 @@ public enum Buttons {
             ButtonsMessages.CANCEL.getText(), null),
 
     CHALLENGE_CONFIRMATION_ERROR("Either you have too few coins %6$d, or something is wrong with your challenge. " +
-            "\n%9$s", ButtonsMessages.BACK_TO_MENU.getText()),
+            "\n%9$s", ButtonsMessages.BACK_TO_MENU.getText(),null),
 
     //buy some rest...
 
@@ -139,18 +140,19 @@ public enum Buttons {
             """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
     //misc
-    NEED_MORE_COINS("Hey! This action requires more coins then you have! Now go and grind them.", ButtonsMessages.CONTINUE_WORKING.getText()),
+    NEED_MORE_COINS("Hey! This action requires more coins then you have! Now go and grind them.",
+            ButtonsMessages.CONTINUE_WORKING.getText(),null),
 
     PURCHASE_SUCCESSFUL("""
             Purchase successful!
             Your remaining coin count: %6$d
-            """, ButtonsMessages.BACK_TO_MENU.getText()),
+            """, ButtonsMessages.BACK_TO_MENU.getText(),null),
 
     MENU_FAQ("""
             We don’t grow when things are easy; we grow when we face challenges.
             This bot was created with this idea in mind. The core idea is to better one's finances, physique, and other *self*-improvement through the hardship and willpower, while becoming mentally stable, kind, and good person.
             So let's become the strong men this world desires!
-            """, ButtonsMessages.BACK_TO_MENU.getText()),
+            """, ButtonsMessages.BACK_TO_MENU.getText(),null),
 
     ASSIGNED_NEW_CHALLENGE(
             "You have been assigned a new challenge! ",
@@ -161,7 +163,8 @@ public enum Buttons {
             ButtonsMessages.COMPLETE_FAILED_CHALLENGE.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null),
 
     //Commands
-    UNKNOWN_COMMAND("Error: this command doesn't seem to be supported...", ButtonsMessages.BACK_TO_MENU.getText(), null),
+    UNKNOWN_COMMAND("Error: this command doesn't seem to be supported...",
+            ButtonsMessages.BACK_TO_MENU.getText(), null),
 
     //On start
     ON_START_NEW_USER(
@@ -197,8 +200,6 @@ public enum Buttons {
 
     final private String message;
     final private String[] keyboard;
-
-    final public static String cancelMessage = ButtonsMessages.CANCEL.getText();
 
     Buttons(String message, String... keyboard) {
         this.message = message;
