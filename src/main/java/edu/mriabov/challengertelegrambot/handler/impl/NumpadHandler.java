@@ -8,7 +8,7 @@ import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.cache.ChallengePageCache;
 import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
 import edu.mriabov.challengertelegrambot.cache.UserPageCache;
-import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
+import edu.mriabov.challengertelegrambot.privatechat.Buttons;
 import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
 import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;

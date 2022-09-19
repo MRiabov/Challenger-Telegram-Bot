@@ -1,7 +1,7 @@
 package edu.mriabov.challengertelegrambot.utils;
 
-import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.Buttons;
-import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.ReceivedMessages;
+import edu.mriabov.challengertelegrambot.privatechat.Buttons;
+import edu.mriabov.challengertelegrambot.privatechat.ReceivedMessages;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;

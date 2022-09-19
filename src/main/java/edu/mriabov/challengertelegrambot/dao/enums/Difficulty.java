@@ -1,6 +1,6 @@
 package edu.mriabov.challengertelegrambot.dao.enums;
 
-import edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons.LogicButtonsMessages;
+import edu.mriabov.challengertelegrambot.privatechat.LogicButtonsMessages;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
