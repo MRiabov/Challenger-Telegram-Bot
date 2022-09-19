@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons;
+package edu.mriabov.challengertelegrambot.privatechat;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +21,7 @@ public enum LogicButtonsMessages {
 
     CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText()),
     CONFIRM_CHALLENGE_BILLING(ButtonsMessages.CONFIRM_CHALLENGE_BILLING.getText()),
+    MARK_CHALLENGE_AS_COMPLETED(ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED.getText())
 
 
     //!

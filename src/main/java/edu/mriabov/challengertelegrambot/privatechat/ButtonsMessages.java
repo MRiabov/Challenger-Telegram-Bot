@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons;
+package edu.mriabov.challengertelegrambot.privatechat;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ enum ButtonsMessages {//package-private!
     MENU_FAQ("❔FAQ"),
 
     //My challenges
-    MARK_CHALLENGE_AS_COMPLETED_MENU("✅Mark a challenge as completed"),
+    MARK_CHALLENGE_AS_COMPLETED("✅Mark a challenge as completed"),
     SKIP_CHALLENGE("\uD83D\uDE34Skip a challenge"),
     SET_GOAL_DESCRIPTION("\uD83C\uDFAFSet a goal"),
     BACK_TO_MENU("\uD83C\uDFE0Back to menu..."),

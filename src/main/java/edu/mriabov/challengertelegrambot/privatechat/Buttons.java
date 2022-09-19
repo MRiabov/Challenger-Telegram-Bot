@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.privatechat.dialogs.buttons;
+package edu.mriabov.challengertelegrambot.privatechat;
 
 import edu.mriabov.challengertelegrambot.service.impl.Appendix;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public enum Buttons {
             Your uncompleted challenges list:
             %11$s
             """,
-            ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED_MENU.getText(), null,
+            ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED.getText(), null,
             ButtonsMessages.SET_GOAL_DESCRIPTION.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null,
             ButtonsMessages.MAIN_MENU.getText(), null
     ),
