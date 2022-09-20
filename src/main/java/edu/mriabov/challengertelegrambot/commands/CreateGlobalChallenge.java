@@ -64,7 +64,7 @@ public class CreateGlobalChallenge implements IBotCommand {
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setExpiresAt(LocalDateTime.now().plusHours(24));
         challenge.setFree(true);
-        senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
         challengeCache.put(message.getFrom().getId(), challenge);
+        senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
     }
 }

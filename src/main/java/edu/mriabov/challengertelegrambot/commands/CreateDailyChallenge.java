@@ -61,17 +61,13 @@ public class CreateDailyChallenge implements IBotCommand {
         challenge.setRecurringTime(getChallengeTime(arguments));
         challenge.setUsers(groupService.findAllUsers(message.getChatId()));
         if (arguments.length < 3 || challenge.getDifficulty() == null || challenge.getArea() == null||challenge.getRecurringTime()==null) {
-            senderService.replyToMessage(message, Replies.INVALID_GLOBAL_CHALLENGE.text);
+            senderService.replyToMessage(message, Replies.INVALID_DAILY_CHALLENGE.text);
             return;
         }
         challenge.setDescription(message.getText().substring(TelegramUtils.getOffset(message.getText())));
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setFree(true);
-        if (challenge.getDifficulty() != null && challenge.getUsers().size() != 0 && challenge.getArea() != null) {
-            challengeCache.put(message.getFrom().getId(), challenge);
-            senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
-        } else {
-            senderService.replyToMessage(message, Replies.INVALID_DAILY_CHALLENGE.text);
-        }
+        challengeCache.put(message.getFrom().getId(), challenge);
+        senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
     }
 }
