@@ -57,7 +57,7 @@ public class NumpadHandler {
                         .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
                         .build();
             if (Character.isDigit(message.charAt(0))) {
-                challengeCreatorService.selectUsers(userID, userPageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0) - 1)));
+                challengeCreatorService.selectUsers(userID, userPageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0)) - 1));
                 return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.DIFFICULTY_SELECTION);
             }
         }
@@ -67,8 +67,8 @@ public class NumpadHandler {
                     .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
                     .build();
             if (Character.isDigit(message.charAt(0))) {
-                userService.completeChallenge(userID,challengePageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0) - 1)));
-                return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.DIFFICULTY_SELECTION);
+                userService.completeChallenge(userID, challengePageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0)) - 1));
+                return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.MARK_CHALLENGE_AS_COMPLETED);
             }
         }
         return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.INCORRECT_INPUT);
