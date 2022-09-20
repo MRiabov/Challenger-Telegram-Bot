@@ -56,13 +56,9 @@ public class CreateGlobalChallenge implements IBotCommand {
         challenge.setUsers(groupService.findAllUsers(message.getChatId()));
         challenge.setDescription(message.getText().substring(getOffset(message.getText())));
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
-        challenge.setCreatedAt(LocalDateTime.now());
         challenge.setExpiresAt(LocalDateTime.now().plusHours(24));
-        if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
-            senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
-        else {
-            senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
-            challengeCache.put(message.getFrom().getId(), challenge);
-        }
+        challenge.setFree(true);
+        senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
+        challengeCache.put(message.getFrom().getId(), challenge);
     }
 }

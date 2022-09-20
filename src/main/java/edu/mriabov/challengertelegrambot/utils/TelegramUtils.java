@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -46,10 +47,12 @@ public class TelegramUtils {
 
     public static Challenge challengeBasicInfo(String[] arguments) {
         Challenge challenge = new Challenge();
+        challenge.setCreatedAt(LocalDateTime.now());
+        challenge.setExpiresAt(LocalDateTime.now().plusHours(24));
+
         for (String arg : arguments) parametersForChallenge(arg, challenge);
         return challenge;
     }
-
 
     private static void parametersForChallenge(String word, Challenge challenge) {
         switch (word.toLowerCase()) {

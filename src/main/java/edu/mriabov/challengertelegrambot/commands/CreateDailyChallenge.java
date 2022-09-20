@@ -16,7 +16,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Slf4j
@@ -53,24 +52,26 @@ public class CreateDailyChallenge implements IBotCommand {
             return;
         }
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
-        if (userByTelegramId.isEmpty()){
-            senderService.replyToMessage(message,Replies.USER_NOT_REGISTERED.text);
+        if (userByTelegramId.isEmpty()) {
+            senderService.replyToMessage(message, Replies.USER_NOT_REGISTERED.text);
             return;
         }
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(userByTelegramId.get());
-        challenge.setUsers(groupService.findAllUsers(message.getChatId()));
-        challenge.setDescription(message.getText().substring(TelegramUtils.getOffset(message.getText())));
         challenge.setRecurringTime(getChallengeTime(arguments));
+        challenge.setUsers(groupService.findAllUsers(message.getChatId()));
+        if (arguments.length < 3 || challenge.getDifficulty() == null || challenge.getArea() == null||challenge.getRecurringTime()==null) {
+            senderService.replyToMessage(message, Replies.INVALID_GLOBAL_CHALLENGE.text);
+            return;
+        }
+        challenge.setDescription(message.getText().substring(TelegramUtils.getOffset(message.getText())));
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
-        challenge.setCreatedAt(LocalDateTime.now());
-        challenge.setExpiresAt(LocalDateTime.now().plusHours(24));
         challenge.setFree(true);
-        if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
-            senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
-        else {
+        if (challenge.getDifficulty() != null && challenge.getUsers().size() != 0 && challenge.getArea() != null) {
             challengeCache.put(message.getFrom().getId(), challenge);
             senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
+        } else {
+            senderService.replyToMessage(message, Replies.INVALID_DAILY_CHALLENGE.text);
         }
     }
 }
