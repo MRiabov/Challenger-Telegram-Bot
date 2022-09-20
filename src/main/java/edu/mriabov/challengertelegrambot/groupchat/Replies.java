@@ -5,6 +5,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Replies {
 
+    HELP_MESSAGE("""
+    Here's a list of commands:
+    /help - get this message,
+    /custom - create a custom challenge for someone. Costs coins.
+    
+    Available only for admins:
+    /global - create a non-recurring challenge for everyone.
+    /daily - the primary source of economy in the group. These challenges provide everyone with challenges and with coins, as a result.
+    Use it wisely.
+    """),
+
     NEED_MORE_COINS("You lack PLACEHOLDER coins. Coins required to do this action is PLACEHOLDER."),
 
     CONFIRM_CHALLENGE("""
@@ -53,7 +64,7 @@ public enum Replies {
             /custom medium fitness @user do a workout.
             """),
     NOTHING_TO_CONFIRM("Nothing to confirm! How about creating a challenge for someone? Use /custom."),
-    CHALLENGE_CREATION_SUCCESSFUL("Success! Challenge was successfully added.");
+    CHALLENGE_CREATION_SUCCESSFUL("Success! Challenge was successfully added."),
     //!
     ;
     //!
