@@ -11,6 +11,7 @@ import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
@@ -23,6 +24,7 @@ import static edu.mriabov.challengertelegrambot.utils.TelegramUtils.isUserAdmin;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class CreateGlobalChallenge implements IBotCommand {
     private final UserService userService;
     private final GroupService groupService;
