@@ -15,7 +15,7 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Optional;
 
 @Slf4j
@@ -28,9 +28,9 @@ public class CreateDailyChallenge implements IBotCommand {
     private final SenderService senderService;
     private final ChallengeCache challengeCache;
 
-    private Time getChallengeTime(String[] arguments) {
+    private LocalTime getChallengeTime(String[] arguments) {
         for (String word : arguments) {
-            if (word.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) return Time.valueOf(word);
+            if (word.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) return LocalTime.of(Integer.parseInt(word.substring(0,2)),Integer.parseInt(word.substring(4,5)));
         }
         return null;
     }
