@@ -121,10 +121,10 @@ public class FormatServiceImpl implements FormatService {
                 "\nRecurring time: " + (challenge.getRecurringTime() != null ? challenge.getRecurringTime() : "Challenge is not recurring") +
                 "\n\n\uD83D\uDCDDChallenge description: " +
                 challenge.getDescription() +
-                "\n" + (challenge.isFree() ? "The challenge is free as it is created by an admin." :
-                "\n\n\uD83D\uDCB8It costs: " + billingFormatter(challenge)) + "\n" +
+                "\n\n\uD83D\uDCB8It costs: " + (challenge.isFree() ? "The challenge is free as it is created by an admin." :
+                billingFormatter(challenge)) + "\n" +
                 (challenge.getDifficulty() != null && challenge.getDescription() != null && challenge.getArea() != null ?
-                "Press /confirm to bill coins and confirm the challenge" : "Challenge is incorrect!");
+                        "Press /confirm to bill coins and confirm the challenge" : "Challenge is incorrect!");
     }
 
     private String myChallengesList(long userID) {
@@ -135,7 +135,7 @@ public class FormatServiceImpl implements FormatService {
         }
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < challenges.size(); i++) {
-            stringBuilder.append(i+1).append(". ")
+            stringBuilder.append(i + 1).append(". ")
                     .append("\uD83C\uDFF9Area: ").append(challenges.get(i).getArea().text)
                     .append("\n\uD83C\uDF96Difficulty: ").append(challenges.get(i).getDifficulty().text)
                     .append("\n\uD83D\uDCDDChallenge description: ").append(challenges.get(i).getDescription())

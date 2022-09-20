@@ -8,8 +8,7 @@ public enum Replies {
     NEED_MORE_COINS("You lack PLACEHOLDER coins. Coins required to do this action is PLACEHOLDER."),
 
     CONFIRM_CHALLENGE("""
-            UserCount, Area, Difficulty, message
-            Are you sure you want to create this challenge? It will cost PLACEHOLDER
+            %10$s
             """),
 
     USER_NOT_REGISTERED("User not registered! Please register through this %s"),
@@ -51,10 +50,10 @@ public enum Replies {
             4. Description of the message...
             So, the message should look like:
                 
-            /custom medium fitness @user do 15 do a workout.
+            /custom medium fitness @user do a workout.
             """),
     NOTHING_TO_CONFIRM("Nothing to confirm! How about creating a challenge for someone? Use /custom."),
-    CHALLENGE_CREATION_SUCCESSFUL("Success! Challenge was successfully added");
+    CHALLENGE_CREATION_SUCCESSFUL("Success! Challenge was successfully added.");
     //!
     ;
     //!

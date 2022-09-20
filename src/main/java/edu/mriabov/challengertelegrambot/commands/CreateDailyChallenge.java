@@ -65,11 +65,12 @@ public class CreateDailyChallenge implements IBotCommand {
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setCreatedAt(LocalDateTime.now());
         challenge.setExpiresAt(LocalDateTime.now().plusHours(24));
+        challenge.setFree(true);
         if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
             senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
         else {
-            senderService.replyToMessage(message, "SUCCESS. The operation will take ... coins.");
             challengeCache.put(message.getFrom().getId(), challenge);
+            senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
         }
     }
 }

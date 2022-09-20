@@ -51,6 +51,7 @@ public class BillingServiceImpl implements BillingService {
 
     @Override
     public boolean isEnoughCoinsForChallenge(Challenge challenge) {
+        if (challenge.isFree()) return true;
         return isEnoughCoins(challenge.getCreatedBy().getTelegramId(),challengePrice(challenge));
     }
 }

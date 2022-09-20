@@ -61,7 +61,7 @@ public class CreateGlobalChallenge implements IBotCommand {
         if (challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null)
             senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
         else {
-            senderService.replyToMessage(message, "SUCCESS. The operation is free as it is created by an admin.");
+            senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
             challengeCache.put(message.getFrom().getId(), challenge);
         }
     }

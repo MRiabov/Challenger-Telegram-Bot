@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     public void completeChallenge(long userID, Challenge challenge) {
         User user;
         Optional<User> userOptional = userRepository.getUserByTelegramId(userID);
-        if (userOptional.isPresent()) user=userOptional.get();
+        if (userOptional.isPresent()) user = userOptional.get();
         else {
             log.error("Unregistered user " + userID + " attempted to complete a challenge");
             return;
@@ -89,11 +89,15 @@ public class UserServiceImpl implements UserService {
             case FINANCES -> user.getUserStats().setFinances(user.getUserStats().getFinances() + incrementBy);
             case MINDFULNESS -> user.getUserStats().setMindfulness(user.getUserStats().getMindfulness() + incrementBy);
             case FITNESS -> user.getUserStats().setFitness(user.getUserStats().getFitness() + incrementBy);
-            case RELATIONSHIPS -> user.getUserStats().setRelationships(user.getUserStats().getRelationships() + incrementBy);
+            case RELATIONSHIPS ->
+                    user.getUserStats().setRelationships(user.getUserStats().getRelationships() + incrementBy);
         }
-        user.setCoins(user.getCoins()+incrementBy);//custom and global challenges differ in reward?...
+        user.setCoins(user.getCoins() + incrementBy);//custom and global challenges differ in reward?...
         user.setChallenges(userRepository.getAllChallengesButOne(userID, challenge.getId()));
         userRepository.save(user);
+        Group group = challenge.getGroup();
+        group.setTotalTasksCompleted(group.getTotalTasksCompleted() + 1);
+        groupRepository.save(group);
     }
 
     @Override

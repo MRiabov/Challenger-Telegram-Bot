@@ -64,7 +64,7 @@ public class CreateCustomChallenge implements IBotCommand {
         challenge.setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
         if (challenge.getDifficulty() != null && challenge.getUsers().size() != 0 && challenge.getArea() != null) {
             challengeCache.put(message.getFrom().getId(), challenge);
-            senderService.replyToMessage(message, "%10$s");
+            senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
         } else {
             senderService.replyToMessage(message, challenge+Replies.INVALID_CUSTOM_CHALLENGE.text);
         }
