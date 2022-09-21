@@ -38,12 +38,17 @@ public enum Buttons {
             If you would like to complete a challenge, enter an ID next to it.
             %11$s""", Appendix.CHALLENGE_APPENDIX.getText()),
 
+    CHOOSE_NUMBER_OF_WEEKS("Choose in how long do you plan to finish this goal", "weeks"),
+
     SET_GOAL_DESCRIPTION("Goals is a burning desire which you think of each time you wake up" +
             "\n Set a goal's description...",
             ButtonsMessages.CANCEL.getText(), null),
 
     SKIP_CHALLENGES("CONFIRMATION PLACEHOLDER, if not just send a reason why you skip.",
-            ButtonsMessages.CANCEL.getText(), null),
+            "1️⃣ weeks", "2️⃣  weeks", "3️⃣ weeks", null,
+            "4️⃣ weeks", "5️⃣ weeks", "6️⃣ weeks", null,
+            "7️⃣ weeks", "8️⃣ weeks", "9️⃣ weeks", null,
+            ButtonsMessages.CANCEL.getText()),
 
     //challenge your friends
     CHAT_SELECTION("""

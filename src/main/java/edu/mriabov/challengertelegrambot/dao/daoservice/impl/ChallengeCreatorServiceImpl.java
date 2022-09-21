@@ -130,6 +130,19 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         return true;
     }
 
+    @Override
+    public boolean selectGoalLength(long userID, int lengthInWeeks) {
+        Challenge challenge = new Challenge();
+        challenge.setUsers(Set.of(userService.getUserByTelegramId(userID).get()));
+        challenge.setCreatedAt(LocalDateTime.now());
+        challenge.setExpiresAt(LocalDateTime.now().plusWeeks(lengthInWeeks));
+        challenge.setFree(true);
+        challenge.setDifficulty(Difficulty.GOAL);
+        challengeCache.put(userID,challenge);
+
+        return false;
+    }
+
     private boolean deletedFromCache(long chatID) {
         return !challengeCache.contains(chatID);
     }

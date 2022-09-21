@@ -66,7 +66,7 @@ public class CreateCustomChallenge implements IBotCommand {
             challengeCache.put(message.getFrom().getId(), challenge);
             senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
         } else {
-            senderService.replyToMessage(message, challenge+Replies.INVALID_CUSTOM_CHALLENGE.text);
+            senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
         }
     }
 

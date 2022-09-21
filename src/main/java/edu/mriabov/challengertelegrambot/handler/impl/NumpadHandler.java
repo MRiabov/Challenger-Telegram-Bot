@@ -1,18 +1,18 @@
 package edu.mriabov.challengertelegrambot.handler.impl;
 
-import edu.mriabov.challengertelegrambot.dao.model.Challenge;
-import edu.mriabov.challengertelegrambot.dao.model.Group;
-import edu.mriabov.challengertelegrambot.dao.model.User;
-import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
-import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.cache.ChallengePageCache;
 import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
 import edu.mriabov.challengertelegrambot.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
+import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
+import edu.mriabov.challengertelegrambot.dao.model.Challenge;
+import edu.mriabov.challengertelegrambot.dao.model.Group;
+import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.privatechat.Buttons;
-import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.service.ChallengeCreatorService;
 import edu.mriabov.challengertelegrambot.service.DynamicButtonsService;
 import edu.mriabov.challengertelegrambot.service.impl.Appendix;
+import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -33,44 +33,13 @@ public class NumpadHandler {
     private final DynamicButtonsService dynamicButtonsService;
 
     public SendMessage handleMessages(long userID, String message) {
-        if (message.substring(4).equals(Appendix.CHAT_APPENDIX.getText())) {
-            if (chatPageFlip(userID, message)) return SendMessage.builder()
-                    .text(Buttons.CHAT_SELECTION.getMessage())
-                    .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.CHAT_APPENDIX))
-                    .build();
-            if (Character.isDigit(message.charAt(0))) {
-                Optional<Group> selectedGroup = challengeCreatorService.selectChats(userID, Character.getNumericValue(message.charAt(0)) - 1);
-                if (selectedGroup.isEmpty())
-                    return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.INCORRECT_INPUT);
-                challengeCreatorService.fillUserPageCache(userID, selectedGroup.get());
-                return SendMessage.builder()
-                        .chatId(userID)
-                        .text(Buttons.USER_SELECTION.getMessage())
-                        .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
-                        .build();
-            }
-        }
-        if (message.substring(4).equals(Appendix.USER_APPENDIX.getText())) {
-            if (userPageFlip(userID, challengeCreatorService.getSelectedGroupID(userID).getTelegramId(), message))
-                return SendMessage.builder()
-                        .text(Buttons.USER_SELECTION.getMessage())
-                        .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
-                        .build();
-            if (Character.isDigit(message.charAt(0))) {
-                challengeCreatorService.selectUsers(userID, userPageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0)) - 1));
-                return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.DIFFICULTY_SELECTION);
-            }
-        }
-        if (message.substring(4).equals(Appendix.CHALLENGE_APPENDIX.getText())) {
-            if (challengePageFlip(userID, message)) return SendMessage.builder()
-                    .text(Buttons.USER_SELECTION.getMessage())
-                    .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
-                    .build();
-            if (Character.isDigit(message.charAt(0))) {
-                userService.completeChallenge(userID, challengePageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0)) - 1));
-                return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.MARK_CHALLENGE_AS_COMPLETED);
-            }
-        }
+        Optional<SendMessage> sendMessage = switch (Appendix.valueOf((message.substring(4) + "_appendix").toUpperCase())) {
+            case USER_APPENDIX -> userAppendix(userID, message);
+            case CHAT_APPENDIX -> chatAppendix(userID, message);
+            case CHALLENGE_APPENDIX -> challengeAppendix(userID, message);
+            case WEEKS_APPENDIX -> weeksAppendix(userID,message);
+            case SKIP_APPENDIX -> new SendMessage();
+        };
         return ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.INCORRECT_INPUT);
     }
 
@@ -102,6 +71,50 @@ public class NumpadHandler {
         return false;
     }
 
+    private Optional<SendMessage> chatAppendix(long userID, String message) {
+        if (chatPageFlip(userID, message)) return Optional.ofNullable(SendMessage.builder()
+                .text(Buttons.CHAT_SELECTION.getMessage())
+                .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.CHAT_APPENDIX))
+                .build());
+        if (Character.isDigit(message.charAt(0))) {
+            Optional<Group> selectedGroup = challengeCreatorService.selectChats(userID, Character.getNumericValue(message.charAt(0)) - 1);
+            if (selectedGroup.isEmpty())
+                return Optional.of(ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.INCORRECT_INPUT));
+            challengeCreatorService.fillUserPageCache(userID, selectedGroup.get());
+            return Optional.ofNullable(SendMessage.builder()
+                    .chatId(userID)
+                    .text(Buttons.USER_SELECTION.getMessage())
+                    .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
+                    .build());
+        }
+        return Optional.empty();
+    }
+
+    private Optional<SendMessage> userAppendix(long userID, String message) {
+        if (userPageFlip(userID, challengeCreatorService.getSelectedGroupID(userID).getTelegramId(), message))
+            return Optional.ofNullable(SendMessage.builder()
+                    .text(Buttons.USER_SELECTION.getMessage())
+                    .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
+                    .build());
+        if (Character.isDigit(message.charAt(0))) {
+            challengeCreatorService.selectUsers(userID, userPageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0)) - 1));
+            return Optional.of(ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.DIFFICULTY_SELECTION));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<SendMessage> challengeAppendix(long userID, String message) {
+        if (challengePageFlip(userID, message)) return Optional.ofNullable(SendMessage.builder()
+                .text(Buttons.USER_SELECTION.getMessage())
+                .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
+                .build());
+        if (Character.isDigit(message.charAt(0))) {
+            userService.completeChallenge(userID, challengePageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0)) - 1));
+            return Optional.of(ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.MARK_CHALLENGE_AS_COMPLETED));
+        }
+        return Optional.empty();
+    }
+
     private boolean challengePageFlip(long userID, String message) {
         if (message.startsWith(ButtonsMappingUtils.previousPage)) {
             Page<Challenge> page = userService.findChallengesByTelegramID(userID, challengePageCache.getPreviousOrLastPageable(userID));
@@ -114,5 +127,13 @@ public class NumpadHandler {
             return true;
         }
         return false;
+    }
+
+    private Optional<SendMessage> weeksAppendix(long userID, String message){
+        if (Character.isDigit(message.charAt(0))) {
+            challengeCreatorService.selectGoalLength(userID, message.charAt(0));
+            return Optional.of(ButtonsMappingUtils.buildMessageWithKeyboard(userID, Buttons.AREA_SELECTION));
+        }
+        return Optional.empty();
     }
 }

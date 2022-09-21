@@ -23,6 +23,8 @@ public class DynamicButtonServiceImpl implements DynamicButtonsService {
             case USER_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.USER_APPENDIX.getText(), userPageCache.getPageAmount(chatID));
             case CHAT_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.CHAT_APPENDIX.getText(), chatPageCache.getPageAmount(chatID));
             case CHALLENGE_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.CHALLENGE_APPENDIX.getText(),challengePageCache.getPageAmount(chatID));
+            case WEEKS_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.WEEKS_APPENDIX.getText(),9);
+            case SKIP_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.WEEKS_APPENDIX.getText(),challengePageCache.getPageAmount(chatID));
         };
     }
 

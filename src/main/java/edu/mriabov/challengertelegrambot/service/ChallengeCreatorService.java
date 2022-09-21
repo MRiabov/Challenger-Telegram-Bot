@@ -29,5 +29,5 @@ public interface ChallengeCreatorService {
 
     boolean confirm(long userID);
 
-
+    boolean selectGoalLength(long userID, int lengthInWeeks);
 }
