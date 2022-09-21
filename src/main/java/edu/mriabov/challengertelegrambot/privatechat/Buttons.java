@@ -11,10 +11,10 @@ public enum Buttons {
     MAIN_MENU(
             """
                     Your stats:
-                    💰Finance: %2$d
-                    🫶Relationships: %3$d
-                    💪Fitness: %4$d
-                    🧘Mindfulness: %5$d
+                    💰 Finance: %2$d
+                    🫶 Relationships: %3$d
+                    💪 Fitness: %4$d
+                    🧘 Mindfulness: %5$d
                     Your current coin count: %6$d💎
                     Challenges to be completed:
 
@@ -50,7 +50,7 @@ public enum Buttons {
             Input the ID groups you would like to send:
             %7$s
             You can also just @ the user you would like to include, the system will find him automatically\\.""",
-    Appendix.CHAT_APPENDIX.getText()),
+            Appendix.CHAT_APPENDIX.getText()),
 
     ONLY_ONE_CHAT("You have only one groups, and it has been selected\\.",
             ButtonsMessages.CONTINUE.getText(), null),
@@ -58,7 +58,7 @@ public enum Buttons {
     USER_SELECTION("""
             Input the ID or of the Gigachad you would like to challenge
             %8$s
-            Alternatively, you can just send his @""",Appendix.USER_APPENDIX.getText()),
+            Alternatively, you can just send his @""", Appendix.USER_APPENDIX.getText()),
 
     OTHER_USER_NOT_FOUND("""
             Username not found in your groups\\.
@@ -101,7 +101,7 @@ public enum Buttons {
             ButtonsMessages.CANCEL.getText(), null),
 
     CHALLENGE_CONFIRMATION_ERROR("Either you have too few coins %6$d, or something is wrong with your challenge. " +
-            "\n%9$s", ButtonsMessages.BACK_TO_MENU.getText(),null),
+            "\n%9$s", ButtonsMessages.BACK_TO_MENU.getText(), null),
 
     //buy some rest...
 
@@ -118,7 +118,7 @@ public enum Buttons {
     ADDICTION_HELP("""
             I don't know what your addiction is, but it has to be treated. It is good, that you have stepped on a path of self-improvement,
             BUT!
-            Addiction drags your self-image down. Each time you look in the mirror, you probably think:
+            Addictions drag your self-image down. Each time you look in the mirror, you think:
             "Damn, how did I come to all of this? I don't even have that much fun from it, yet I still keep doing it.."
             And there is no thing more important than mental health and self-image, because it affects ALL your other areas of life. How can others treat you with respect if you yourself don't?
             There is a great book, "Atomic Habits"(+100k 5-star ratings on Amazon). It teaches how to avoid bad habits, as well as creating new ones. Highly recommend to read.
@@ -134,25 +134,25 @@ public enum Buttons {
             ButtonsMessages.DURATION_6HRS.getText(), ButtonsMessages.DURATION_REST_DAY.getText(), null),
 
     BOUGHT_REST("""
-                Fine, take your rest, you've earned it.
-                But remember, that you are in a constant race, and when you do nothing, you everyone else moves forward.
-                I suggest you watch a video "Stop letting other men pipe your wife" by Hamza in the meantime.
+            Fine, take your rest, you've earned it.
+            But remember, that you are in a constant race, and when you do nothing, you everyone else moves forward.
+            I suggest you watch a video "Stop letting other men pipe your wife" by Hamza in the meantime.
             """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
     //misc
     NEED_MORE_COINS("Hey! This action requires more coins then you have! Now go and grind them.",
-            ButtonsMessages.CONTINUE_WORKING.getText(),null),
+            ButtonsMessages.CONTINUE_WORKING.getText(), null),
 
     PURCHASE_SUCCESSFUL("""
             Purchase successful!
-            Your remaining coin count: %6$d
-            """, ButtonsMessages.BACK_TO_MENU.getText(),null),
+            Your remaining coin count: %6$d💎
+            """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
     MENU_FAQ("""
             We don’t grow when things are easy; we grow when we face challenges.
             This bot was created with this idea in mind. The core idea is to better one's finances, physique, and other *self*-improvement through the hardship and willpower, while becoming mentally stable, kind, and good person.
             So let's become the strong men this world desires!
-            """, ButtonsMessages.BACK_TO_MENU.getText(),null),
+            """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
     ASSIGNED_NEW_CHALLENGE(
             "You have been assigned a new challenge! ",
@@ -174,13 +174,28 @@ public enum Buttons {
     ),
 
     ON_START_NEW_USER_HELP_FIRST(
-            "This bot was designed for growth through challenge.",
+            """
+                    Men grow through challenge. Trough the hardship, through the deserved wins, as much as through the heartbreaking losses.
+                    This bot was created as a response to unleash the untapped potential in men, who seek to best others in a race that we are in.
+                                        
+                    Life is a choice. Make the right one.
+                    """,
             ButtonsMessages.ON_START_NEW_USER_SECOND_YES.getText(),
             ButtonsMessages.ON_START_NEW_USER_SECOND_NO.getText(), null
     ),
 
     ON_START_NEW_USER_HELP_SECOND(
-            "HELPMESSAGE 2",
+            """
+                    Economics in the bot:
+
+                    The whole economy relies on admins giving daily and global challenges.
+                    Users can either buy rest for the coins they earn, or they can challenge other using custom challenges.
+
+                    Challenges are meant to stimulate one's growth, in his personal life, money, physique or mental health.
+                    They are not meant to put someone under an unneccessary risk, danger, deteriorate someone's mental health etc.
+                                        
+                    I hope for your understanding. Now, get to the grind!
+                    """,
             ButtonsMessages.ON_START_NEW_USER_THIRD.getText(), null
     ),
 
