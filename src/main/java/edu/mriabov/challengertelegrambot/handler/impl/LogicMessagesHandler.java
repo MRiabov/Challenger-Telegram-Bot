@@ -63,6 +63,10 @@ public class LogicMessagesHandler {
                 challengePageCache.put(userID, userService.findChallengesByTelegramID(userID, Pageable.ofSize(9)));
                 return Optional.of(Buttons.MARK_CHALLENGE_AS_COMPLETED);
             }
+            case SKIP_CHALLENGES -> {
+                challengePageCache.put(userID, userService.findChallengesByTelegramID(userID, Pageable.ofSize(9)));
+                return Optional.of(Buttons.SKIP_CHALLENGES);
+            }
         }
         return Optional.empty();
     }

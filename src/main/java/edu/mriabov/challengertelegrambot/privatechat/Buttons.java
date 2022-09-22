@@ -44,11 +44,12 @@ public enum Buttons {
             "\n Set a goal's description...",
             ButtonsMessages.CANCEL.getText(), null),
 
-    SKIP_CHALLENGES("CONFIRMATION PLACEHOLDER, if not just send a reason why you skip.",
-            "1️⃣ weeks", "2️⃣  weeks", "3️⃣ weeks", null,
-            "4️⃣ weeks", "5️⃣ weeks", "6️⃣ weeks", null,
-            "7️⃣ weeks", "8️⃣ weeks", "9️⃣ weeks", null,
-            ButtonsMessages.CANCEL.getText()),
+    SKIP_CHALLENGES("""
+            Before you skip a challenge, ask yourself whether it is worth it...
+            Here is the list of your challenges:
+            
+            %13$s
+            """, Appendix.SKIP_APPENDIX.getText()),
 
     CHALLENGE_SKIP_COST("Skipping this challenge costs you "),
 

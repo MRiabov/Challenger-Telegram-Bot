@@ -21,6 +21,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import java.util.Optional;
 
 import static edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils.*;
+import static java.lang.Character.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -51,8 +52,8 @@ public class NumpadHandler {
                 .text(Buttons.CHAT_SELECTION.getMessage())
                 .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.CHAT_APPENDIX))
                 .build());
-        if (Character.isDigit(message.charAt(0))) {
-            Optional<Group> selectedGroup = challengeCreatorService.selectChats(userID, Character.getNumericValue(message.charAt(0)) - 1);
+        if (isDigit(message.charAt(0))) {
+            Optional<Group> selectedGroup = challengeCreatorService.selectChats(userID, getNumericValue(message.charAt(0)) - 1);
             if (selectedGroup.isEmpty())
                 return Optional.of(buildMessageWithKeyboard(userID, Buttons.INCORRECT_INPUT));
             challengeCreatorService.fillUserPageCache(userID, selectedGroup.get());
@@ -72,8 +73,8 @@ public class NumpadHandler {
                     .text(Buttons.USER_SELECTION.getMessage())
                     .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
                     .build());
-        if (Character.isDigit(message.charAt(0))) {
-            challengeCreatorService.selectUsers(userID, userPageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0)) - 1));
+        if (isDigit(message.charAt(0))) {
+            challengeCreatorService.selectUsers(userID, userPageCache.getOnCurrentPage(userID, getNumericValue(message.charAt(0)) - 1));
             return Optional.of(buildMessageWithKeyboard(userID, Buttons.DIFFICULTY_SELECTION));
         }
         return Optional.empty();
@@ -85,16 +86,16 @@ public class NumpadHandler {
                 .text(Buttons.USER_SELECTION.getMessage())
                 .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.USER_APPENDIX))
                 .build());
-        if (Character.isDigit(message.charAt(0))) {
-            userService.completeChallenge(userID, challengePageCache.getOnCurrentPage(userID, Character.getNumericValue(message.charAt(0)) - 1));
+        if (isDigit(message.charAt(0))) {
+            userService.completeChallenge(userID, challengePageCache.getOnCurrentPage(userID, getNumericValue(message.charAt(0)) - 1));
             return Optional.of(buildMessageWithKeyboard(userID, Buttons.MARK_CHALLENGE_AS_COMPLETED));
         }
         return Optional.empty();
     }
 
     private Optional<SendMessage> weeksAppendix(long userID, String message) {
-        if (Character.isDigit(message.charAt(0))) {
-            challengeCreatorService.selectGoalLength(userID, message.charAt(0));
+        if (isDigit(message.charAt(0))) {
+            challengeCreatorService.selectGoalLength(userID, getNumericValue(message.charAt(0)) - 1);
             return Optional.of(buildMessageWithKeyboard(userID, Buttons.AREA_SELECTION));
         }
         return Optional.empty();
@@ -106,8 +107,8 @@ public class NumpadHandler {
                 .text(Buttons.SKIP_CHALLENGES.getMessage())
                 .replyMarkup(dynamicButtonsService.createMarkup(userID, Appendix.SKIP_APPENDIX))
                 .build());
-        if (Character.isDigit(message.charAt(0))) {
-            challengeCache.put(userID, challengePageCache.getOnCurrentPage(userID,message.charAt(0)));
+        if (isDigit(message.charAt(0))) {
+            challengeCache.put(userID, challengePageCache.getOnCurrentPage(userID, getNumericValue(message.charAt(0))-1));
             return Optional.of(buildMessageWithKeyboard(userID, Buttons.CHALLENGE_SKIP_COST));
         }
         return Optional.empty();
