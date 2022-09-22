@@ -13,15 +13,15 @@ public interface ChallengeCreatorService {
 
     void fillUserPageCache(long userID, Group group);
 
-    boolean selectUsers(long thisUserID, User otherUser);
+    void selectUsers(long thisUserID, User otherUser);
 
     Optional<Group> selectChats(long userID, int selectedNumber);
 
-    boolean setDescription(long userID, String message);
+    void setDescription(long userID, String message);
 
-    boolean selectDifficulty(long chatID, Difficulty difficulty);
+    void selectDifficulty(long chatID, Difficulty difficulty);
 
-    boolean selectArea(long chatID, Area area);
+    void selectArea(long chatID, Area area);
 
     boolean selectUsersByUsername(long userID, String username);
 
@@ -29,5 +29,5 @@ public interface ChallengeCreatorService {
 
     boolean confirm(long userID);
 
-    boolean selectGoalLength(long userID, int lengthInWeeks);
+    void selectGoalLength(long userID, int lengthInWeeks);
 }

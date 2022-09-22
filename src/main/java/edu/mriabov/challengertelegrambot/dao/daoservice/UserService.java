@@ -28,5 +28,7 @@ public interface UserService {
 
     void completeChallenge(long userID, Challenge challenge);
 
+    void skipChallenge(long userID, Challenge challenge);
+
     Page<Challenge> findChallengesByTelegramID(long userID, Pageable pageable);
 }

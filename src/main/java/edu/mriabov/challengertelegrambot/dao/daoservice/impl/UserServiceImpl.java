@@ -101,6 +101,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void skipChallenge(long userID, Challenge challenge) {
+        User user;
+        Optional<User> userOptional = userRepository.getUserByTelegramId(userID);
+        if (userOptional.isPresent()) user = userOptional.get();
+        else {
+            log.error("Unregistered user " + userID + " attempted to skip a challenge");
+            return;
+        }
+        user.setCoins(user.getCoins() + challenge.getDifficulty().price);//skipping = challenging someone else?...
+        user.setChallenges(userRepository.getAllChallengesButOne(userID, challenge.getId()));
+        userRepository.save(user);
+    }
+
+    @Override
     public Page<Challenge> findChallengesByTelegramID(long userID, Pageable pageable) {
         return userRepository.findAllChallengesByTelegramId(userID, pageable);
     }

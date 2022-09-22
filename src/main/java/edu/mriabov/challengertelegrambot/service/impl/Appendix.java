@@ -11,6 +11,7 @@ public enum Appendix {
     CHALLENGE_APPENDIX("challenge"),
     WEEKS_APPENDIX("weeks"),
     SKIP_APPENDIX("skip");
+
     private final String text;
 
 }

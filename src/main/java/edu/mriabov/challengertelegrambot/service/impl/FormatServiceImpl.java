@@ -46,7 +46,8 @@ public class FormatServiceImpl implements FormatService {
                 userPageToListConverter(userID),//8
                 challengeInPrivateConfirmation(userID),//9
                 challengeInGroupConfirmation(userID),//10
-                myChallengesList(userID)//11
+                myChallengesList(userID),//11
+                challengeSkipConfirmation(userID)
         );
     }
 
@@ -130,8 +131,11 @@ public class FormatServiceImpl implements FormatService {
     private String myChallengesList(long userID) {
         List<Challenge> challenges = userService.findChallengesByTelegramID(userID, Pageable.unpaged()).getContent();
         if (challenges.size() == 0) {
-            return "All your challenges are completed! Time to advance in fields, other then listed here." +
-                    "\nJust don't stop!";
+            return """
+                    
+                    All your challenges are completed! Time to advance in fields, other then listed here.
+                    Just don't stop!
+                    """;
         }
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < challenges.size(); i++) {
@@ -140,9 +144,13 @@ public class FormatServiceImpl implements FormatService {
                     .append("\n\uD83C\uDF96Difficulty: ").append(challenges.get(i).getDifficulty().text)
                     .append("\n\uD83D\uDCDDChallenge description: ").append(challenges.get(i).getDescription())
                     .append("\nExpires at: ").append(TelegramUtils.formatter.format(challenges.get(i).getExpiresAt())).append(". ")
-                    .append("")//todo how much time left
+                    .append("\nThere is ")//todo how much time left
                     .append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    private String challengeSkipConfirmation(long userID) {
+        return billingFormatter(challengeCache.get(userID));
     }
 }

@@ -50,11 +50,10 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     }
 
     @Override
-    public boolean selectUsers(long thisUserID, User otherUser) {
-        if (deletedFromCache(thisUserID)) return false;
+    public void selectUsers(long thisUserID, User otherUser) {
+        if (deletedFromCache(thisUserID)) return;
         if (challengeCache.get(thisUserID).getUsers() != null) challengeCache.get(thisUserID).getUsers().add(otherUser);
         else challengeCache.get(thisUserID).setUsers(Set.of(otherUser));
-        return true;
     }
 
     @Override
@@ -68,24 +67,21 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     }
 
     @Override
-    public boolean selectDifficulty(long userID, Difficulty difficulty) {
-        if (deletedFromCache(userID)) return false;
+    public void selectDifficulty(long userID, Difficulty difficulty) {
+        if (deletedFromCache(userID)) return;
         challengeCache.get(userID).setDifficulty(difficulty);
-        return true;
     }
 
     @Override
-    public boolean selectArea(long chatID, Area area) {
-        if (deletedFromCache(chatID)) return false;
+    public void selectArea(long chatID, Area area) {
+        if (deletedFromCache(chatID)) return;
         challengeCache.get(chatID).setArea(area);
-        return true;
     }
 
     @Override
-    public boolean setDescription(long userID, String message) {
-        if (deletedFromCache(userID)) return false;
+    public void setDescription(long userID, String message) {
+        if (deletedFromCache(userID)) return;
         challengeCache.get(userID).setDescription(message);
-        return true;
     }
 
     @Override
@@ -131,7 +127,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     }
 
     @Override
-    public boolean selectGoalLength(long userID, int lengthInWeeks) {
+    public void selectGoalLength(long userID, int lengthInWeeks) {
         Challenge challenge = new Challenge();
         challenge.setUsers(Set.of(userService.getUserByTelegramId(userID).get()));
         challenge.setCreatedAt(LocalDateTime.now());
@@ -139,8 +135,6 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         challenge.setFree(true);
         challenge.setDifficulty(Difficulty.GOAL);
         challengeCache.put(userID,challenge);
-
-        return false;
     }
 
     private boolean deletedFromCache(long chatID) {

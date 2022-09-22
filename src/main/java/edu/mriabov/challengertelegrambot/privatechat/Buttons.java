@@ -50,6 +50,8 @@ public enum Buttons {
             "7️⃣ weeks", "8️⃣ weeks", "9️⃣ weeks", null,
             ButtonsMessages.CANCEL.getText()),
 
+    CHALLENGE_SKIP_COST("Skipping this challenge costs you "),
+
     //challenge your friends
     CHAT_SELECTION("""
             Input the ID groups you would like to send:
@@ -161,7 +163,7 @@ public enum Buttons {
 
     ASSIGNED_NEW_CHALLENGE(
             "You have been assigned a new challenge! ",
-            ButtonsMessages.MENU_MY_CHALLENGES.getText(), ButtonsMessages.MENU_MY_CHALLENGES.getText(), null),
+            ButtonsMessages.MENU_MY_CHALLENGES.getText(), ButtonsMessages.MAIN_MENU.getText(), null),
 
     FAILED_CHALLENGE(
             "You have failed a challenge! How about completing it now?",
