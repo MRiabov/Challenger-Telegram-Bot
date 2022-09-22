@@ -47,7 +47,8 @@ public class FormatServiceImpl implements FormatService {
                 challengeInPrivateConfirmation(userID),//9
                 challengeInGroupConfirmation(userID),//10
                 myChallengesList(userID),//11
-                challengeSkipConfirmation(userID)
+                challengeSkipConfirmation(userID),//12
+                listChallengeDescriptions(userID)//13
         );
     }
 
@@ -81,8 +82,8 @@ public class FormatServiceImpl implements FormatService {
     private String challengeInPrivateConfirmation(long userID) {
         if (!challengeCache.contains(userID)) return null;
         Challenge challenge = challengeCache.get(userID);
-        if (challenge.getDifficulty() == null || challenge.getArea() == null || challenge.getUsers() == null)
-            return null;
+        if (challenge.getId() != 0 || challenge.getArea() == null || challenge.getUsers() == null ||
+                challenge.getDifficulty() == null) return null;
         StringBuilder challengeInfo = new StringBuilder();
         challengeInfo
                 .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getGroup().getGroupName())
@@ -113,7 +114,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     private String challengeInGroupConfirmation(long userID) {
-        if (!challengeCache.contains(userID)) return null;
+        if (!challengeCache.contains(userID)||challengeCache.get(userID).getId()!=0) return null;
         Challenge challenge = challengeCache.get(userID);
         return "\n\uD83C\uDFF9Area: " +
                 (challenge.getArea() != null ? challenge.getArea().text : "NO AREA FOUND!") +
@@ -132,7 +133,7 @@ public class FormatServiceImpl implements FormatService {
         List<Challenge> challenges = userService.findChallengesByTelegramID(userID, Pageable.unpaged()).getContent();
         if (challenges.size() == 0) {
             return """
-                    
+                                        
                     All your challenges are completed! Time to advance in fields, other then listed here.
                     Just don't stop!
                     """;
@@ -150,7 +151,19 @@ public class FormatServiceImpl implements FormatService {
         return stringBuilder.toString();
     }
 
+    private String listChallengeDescriptions(long userID) {
+        Page<Challenge> challenges = userService.findChallengesByTelegramID(userID, Pageable.ofSize(9));
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < challenges.getNumberOfElements(); i++)
+            stringBuilder
+                    .append(i + 1).append("️⃣").append(challenges.getContent().get(i).getDescription())
+                    .append("\n");
+        return stringBuilder.toString();
+    }
+
     private String challengeSkipConfirmation(long userID) {
-        return billingFormatter(challengeCache.get(userID));
+        if (challengeCache.contains(userID) && challengeCache.get(userID).getId() != 0)
+            return billingFormatter(userID,challengeCache.get(userID).getDifficulty().price);
+        return null;
     }
 }

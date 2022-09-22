@@ -21,9 +21,8 @@ public enum LogicButtonsMessages {
 
     CHALLENGE_YOUR_FRIENDS(ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText()),
     CONFIRM_CHALLENGE_BILLING(ButtonsMessages.CONFIRM_CHALLENGE_BILLING.getText()),
-    MARK_CHALLENGE_AS_COMPLETED(ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED.getText())
-
-
+    MARK_CHALLENGE_AS_COMPLETED(ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED.getText()),
+    SKIP_CHALLENGES(ButtonsMessages.SKIP_CHALLENGE.getText()),
     //!
     ;
     //!
