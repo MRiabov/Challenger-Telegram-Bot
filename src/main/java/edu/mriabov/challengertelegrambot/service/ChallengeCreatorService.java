@@ -30,4 +30,6 @@ public interface ChallengeCreatorService {
     boolean confirm(long userID);
 
     void selectGoalLength(long userID, int lengthInWeeks);
+
+    boolean skipChallenge(long userID);
 }

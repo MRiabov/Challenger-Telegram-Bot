@@ -27,7 +27,6 @@ public class BillingServiceImpl implements BillingService {
     public List<Boolean> isEnoughCoins(long userID, int[] prices) {
         List<Boolean> result = new ArrayList<>();
         Optional<User> user = userService.getUserByTelegramId(userID);
-
         for (int price : prices)
             user.ifPresentOrElse(value -> result.add(value.getCoins() > price), () -> result.add(false));
         return result;

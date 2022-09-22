@@ -47,11 +47,13 @@ public enum Buttons {
     SKIP_CHALLENGES("""
             Before you skip a challenge, ask yourself whether it is worth it...
             Here is the list of your challenges:
-            
+                        
             %13$s
             """, Appendix.SKIP_APPENDIX.getText()),
 
-    CHALLENGE_SKIP_COST("Skipping this challenge costs you "),
+    CHALLENGE_SKIP_COST("Skipping this challenge costs you ",
+            ButtonsMessages.CONFIRM_CHALLENGE_SKIP.getText(), null,
+            ButtonsMessages.CANCEL.getText(), null),
 
     //challenge your friends
     CHAT_SELECTION("""

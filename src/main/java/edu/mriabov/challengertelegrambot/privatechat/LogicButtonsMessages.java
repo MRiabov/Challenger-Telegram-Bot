@@ -23,6 +23,7 @@ public enum LogicButtonsMessages {
     CONFIRM_CHALLENGE_BILLING(ButtonsMessages.CONFIRM_CHALLENGE_BILLING.getText()),
     MARK_CHALLENGE_AS_COMPLETED(ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED.getText()),
     SKIP_CHALLENGES(ButtonsMessages.SKIP_CHALLENGE.getText()),
+    CONFIRM_CHALLENGE_SKIP(ButtonsMessages.CONFIRM_CHALLENGE_SKIP.getText())
     //!
     ;
     //!

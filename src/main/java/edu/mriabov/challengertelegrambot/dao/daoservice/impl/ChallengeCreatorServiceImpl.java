@@ -137,6 +137,14 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         challengeCache.put(userID,challenge);
     }
 
+    @Override
+    public boolean skipChallenge(long userID) {
+        if (deletedFromCache(userID)) return false;
+        Challenge challenge = challengeCache.get(userID);
+        userService.skipChallenge(userID,challenge);
+        return true;
+    }
+
     private boolean deletedFromCache(long chatID) {
         return !challengeCache.contains(chatID);
     }

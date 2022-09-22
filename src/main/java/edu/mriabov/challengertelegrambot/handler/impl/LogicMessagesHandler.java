@@ -59,6 +59,9 @@ public class LogicMessagesHandler {
             case CONFIRM_CHALLENGE_BILLING -> {
                 return Optional.of(challengeCreatorService.confirm(userID) ? Buttons.PURCHASE_SUCCESSFUL : Buttons.NEED_MORE_COINS);
             }
+            case CONFIRM_CHALLENGE_SKIP -> {
+                return Optional.of(challengeCreatorService.skipChallenge(userID) ? Buttons.PURCHASE_SUCCESSFUL : Buttons.NEED_MORE_COINS);
+            }
             case MARK_CHALLENGE_AS_COMPLETED -> {
                 challengePageCache.put(userID, userService.findChallengesByTelegramID(userID, Pageable.ofSize(9)));
                 return Optional.of(Buttons.MARK_CHALLENGE_AS_COMPLETED);

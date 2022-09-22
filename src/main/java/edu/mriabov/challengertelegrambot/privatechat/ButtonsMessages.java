@@ -9,10 +9,12 @@ enum ButtonsMessages {//package-private!
 
     //Meta
     MAIN_MENU("\uD83C\uDFE0Back to main menu"),
+    BACK_TO_MENU("\uD83C\uDFE0Back to menu..."),
     CANCEL("❌Cancel"),
     CONTINUE("✅Continue!"),
     CONTINUE_WORKING("\uD83D\uDE16 Continue working..."),
     COMPLETE_FAILED_CHALLENGE("✅I've completed it now."),
+
     //Menu
     MENU_MY_CHALLENGES("\uD83D\uDCAA My Challenges"),
     MENU_CHALLENGE_YOUR_FRIENDS("\uD83C\uDFC3\u200D♂️Challenge your friends"),
@@ -23,7 +25,7 @@ enum ButtonsMessages {//package-private!
     MARK_CHALLENGE_AS_COMPLETED("✅Mark a challenge as completed"),
     SKIP_CHALLENGE("\uD83D\uDE34Skip a challenge"),
     SET_GOAL_DESCRIPTION("\uD83C\uDFAFSet a goal"),
-    BACK_TO_MENU("\uD83C\uDFE0Back to menu..."),
+    CONFIRM_CHALLENGE_SKIP("\uD83D\uDC8EConfirm challenge skip\uD83D\uDC8E"),
 
     //Challenge your friends
     EASY_DIFFICULTY("\uD83D\uDFE2Easy"),
