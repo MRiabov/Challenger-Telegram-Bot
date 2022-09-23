@@ -45,12 +45,13 @@ public class BillingServiceImpl implements BillingService {
 
     @Override
     public int challengePrice(Challenge challenge) {
-        return challenge.getUsers().size() * challenge.getDifficulty().price;
+        if (challenge.isFree()) return 0;
+        else return challenge.getUsers().size() * challenge.getDifficulty().price;
     }
 
     @Override
     public boolean isEnoughCoinsForChallenge(Challenge challenge) {
         if (challenge.isFree()) return true;
-        return isEnoughCoins(challenge.getCreatedBy().getTelegramId(),challengePrice(challenge));
+        return isEnoughCoins(challenge.getCreatedBy().getTelegramId(), challengePrice(challenge));
     }
 }

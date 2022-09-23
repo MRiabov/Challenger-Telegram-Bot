@@ -29,7 +29,7 @@ public enum Buttons {
             %11$s
             """,
             ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED.getText(), null,
-            ButtonsMessages.SET_GOAL_DESCRIPTION.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null,
+            ButtonsMessages.SET_GOAL.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null,
             ButtonsMessages.MAIN_MENU.getText(), null
     ),
 

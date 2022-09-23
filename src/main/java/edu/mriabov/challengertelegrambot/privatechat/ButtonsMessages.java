@@ -24,7 +24,7 @@ enum ButtonsMessages {//package-private!
     //My challenges
     MARK_CHALLENGE_AS_COMPLETED("✅Mark a challenge as completed"),
     SKIP_CHALLENGE("\uD83D\uDE34Skip a challenge"),
-    SET_GOAL_DESCRIPTION("\uD83C\uDFAFSet a goal"),
+    SET_GOAL("\uD83C\uDFAFSet a goal"),
     CONFIRM_CHALLENGE_SKIP("\uD83D\uDC8EConfirm challenge skip\uD83D\uDC8E"),
 
     //Challenge your friends

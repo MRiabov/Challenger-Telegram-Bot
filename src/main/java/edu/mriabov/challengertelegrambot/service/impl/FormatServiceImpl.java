@@ -86,7 +86,7 @@ public class FormatServiceImpl implements FormatService {
                 challenge.getDifficulty() == null) return null;
         StringBuilder challengeInfo = new StringBuilder();
         challengeInfo
-                .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getGroup().getGroupName())
+                .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getGroup()!=null?challenge.getGroup().getGroupName():" for yourself.")
                 .append("\n\uD83C\uDFCB️\u200D♂️Users: ");
         if (challenge.getUsers().size() > 4) challengeInfo.append(challenge.getUsers().size()).append(" users");
         else for (User user : challenge.getUsers())
@@ -96,7 +96,8 @@ public class FormatServiceImpl implements FormatService {
                 .append("\n\uD83C\uDF96Difficulty: ").append(challenge.getDifficulty().text)
                 .append("\n\uD83C\uDFF9Area: ").append(challenge.getArea().text)
                 .append("\n\n\uD83D\uDCDDChallenge description: ").append(challenge.getDescription())
-                .append("\n\n\uD83D\uDCB8It costs: ").append(billingFormatter(userID, billingService.challengePrice(challenge)));
+                .append("\n\n\uD83D\uDCB8It costs: ")
+                .append(!challenge.isFree() ? billingFormatter(userID, billingService.challengePrice(challenge)) : "FREE");
         return challengeInfo.toString();
     }
 
