@@ -11,14 +11,14 @@ public enum Buttons {
     MAIN_MENU(
             """
                     Your stats:
-                    💰 Finance: %2$d
-                    🫶 Relationships: %3$d
-                    💪 Fitness: %4$d
-                    🧘 Mindfulness: %5$d
+                    💰 <b>Finance:</b> %2$d
+                    🫶 <b>Relationships:</b> %3$d
+                    💪 <b>Fitness:</b> %4$d
+                    🧘 <b>Mindfulness:</b> %5$d
                     Your current coin count: %6$d💎
                     Challenges to be completed:
 
-                    You goals:
+                    <b>Your goals:</b>
                     %14$s""",
             ButtonsMessages.MENU_MY_CHALLENGES.getText(), null,
             ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), null,
@@ -34,7 +34,7 @@ public enum Buttons {
     ),
 
     MARK_CHALLENGE_AS_COMPLETED("""
-            Well done for completing a challenge!
+            <b>Well done for completing a challenge!</b>
             If you would like to complete a challenge, enter an ID next to it.
             %11$s""", Appendix.CHALLENGE_APPENDIX.getText()),
 
@@ -59,7 +59,7 @@ public enum Buttons {
     CHAT_SELECTION("""
             Input the ID groups you would like to send:
             %7$s
-            You can also just @ the user you would like to include, the system will find him automatically.""",
+            <u>You can also just @ the user you would like to include, the system will find him automatically.</u>""",
             Appendix.CHAT_APPENDIX.getText()),
 
     ONLY_ONE_CHAT("You have only one groups, and it has been selected.",
@@ -68,7 +68,7 @@ public enum Buttons {
     USER_SELECTION("""
             Input the ID or of the Gigachad you would like to challenge
             %8$s
-            Alternatively, you can just send his @""", Appendix.USER_APPENDIX.getText()),
+            <u>Alternatively, you can still send his @<u>""", Appendix.USER_APPENDIX.getText()),
 
     OTHER_USER_NOT_FOUND("""
             Username not found in your groups.
@@ -95,7 +95,7 @@ public enum Buttons {
     ),
 
     SET_DESCRIPTION("""
-            Now, write a description for a challenge. A clear, understandable message.
+            Now, write a description for a challenge. A clear, understandable outline of actions.
             I would like to remind, that these challenges meant to be purely for better. Don't write anything, which will intentionally harm one's life, relations or other parts of one's life.
             These challenges are meant for growth, and not destruction.
             *Minimal length - 40 symbols.*""",
@@ -133,18 +133,19 @@ public enum Buttons {
             There is a great book, "Atomic Habits"(+100k 5-star ratings on Amazon). It teaches how to avoid bad habits, as well as creating new ones. Highly recommend to read.
             I have quit all the "modern" addictions myself. The worst part about being a gamer, or a porn addict is that you don't even realise it's bad.
             And it's terribly bad.
-            If you are a gamer, ask yourself, "Why compete in games, when I can compete in real life?"
-            If you are a porn addict, ask yourself, "Why masturbate on women, when you can workout in the same time, improve your looks and just get women?"
+            If you are a gamer, ask yourself, <i>"Why compete in games, when I can compete in real life?"</i>
+            If you are a porn addict, ask yourself, <i>"Why masturbate on women, when you can workout in the same time, improve your looks and just get women?"</i>
             Addiction is a choice, you can either choose to get instant gratification, or you can do something meaningful in the same time.
             """, ButtonsMessages.PROCEED_TO_REST.getText(), null),
 
     DURATION_OF_THE_REST("For how long are you planning to rest?",
             ButtonsMessages.DURATION_2HRS.getText(), ButtonsMessages.DURATION_4HRS.getText(), null,
-            ButtonsMessages.DURATION_6HRS.getText(), ButtonsMessages.DURATION_REST_DAY.getText(), null),
+            ButtonsMessages.DURATION_6HRS.getText(), ButtonsMessages.DURATION_REST_DAY.getText(), null,
+            ButtonsMessages.CANCEL.getText()),
 
     BOUGHT_REST("""
             Fine, take your rest, you've earned it.
-            But remember, that you are in a constant race, and when you do nothing, you everyone else moves forward.
+            But remember, that life is a constant race, and when you do nothing, you everyone else moves forward.
             I suggest you watch a video "Stop letting other men pipe your wife" by Hamza in the meantime.
             """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
@@ -158,8 +159,8 @@ public enum Buttons {
             """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
     MENU_FAQ("""
-            We don’t grow when things are easy; we grow when we face challenges.
-            This bot was created with this idea in mind. The core idea is to better one's finances, physique, and other *self*-improvement through the hardship and willpower, while becoming mentally stable, kind, and good person.
+            We don’t grow when things are easy; <i>we grow when we face challenges</i>.
+            This bot was created with this idea in mind. The core idea is to better one's finances, physique, and other self-improvement through the <b>hardship</b> and willpower</i>, while becoming a mentally stable, kind, and generous person.
             So let's become the strong men this world desires!
             """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
@@ -184,10 +185,11 @@ public enum Buttons {
 
     ON_START_NEW_USER_HELP_FIRST(
             """
-                    Men grow through challenge. Trough the hardship, through the deserved wins, as much as through the heartbreaking losses.
-                    This bot was created as a response to unleash the untapped potential in men, who seek to best others in a race that we are in.
-                                        
-                    Life is a choice. Make the right one.
+                    <i>Men grow through challenge</i>. Trough the hardship, through the deserved wins, as much as through the heartbreaking losses.
+                    This bot was created as a response to unleash the untapped potential in men, who seek to best others in a race for success, love and status.
+                    
+                    As I always say...
+                    <i>"Life is a choice. Make the right one."<i>
                     """,
             ButtonsMessages.ON_START_NEW_USER_SECOND_YES.getText(),
             ButtonsMessages.ON_START_NEW_USER_SECOND_NO.getText(), null
@@ -198,10 +200,10 @@ public enum Buttons {
                     Economics in the bot:
 
                     The whole economy relies on admins giving daily and global challenges.
-                    Users can either buy rest for the coins they earn, or they can challenge other using custom challenges.
+                    Users can either buy <i>rest</i> for the coins they earn, or they can challenge others using custom challenges.
 
                     Challenges are meant to stimulate one's growth, in his personal life, money, physique or mental health.
-                    They are not meant to put someone under an unneccessary risk, danger, deteriorate someone's mental health etc.
+                    They are <b>not</b> meant to put someone under an unnecessary risk, danger, deteriorate someone's mental health etc.
                                         
                     I hope for your understanding. Now, get to the grind!
                     """,
