@@ -1,22 +1,24 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
+import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
+import edu.mriabov.challengertelegrambot.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.privatechat.Buttons;
 import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.FormatService;
-import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,7 +88,7 @@ public class FormatServiceImpl implements FormatService {
                 challenge.getDifficulty() == null) return null;
         StringBuilder challengeInfo = new StringBuilder();
         challengeInfo
-                .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getGroup()!=null?challenge.getGroup().getGroupName():" for yourself.")
+                .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getGroup() != null ? challenge.getGroup().getGroupName() : " for yourself.")
                 .append("\n\uD83C\uDFCB️\u200D♂️Users: ");
         if (challenge.getUsers().size() > 4) challengeInfo.append(challenge.getUsers().size()).append(" users");
         else for (User user : challenge.getUsers())
@@ -115,7 +117,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     private String challengeInGroupConfirmation(long userID) {
-        if (!challengeCache.contains(userID)||challengeCache.get(userID).getId()!=0) return null;
+        if (!challengeCache.contains(userID) || challengeCache.get(userID).getId() != 0) return null;
         Challenge challenge = challengeCache.get(userID);
         return "\n\uD83C\uDFF9Area: " +
                 (challenge.getArea() != null ? challenge.getArea().text : "NO AREA FOUND!") +
@@ -146,7 +148,7 @@ public class FormatServiceImpl implements FormatService {
                     .append("\n\uD83C\uDF96Difficulty: ").append(challenges.get(i).getDifficulty().text)
                     .append("\n\uD83D\uDCDDChallenge description: ").append(challenges.get(i).getDescription())
                     .append("\nExpires at: ").append(TelegramUtils.formatter.format(challenges.get(i).getExpiresAt())).append(". ")
-                    .append("\nThere is ")//todo how much time left
+                    .append("\n").append(countTimeLeft(challenges.get(i).getExpiresAt()))
                     .append("\n");
         }
         return stringBuilder.toString();
@@ -164,7 +166,17 @@ public class FormatServiceImpl implements FormatService {
 
     private String challengeSkipConfirmation(long userID) {
         if (challengeCache.contains(userID) && challengeCache.get(userID).getId() != 0)
-            return billingFormatter(userID,challengeCache.get(userID).getDifficulty().price);
+            return billingFormatter(userID, challengeCache.get(userID).getDifficulty().price);
         return null;
+    }
+
+    private String countTimeLeft(LocalDateTime expiresAt) {//counts how much time left, if hour[S] is needed
+        long untilHours = LocalDateTime.now().until(expiresAt, ChronoUnit.HOURS);
+        if (untilHours <= 24) {
+            return untilHours + " hour" + (untilHours > 1 ? "s" : "") + " left";
+        } else {
+            long until = LocalDateTime.now().until(expiresAt, ChronoUnit.DAYS);
+            return until + " day" + (until > 1 ? "s" : "") + "left";
+        }
     }
 }

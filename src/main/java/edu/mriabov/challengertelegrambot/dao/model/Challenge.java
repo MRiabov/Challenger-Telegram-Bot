@@ -44,8 +44,8 @@ public class Challenge {
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "group_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
     private Group group;
 
     @ManyToMany
@@ -54,7 +54,7 @@ public class Challenge {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new LinkedHashSet<>();
 
-    @Transient//todo transient/transactional?...
+    @Transient
     private boolean isFree;
 
     @NotNull

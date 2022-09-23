@@ -8,9 +8,10 @@ CREATE TABLE challenge
     expires_at     TIMESTAMP WITHOUT TIME ZONE              NOT NULL,
     recurring_time TIME WITHOUT TIME ZONE,
     created_by     INTEGER                                  NOT NULL,
-    group_id       INTEGER                                  NOT NULL,
+    group_id       INTEGER,
     CONSTRAINT pk_challenge PRIMARY KEY (id)
 );
+ALTER TABLE challenge ALTER COLUMN group_id TYPE INT;
 
 CREATE TABLE challenge_user
 (
