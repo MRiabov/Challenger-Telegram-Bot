@@ -59,7 +59,7 @@ public enum Buttons {
     CHAT_SELECTION("""
             Input the ID groups you would like to send:
             %7$s
-            <u>You can also just @ the user you would like to include, the system will find him automatically.</u>""",
+            <u>You can also just @ the user you would like to include</u>, the system will find him automatically.""",
             Appendix.CHAT_APPENDIX.getText()),
 
     ONLY_ONE_CHAT("You have only one groups, and it has been selected.",
@@ -141,7 +141,7 @@ public enum Buttons {
     DURATION_OF_THE_REST("For how long are you planning to rest?",
             ButtonsMessages.DURATION_2HRS.getText(), ButtonsMessages.DURATION_4HRS.getText(), null,
             ButtonsMessages.DURATION_6HRS.getText(), ButtonsMessages.DURATION_REST_DAY.getText(), null,
-            ButtonsMessages.CANCEL.getText()),
+            ButtonsMessages.CANCEL.getText(),null),
 
     BOUGHT_REST("""
             Fine, take your rest, you've earned it.
@@ -160,7 +160,7 @@ public enum Buttons {
 
     MENU_FAQ("""
             We don’t grow when things are easy; <i>we grow when we face challenges</i>.
-            This bot was created with this idea in mind. The core idea is to better one's finances, physique, and other self-improvement through the <b>hardship</b> and willpower</i>, while becoming a mentally stable, kind, and generous person.
+            This bot was created with this idea in mind. The core idea is to better one's finances, physique, and other self-improvement through the <b>hardship</b> and <i>willpower</i>, while becoming a mentally stable, kind, and generous person.
             So let's become the strong men this world desires!
             """, ButtonsMessages.BACK_TO_MENU.getText(), null),
 
@@ -188,8 +188,7 @@ public enum Buttons {
                     <i>Men grow through challenge</i>. Trough the hardship, through the deserved wins, as much as through the heartbreaking losses.
                     This bot was created as a response to unleash the untapped potential in men, who seek to best others in a race for success, love and status.
                     
-                    As I always say...
-                    <i>"Life is a choice. Make the right one."<i>
+                    <i>"Life is a choice. Make the right one."</i>
                     """,
             ButtonsMessages.ON_START_NEW_USER_SECOND_YES.getText(),
             ButtonsMessages.ON_START_NEW_USER_SECOND_NO.getText(), null
