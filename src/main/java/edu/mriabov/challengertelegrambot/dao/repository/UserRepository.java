@@ -1,5 +1,6 @@
 package edu.mriabov.challengertelegrambot.dao.repository;
 
+import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
@@ -38,4 +39,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT c FROM User u JOIN u.challenges c WHERE c.id<>:challengeID AND u.telegramId=:userID")
     Set<Challenge> getAllChallengesButOne(long userID,int challengeID);
+
+    @Query("SELECT c FROM User u JOIN u.challenges c WHERE u.telegramId=:userID AND c.difficulty=:difficulty")
+    Set<Challenge> findChallengesByDifficultyAndTelegramId(long userID, Difficulty difficulty);
 }

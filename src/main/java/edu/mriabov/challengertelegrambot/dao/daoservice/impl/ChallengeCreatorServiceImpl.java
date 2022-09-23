@@ -69,6 +69,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     @Override
     public void selectDifficulty(long userID, Difficulty difficulty) {
         if (deletedFromCache(userID)) return;
+        challengeCache.get(userID).setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
         challengeCache.get(userID).setDifficulty(difficulty);
     }
 
@@ -119,7 +120,6 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         if (!billingService.isEnoughCoins(userID, price)) return false;
         challenge.setCreatedAt(LocalDateTime.now());
         challenge.setCreatedBy(userService.getUserByTelegramId(userID).get());
-        challenge.setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
         challengeService.save(challenge);
         billingService.billCoins(userID, price);
         challenge.getUsers().forEach(user -> senderService.sendMessages(user.getTelegramId(), Buttons.ASSIGNED_NEW_CHALLENGE));

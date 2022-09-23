@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +51,9 @@ public class FormatServiceImpl implements FormatService {
                 challengeInGroupConfirmation(userID),//10
                 myChallengesList(userID),//11
                 challengeSkipConfirmation(userID),//12
-                listChallengeDescriptions(userID)//13
+                listChallengeDescriptions(userID),//13
+                listGoals(userID)//14
+
         );
     }
 
@@ -179,5 +182,17 @@ public class FormatServiceImpl implements FormatService {
             long until = LocalDateTime.now().until(expiresAt, ChronoUnit.DAYS);
             return until + " day" + (until > 1 ? "s" : "") + "left";
         }
+    }
+
+    private String listGoals(long userID){
+        Set<Challenge> goals = userService.findAllGoals(userID);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Challenge goal : goals) {
+            stringBuilder
+                    .append('\n').append("\uD83C\uDFAF").append(goal.getDescription())
+                    .append('\n').append(countTimeLeft(goal.getExpiresAt()))
+                    .append('\n');
+        }
+        return stringBuilder.toString();
     }
 }

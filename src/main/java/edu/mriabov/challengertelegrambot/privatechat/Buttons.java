@@ -18,15 +18,15 @@ public enum Buttons {
                     Your current coin count: %6$d💎
                     Challenges to be completed:
 
-                    PICK A RANDOM QUOTE""",
+                    You goals:
+                    %14$s""",
             ButtonsMessages.MENU_MY_CHALLENGES.getText(), null,
             ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), null,
             ButtonsMessages.MENU_REST.getText(), ButtonsMessages.MENU_FAQ.getText(), null
     ),
     //My challenges
     MENU_MY_CHALLENGES("""
-            Your uncompleted challenges list:
-            %11$s
+            Your uncompleted challenges list: %11$s
             """,
             ButtonsMessages.MARK_CHALLENGE_AS_COMPLETED.getText(), null,
             ButtonsMessages.SET_GOAL.getText(), ButtonsMessages.SKIP_CHALLENGE.getText(), null,

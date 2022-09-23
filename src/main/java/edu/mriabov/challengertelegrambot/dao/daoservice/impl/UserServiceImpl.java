@@ -1,5 +1,6 @@
 package edu.mriabov.challengertelegrambot.dao.daoservice.impl;
 
+import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
@@ -118,4 +119,11 @@ public class UserServiceImpl implements UserService {
     public Page<Challenge> findChallengesByTelegramID(long userID, Pageable pageable) {
         return userRepository.findAllChallengesByTelegramId(userID, pageable);
     }
+
+    @Override
+    public Set<Challenge> findAllGoals(long userID) {
+        return userRepository.findChallengesByDifficultyAndTelegramId(userID, Difficulty.GOAL);
+    }
+
+
 }
