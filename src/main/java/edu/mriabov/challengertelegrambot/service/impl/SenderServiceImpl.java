@@ -60,13 +60,13 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
         log.info("SenderService attempted to send a message with buttons: " + buttons.getMessage());
 
         execute(SendMessage.builder()
-                        .text(message)
-                        .chatId(userID)
-                        .replyMarkup(buttons.getKeyboard().length == 1 ?
-                                dynamicButtonsService.createMarkup(userID, buttons.getKeyboard()[0]) :
-                                ButtonsMappingUtils.createStaticMarkup(buttons.getKeyboard()))
-//                .parseMode("HTML")
-                        .build()
+                .text(message)
+                .chatId(userID)
+                .replyMarkup(buttons.getKeyboard().length == 1 ?
+                        dynamicButtonsService.createMarkup(userID, buttons.getKeyboard()[0]) :
+                        ButtonsMappingUtils.createStaticMarkup(buttons.getKeyboard()))
+                .parseMode("HTML")
+                .build()
         );
     }
 
@@ -75,7 +75,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     public void sendMessages(SendMessage sendMessage) {
         log.info("SenderService attempted to send a SendMessage: " + sendMessage.toString());
         sendMessage.setText(formatService.format(Long.parseLong(sendMessage.getChatId()), sendMessage.getText()));
-//        sendMessage.setParseMode("HTML");
+        sendMessage.setParseMode("HTML");
         execute(sendMessage);
     }
 
@@ -87,7 +87,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
                 .replyToMessageId(msgToReply.getMessageId())
                 .text(message)
                 .chatId(msgToReply.getChatId())
-//                .parseMode("HTML")
+                .parseMode("HTML")
                 .build());
     }
 

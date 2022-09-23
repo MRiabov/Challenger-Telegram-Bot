@@ -59,10 +59,10 @@ public enum Buttons {
     CHAT_SELECTION("""
             Input the ID groups you would like to send:
             %7$s
-            You can also just @ the user you would like to include, the system will find him automatically\\.""",
+            You can also just @ the user you would like to include, the system will find him automatically.""",
             Appendix.CHAT_APPENDIX.getText()),
 
-    ONLY_ONE_CHAT("You have only one groups, and it has been selected\\.",
+    ONLY_ONE_CHAT("You have only one groups, and it has been selected.",
             ButtonsMessages.CONTINUE.getText(), null),
 
     USER_SELECTION("""
@@ -71,39 +71,38 @@ public enum Buttons {
             Alternatively, you can just send his @""", Appendix.USER_APPENDIX.getText()),
 
     OTHER_USER_NOT_FOUND("""
-            Username not found in your groups\\.
-            Try to look it up manually\\.
+            Username not found in your groups.
+            Try to look it up manually.
             """, ButtonsMessages.MAIN_MENU.getText(), null),
 
     DIFFICULTY_SELECTION("""
-            Select a difficulty\\.
+            Select a difficulty.
             Difficulty can be of 3 types:
-            1\\. Easy \\- <5 minutes\\. A short, simple task, like doing 10 pushups or calling your family\\. Probably routine\\.
-            2\\. Medium \\- <20 minutes\\. Longer, perhaps more difficult task\\. Meditation, talking to that one girl, etc\\.
-            3\\. Difficult \\- <60 minutes\\. Reading a good book, learning a language, going to the gym\\.
-            3\\. Difficult \\- <60 minutes\\. Reading a good book, learning a language, going to the gym\\.
-            4\\. Goal \\- set a very exact goal: gain +3kg in muscle growth, learn a skill, outline a business idea in detail.\s""",
+            1. Easy - <5 minutes. A short, simple task, like doing 10 pushups or calling your family. Probably routine.
+            2. Medium - <20 minutes. Longer, perhaps more difficult task. Meditation, talking to that one girl, etc.
+            3. Difficult - <60 minutes. Reading a good book, learning a language, going to the gym.
+            4. Goal - set a very exact goal: gain +3kg in muscle growth, learn a skill, outline a business idea in detail.\s""",
 
             ButtonsMessages.EASY_DIFFICULTY.getText(), ButtonsMessages.MEDIUM_DIFFICULTY.getText(), null,
             ButtonsMessages.DIFFICULT_DIFFICULTY.getText(), ButtonsMessages.GOAL_DIFFICULTY.getText(), null,
             ButtonsMessages.CANCEL.getText(), null
     ),
 
-    AREA_SELECTION("Select, in which area is this goal allocated\\.",
+    AREA_SELECTION("Select, in which area is this goal allocated.",
             ButtonsMessages.RELATIONSHIPS_AREA.getText(), ButtonsMessages.FINANCES_AREA.getText(), null,
             ButtonsMessages.FITNESS_AREA.getText(), ButtonsMessages.MINDFULNESS_AREA.getText(), null,
             ButtonsMessages.CANCEL.getText(), null
     ),
 
     SET_DESCRIPTION("""
-            Now, write a description for a challenge\\. A clear, understandable message\\.
-            I would like to remind, that these challenges meant to be purely for better\\. Don't write anything, which will intentionally harm one's life, relations or other parts of one's life\\.
-            These challenges are meant for growth, and not destruction\\.
-            *Minimal length \\- 40 symbols\\.*""",
+            Now, write a description for a challenge. A clear, understandable message.
+            I would like to remind, that these challenges meant to be purely for better. Don't write anything, which will intentionally harm one's life, relations or other parts of one's life.
+            These challenges are meant for growth, and not destruction.
+            *Minimal length - 40 symbols.*""",
             ButtonsMessages.CANCEL.getText(), null),
 
     CONFIRM_SELECTION("""
-            So, this is your challenge\\.
+            So, this is your challenge.
             %9$s
             Is everything right?
             """,
