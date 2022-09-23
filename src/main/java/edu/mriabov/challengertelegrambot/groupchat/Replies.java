@@ -16,9 +16,10 @@ public enum Replies {
     Use it wisely.
     """),
 
-    NEED_MORE_COINS("You lack PLACEHOLDER coins. Coins required to do this action is PLACEHOLDER."),
+    NEED_MORE_COINS("You lack don't have enough coins! You current coin count is %6$d."),
 
     CONFIRM_CHALLENGE("""
+            So, this is your challenge:.,
             %10$s
             """),
 

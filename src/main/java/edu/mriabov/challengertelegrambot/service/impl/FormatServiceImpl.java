@@ -89,21 +89,21 @@ public class FormatServiceImpl implements FormatService {
         Challenge challenge = challengeCache.get(userID);
         if (challenge.getId() != 0 || challenge.getArea() == null || challenge.getUsers() == null ||
                 challenge.getDifficulty() == null) return null;
-        StringBuilder challengeInfo = new StringBuilder();
-        challengeInfo
-                .append("\uD83E\uDD3C\u200D♀️Group: ").append(challenge.getGroup() != null ? challenge.getGroup().getGroupName() : " for yourself.")
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+                .append("\uD83E\uDD3C\u200D♀️Group: <b>").append(challenge.getGroup() != null ? challenge.getGroup().getGroupName() : " for yourself.").append("</b>")
                 .append("\n\uD83C\uDFCB️\u200D♂️Users: ");
-        if (challenge.getUsers().size() > 4) challengeInfo.append(challenge.getUsers().size()).append(" users");
+        if (challenge.getUsers().size() > 4) stringBuilder.append(challenge.getUsers().size()).append(" users");
         else for (User user : challenge.getUsers())
-            challengeInfo.append(user.getFirstName()).append(" ")
-                    .append(user.getLastName() != null ? user.getLastName() : "");
-        challengeInfo
-                .append("\n\uD83C\uDF96Difficulty: ").append(challenge.getDifficulty().text)
-                .append("\n\uD83C\uDFF9Area: ").append(challenge.getArea().text)
-                .append("\n\n\uD83D\uDCDDChallenge description: ").append(challenge.getDescription())
-                .append("\n\n\uD83D\uDCB8It costs: ")
+            stringBuilder.append("<a href=\"tg://user?id=").append(user.getTelegramId()).append("\">").append(user.getFirstName())
+                    .append(user.getLastName() != null ? user.getLastName() : "").append("</a> ").append(", ");
+        stringBuilder
+                .append("\n\uD83C\uDF96<b>Difficulty: </b>").append(challenge.getDifficulty().text)
+                .append("\n\uD83C\uDFF9<b>Area: </b>").append(challenge.getArea().text)
+                .append("\n\n\uD83D\uDCDD<b>Challenge description: </b>").append(challenge.getDescription())
+                .append("\n\n\uD83D\uDCB8<b>It costs: </b>")
                 .append(!challenge.isFree() ? billingFormatter(userID, billingService.challengePrice(challenge)) : "FREE");
-        return challengeInfo.toString();
+        return stringBuilder.toString();
     }
 
     private String billingFormatter(long userID, int price) {
@@ -122,15 +122,15 @@ public class FormatServiceImpl implements FormatService {
     private String challengeInGroupConfirmation(long userID) {
         if (!challengeCache.contains(userID) || challengeCache.get(userID).getId() != 0) return null;
         Challenge challenge = challengeCache.get(userID);
-        return "\n\uD83C\uDFF9Area: " +
-                (challenge.getArea() != null ? challenge.getArea().text : "NO AREA FOUND!") +
-                "\n\uD83C\uDF96Difficulty: " +
+        return "\n\uD83C\uDFF9Area: <b>" +
+                (challenge.getArea() != null ? challenge.getArea().text : "NO AREA FOUND!") + "</b>" +
+                "\n\uD83C\uDF96Difficulty: <b>" +
                 (challenge.getDifficulty() != null ? challenge.getDifficulty().text : "NO DIFFICULTY FOUND!") +
-                "\nRecurring time: " + (challenge.getRecurringTime() != null ? challenge.getRecurringTime() : "Challenge is not recurring") +
-                "\n\n\uD83D\uDCDDChallenge description: " +
+                "\nRecurring time: <b>" + (challenge.getRecurringTime() != null ? challenge.getRecurringTime() : "Challenge is not recurring") + "</b>" +
+                "</b>\n\n\uD83D\uDCDDChallenge description: <b>" +
                 challenge.getDescription() +
-                "\n\n\uD83D\uDCB8It costs: " + (challenge.isFree() ? "The challenge is free as it is created by an admin." :
-                billingFormatter(challenge)) + "\n" +
+                "\n\n\uD83D\uDCB8It costs: <b>" + (challenge.isFree() ? "The challenge is free as it is created by an admin." :
+                billingFormatter(challenge)) + "</b>\n" +
                 (challenge.getDifficulty() != null && challenge.getDescription() != null && challenge.getArea() != null ?
                         "Press /confirm to bill coins and confirm the challenge" : "Challenge is incorrect!");
     }
@@ -140,7 +140,7 @@ public class FormatServiceImpl implements FormatService {
         if (challenges.size() == 0) {
             return """
                                         
-                    All your challenges are completed! Time to advance in fields, other then listed here.
+                    <b>All your challenges are completed!</b> Time to advance in fields, other then listed here.
                     Just don't stop!
                     """;
         }
@@ -149,11 +149,11 @@ public class FormatServiceImpl implements FormatService {
             stringBuilder
                     .append("\n\n")
                     .append(i + 1).append(". ")
-                    .append("\uD83C\uDFF9Area: ").append(challenges.get(i).getArea().text)
-                    .append("\n\uD83C\uDF96Difficulty: ").append(challenges.get(i).getDifficulty().text)
-                    .append("\n\uD83D\uDCDDChallenge description: ").append(challenges.get(i).getDescription())
-                    .append("\nExpires at: ").append(TelegramUtils.formatter.format(challenges.get(i).getExpiresAt())).append(". ")
-                    .append("\n").append(countTimeLeft(challenges.get(i).getExpiresAt()));
+                    .append("\uD83C\uDFF9<b>Area: </b>").append(challenges.get(i).getArea().text)
+                    .append("\n\uD83C\uDF96<b>Difficulty: </b>").append(challenges.get(i).getDifficulty().text)
+                    .append("\n\uD83D\uDCDD<b>Challenge description: </b>").append(challenges.get(i).getDescription())
+                    .append("\n<b>Expires at: </b>").append(TelegramUtils.formatter.format(challenges.get(i).getExpiresAt()))
+                    .append("\n<b>").append(countTimeLeft(challenges.get(i).getExpiresAt())).append("</b>");
         }
         return stringBuilder.toString();
     }
@@ -184,7 +184,7 @@ public class FormatServiceImpl implements FormatService {
         }
     }
 
-    private String listGoals(long userID){
+    private String listGoals(long userID) {
         Set<Challenge> goals = userService.findAllGoals(userID);
         StringBuilder stringBuilder = new StringBuilder();
         for (Challenge goal : goals) {
