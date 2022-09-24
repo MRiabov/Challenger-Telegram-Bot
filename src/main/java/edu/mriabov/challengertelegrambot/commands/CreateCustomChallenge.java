@@ -58,7 +58,10 @@ public class CreateCustomChallenge implements IBotCommand {
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setCreatedAt(LocalDateTime.now());
         challenge.setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
-        if (validatorService.isChallengeInvalid(challenge)) return;
+        if (validatorService.isChallengeInvalid(challenge)) {
+            senderService.replyToMessage(message,Replies.INVALID_CUSTOM_CHALLENGE.text);
+            return;
+        }
         challengeCache.put(message.getFrom().getId(), challenge);
         senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
         log.info("Custom challenge was successfully created with args " + message.getText());
