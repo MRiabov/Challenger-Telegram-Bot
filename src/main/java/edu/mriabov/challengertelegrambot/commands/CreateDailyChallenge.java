@@ -32,7 +32,8 @@ public class CreateDailyChallenge implements IBotCommand {
 
     private LocalTime getChallengeTime(String[] arguments) {
         for (String word : arguments) {
-            if (word.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) return LocalTime.of(Integer.parseInt(word.substring(0,2)),Integer.parseInt(word.substring(4,5)));
+            if (word.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]"))
+                return LocalTime.of(Integer.parseInt(word.substring(0, 2)), Integer.parseInt(word.substring(4, 5)));
         }
         return null;
     }
@@ -49,14 +50,15 @@ public class CreateDailyChallenge implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        if (validatorService.isUserChat(message)) return;
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
-        if (validatorService.isNotRegistered(message,userByTelegramId)) return;
+        if (validatorService.isNotRegistered(message, userByTelegramId) ||
+                validatorService.isUserChat(message)) return;
+        validatorService.linkChatsIfNotLinked(message.getFrom().getId(), message.getChatId());
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(userByTelegramId.get());
         challenge.setRecurringTime(getChallengeTime(arguments));
         challenge.setUsers(groupService.findAllUsers(message.getChatId()));
-        if (arguments.length < 3 || validatorService.isChallengeInvalid(challenge) || challenge.getRecurringTime()==null) {
+        if (arguments.length < 3 || validatorService.isChallengeInvalid(challenge) || challenge.getRecurringTime() == null) {
             senderService.replyToMessage(message, Replies.INVALID_DAILY_CHALLENGE.text);
             return;
         }

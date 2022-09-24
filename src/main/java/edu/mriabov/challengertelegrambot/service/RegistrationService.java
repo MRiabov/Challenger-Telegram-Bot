@@ -7,5 +7,6 @@ public interface RegistrationService {
 
     void registerUser(User telegramUser);
     void registerChat(Update update);
+    void linkUserToGroup(long userID, long groupID);
 
 }

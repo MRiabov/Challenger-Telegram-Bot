@@ -11,7 +11,7 @@ public interface ValidatorService {
     boolean isNotRegistered(long userID);
     boolean isNotRegistered(Message message, Optional<User> userOptional);
 
-    boolean isChatLinked(long userID);
+    void linkChatsIfNotLinked(long userID, long groupID);
 
     boolean isUserChat(Message message);
 
