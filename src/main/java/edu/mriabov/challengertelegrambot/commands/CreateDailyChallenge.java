@@ -51,8 +51,8 @@ public class CreateDailyChallenge implements IBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
-        if (validatorService.isNotRegistered(message, userByTelegramId) ||
-                validatorService.isUserChat(message)) return;
+        if (validatorService.isNotGroupChat(message) ||
+                validatorService.isNotRegistered(message, userByTelegramId)) return;
         validatorService.linkChatsIfNotLinked(message.getFrom().getId(), message.getChatId());
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(userByTelegramId.get());

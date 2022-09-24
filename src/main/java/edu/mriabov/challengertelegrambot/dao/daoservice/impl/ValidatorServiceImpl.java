@@ -10,12 +10,14 @@ import edu.mriabov.challengertelegrambot.service.ValidatorService;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
+@Component
 public class ValidatorServiceImpl implements ValidatorService {
 
     private final UserService userService;
@@ -42,20 +44,16 @@ public class ValidatorServiceImpl implements ValidatorService {
     }
 
     @Override
-    public boolean isUserChat(Message message) {
-        if (message.getChat().isGroupChat()) {
-            senderService.replyToMessage(message, Replies.WRONG_CHAT_TYPE.text);
-            return false;
-        }
+    public boolean isNotUserChat(Message message) {
+        if (message.getChat().isUserChat()) return false;
+        senderService.replyToMessage(message, Replies.WRONG_CHAT_TYPE.text);
         return true;
     }
 
     @Override
-    public boolean isGroupChat(Message message) {
-        if (message.getChat().isUserChat()) {
-            senderService.replyToMessage(message, Replies.WRONG_CHAT_TYPE.text);
-            return false;
-        }
+    public boolean isNotGroupChat(Message message) {
+        if (message.getChat().isGroupChat()) return false;
+        senderService.replyToMessage(message, Replies.WRONG_CHAT_TYPE.text);
         return true;
     }
 

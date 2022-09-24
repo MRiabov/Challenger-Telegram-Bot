@@ -7,6 +7,7 @@ import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.Buttons;
 import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
+import edu.mriabov.challengertelegrambot.service.ValidatorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
@@ -21,15 +22,17 @@ public class ConfirmChallengeCommand implements IBotCommand {
     private final ChallengeService challengeService;
     private final SenderService senderService;
     private final BillingService billingService;
+    private final ValidatorService validatorService;
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
+        if (validatorService.isNotGroupChat(message)) return;
         if (!challengeCache.contains(message.getFrom().getId())) {
             senderService.replyToMessage(message, Replies.NOTHING_TO_CONFIRM.text);
             return;
         }
         Challenge challenge = challengeCache.get(message.getFrom().getId());
-        if (challenge.getDifficulty() == null && challenge.getDescription() == null && challenge.getArea() == null) {
+        if (validatorService.isChallengeInvalid(challenge)) {
             senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
             return;
         }
@@ -42,6 +45,7 @@ public class ConfirmChallengeCommand implements IBotCommand {
         senderService.replyToMessage(message, Replies.CHALLENGE_CREATION_SUCCESSFUL.text);
         for (edu.mriabov.challengertelegrambot.dao.model.User challengeUser : challenge.getUsers()) {
             senderService.sendMessages(challengeUser.getTelegramId(), Buttons.ASSIGNED_NEW_CHALLENGE);
+            //maybe do a format here, idk.
         }
     }
 

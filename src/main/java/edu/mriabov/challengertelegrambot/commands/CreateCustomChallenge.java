@@ -47,9 +47,10 @@ public class CreateCustomChallenge implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
+        if (validatorService.isNotGroupChat(message)) return;
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
         if (validatorService.isNotRegistered(message, userByTelegramId)) return;
-        if (validatorService.isUserChat(message)) return;
+        validatorService.linkChatsIfNotLinked(message.getFrom().getId(),message.getChatId());
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(userByTelegramId.get());
         challenge.setUsers(getMentionedUsers(message, challenge));
