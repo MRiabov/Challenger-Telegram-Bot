@@ -1,6 +1,7 @@
 package edu.mriabov.challengertelegrambot.bot;
 
 import edu.mriabov.challengertelegrambot.config.BotConfig;
+import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.handler.impl.GroupMasterMessageHandler;
 import edu.mriabov.challengertelegrambot.handler.impl.PrivateMasterMessageHandlerImpl;
@@ -25,6 +26,7 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
     private final GroupMasterMessageHandler groupMasterMessageHandler;
     private final BotConfig config;
     private final RegistrationService registrationService;
+    private final UserService userService;
     private final List<IBotCommand> commandList;
 
     @Override
@@ -32,6 +34,8 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         for (IBotCommand botCommand : commandList) register(botCommand);
         super.onRegister();
     }
+
+
 
     @SneakyThrows
     @Override

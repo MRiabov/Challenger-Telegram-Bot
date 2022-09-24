@@ -190,12 +190,15 @@ public class FormatServiceImpl implements FormatService {
     private String listGoals(long userID) {
         Set<Challenge> goals = userService.findAllGoals(userID);
         StringBuilder stringBuilder = new StringBuilder();
-        for (Challenge goal : goals) {
-            stringBuilder
-                    .append('\n').append("\uD83C\uDFAF").append(goal.getDescription())
-                    .append('\n').append(countTimeLeft(goal.getExpiresAt()))
-                    .append('\n');
-        }
+        if (goals.size()>0) {
+            stringBuilder.append("<b>Your goals:</b>\n");
+            for (Challenge goal : goals) {
+                stringBuilder
+                        .append('\n').append("\uD83C\uDFAF").append(goal.getDescription())
+                        .append('\n').append(countTimeLeft(goal.getExpiresAt()))
+                        .append('\n');
+            }
+        } else stringBuilder.append("<b>Time to set some goals!</b> Don't wait until someone else does it for you.");
         return stringBuilder.toString();
     }
 }

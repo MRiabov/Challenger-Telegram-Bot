@@ -18,6 +18,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByTelegramId(long telegramId);
 
+    @Query("SELECT u FROM User u JOIN u.groups g WHERE g.telegramId=:groupID AND u.telegramId=:userID")
+    Optional<User> existsInChat(long userID, long groupID);
+
     Optional<User> getUserByTelegramId(long telegramId);
 
     Optional<User> getUserByUsername(String username);

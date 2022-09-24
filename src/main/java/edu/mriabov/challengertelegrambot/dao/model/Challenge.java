@@ -48,7 +48,7 @@ public class Challenge {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "challenge_user",
             joinColumns = @JoinColumn(name = "challenge_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))

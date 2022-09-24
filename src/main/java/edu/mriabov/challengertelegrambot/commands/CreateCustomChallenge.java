@@ -7,7 +7,9 @@ import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.service.SenderService;
+import edu.mriabov.challengertelegrambot.service.ValidatorService;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
@@ -24,19 +26,14 @@ import java.util.Set;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CreateCustomChallenge implements IBotCommand {
 
     private final SenderService senderService;
     private final UserService userService;
     private final GroupService groupService;
     private final ChallengeCache challengeCache;
-
-    public CreateCustomChallenge(SenderService senderService, UserService userService, GroupService groupService, ChallengeCache challengeCache) {
-        this.senderService = senderService;
-        this.userService = userService;
-        this.groupService = groupService;
-        this.challengeCache = challengeCache;
-    }
+    private final ValidatorService validatorService;
 
     @Override
     public String getCommandIdentifier() {
@@ -51,12 +48,8 @@ public class CreateCustomChallenge implements IBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
-        if (userByTelegramId.isEmpty()) senderService.replyToMessage(message,
-                String.format(Replies.USER_NOT_REGISTERED.text, TelegramUtils.linkBuilder(message.getChatId())));
-        if (message.getChat().isUserChat()) {
-            senderService.sendMessages(message.getChatId(), Replies.WRONG_CHAT_TYPE.text);
-            return;
-        }
+        if (validatorService.isRegistered(message, userByTelegramId)) return;
+        if (validatorService.isUserChat(message)) return;
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(userByTelegramId.get());
         challenge.setUsers(getMentionedUsers(message, challenge));
@@ -64,7 +57,7 @@ public class CreateCustomChallenge implements IBotCommand {
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setCreatedAt(LocalDateTime.now());
         challenge.setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
-        if (challenge.getDifficulty() != null && challenge.getUsers().size() != 0 && challenge.getArea() != null) {
+        if (validatorService.isChallengeValid(challenge)) {
             challengeCache.put(message.getFrom().getId(), challenge);
             senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
             log.info("Custom challenge was successfully created with args " + message.getText());

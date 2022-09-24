@@ -22,7 +22,7 @@ public class TelegramUtils {
 
     public static boolean checkForUnsupportedEmoji(String message) {
         String startOfMessage = message.substring(0, 3);
-        List<String> emojis = List.of("\uD83D\uDFE2", "🟣", "⃣");
+        List<String> emojis = List.of("\uD83D\uDFE2", "🟣", "⃣","\uD83E\uDEF6");
         for (String emoji : emojis) if (startOfMessage.contains(emoji)) return true;
         return false;
     }

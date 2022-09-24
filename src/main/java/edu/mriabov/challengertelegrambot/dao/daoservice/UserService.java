@@ -25,6 +25,8 @@ public interface UserService {
 
     boolean addChat(long userID, Group group);
 
+    boolean isInGroup(long userID, long groupID);
+
     void save(User user);
 
     void completeChallenge(long userID, Challenge challenge);
@@ -32,5 +34,6 @@ public interface UserService {
     boolean skipChallenge(long userID, Challenge challenge);
 
     Page<Challenge> findChallengesByTelegramID(long userID, Pageable pageable);
+
     Set<Challenge> findAllGoals(long userID);
 }

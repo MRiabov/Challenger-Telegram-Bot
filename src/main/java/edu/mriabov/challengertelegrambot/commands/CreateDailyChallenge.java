@@ -7,6 +7,7 @@ import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.service.SenderService;
+import edu.mriabov.challengertelegrambot.service.ValidatorService;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ public class CreateDailyChallenge implements IBotCommand {
     private final GroupService groupService;
     private final SenderService senderService;
     private final ChallengeCache challengeCache;
+    private final ValidatorService validatorService;
 
     private LocalTime getChallengeTime(String[] arguments) {
         for (String word : arguments) {
@@ -52,15 +54,12 @@ public class CreateDailyChallenge implements IBotCommand {
             return;
         }
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
-        if (userByTelegramId.isEmpty()) {
-            senderService.replyToMessage(message, Replies.USER_NOT_REGISTERED.text);
-            return;
-        }
+        validatorService.isRegistered(message,userByTelegramId);
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(userByTelegramId.get());
         challenge.setRecurringTime(getChallengeTime(arguments));
         challenge.setUsers(groupService.findAllUsers(message.getChatId()));
-        if (arguments.length < 3 || challenge.getDifficulty() == null || challenge.getArea() == null||challenge.getRecurringTime()==null) {
+        if (arguments.length < 3 || !validatorService.isChallengeValid(challenge) || challenge.getRecurringTime()==null) {
             senderService.replyToMessage(message, Replies.INVALID_DAILY_CHALLENGE.text);
             return;
         }

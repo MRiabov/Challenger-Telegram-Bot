@@ -72,6 +72,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isInGroup(long userID, long groupID) {
+        return userRepository.existsInChat(userID,groupID).isPresent();
+    }
+
+    @Override
     public void save(User user) {
         userRepository.save(user);
     }
@@ -105,11 +110,11 @@ public class UserServiceImpl implements UserService {
     public boolean skipChallenge(long userID, Challenge challenge) {
         User user;
         Optional<User> userOptional = userRepository.getUserByTelegramId(userID);
-        if (userOptional.isPresent()) user = userOptional.get();
-        else {
+        if (userOptional.isEmpty()) {
             log.error("Unregistered user " + userID + " attempted to skip a challenge");
             return false;
         }
+        user = userOptional.get();
         if (user.getCoins()<=challenge.getDifficulty().price) return false;
         user.setCoins(user.getCoins() - challenge.getDifficulty().price);//skipping = challenging someone else?...
         user.setChallenges(userRepository.getAllChallengesButOne(userID, challenge.getId()));

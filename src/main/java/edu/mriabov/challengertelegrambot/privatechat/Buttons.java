@@ -16,9 +16,7 @@ public enum Buttons {
                     💪 <b>Fitness:</b> %4$d
                     🧘 <b>Mindfulness:</b> %5$d
                     Your current coin count: %6$d💎
-                    Challenges to be completed:
 
-                    <b>Your goals:</b>
                     %14$s""",
             ButtonsMessages.MENU_MY_CHALLENGES.getText(), null,
             ButtonsMessages.MENU_CHALLENGE_YOUR_FRIENDS.getText(), null,
@@ -186,7 +184,7 @@ public enum Buttons {
     ON_START_NEW_USER_HELP_FIRST(
             """
                     <i>Men grow through challenge</i>. Trough the hardship, through the deserved wins, as much as through the heartbreaking losses.
-                    This bot was created as a response to unleash the untapped potential in men, who seek to best others in a race for success, love and status.
+                    This bot was created to unleash the untapped potential in men, who seek to best themselves in a race for success, love and status.
                     
                     <i>"Life is a choice. Make the right one."</i>
                     """,
