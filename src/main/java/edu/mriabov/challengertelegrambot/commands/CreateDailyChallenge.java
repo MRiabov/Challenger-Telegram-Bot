@@ -49,17 +49,14 @@ public class CreateDailyChallenge implements IBotCommand {
 
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        if (message.getChat().isUserChat()) {
-            senderService.replyToMessage(message, Replies.WRONG_CHAT_TYPE.text);
-            return;
-        }
+        if (validatorService.isUserChat(message)) return;
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
-        validatorService.isRegistered(message,userByTelegramId);
+        if (validatorService.isNotRegistered(message,userByTelegramId)) return;
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(userByTelegramId.get());
         challenge.setRecurringTime(getChallengeTime(arguments));
         challenge.setUsers(groupService.findAllUsers(message.getChatId()));
-        if (arguments.length < 3 || !validatorService.isChallengeValid(challenge) || challenge.getRecurringTime()==null) {
+        if (arguments.length < 3 || validatorService.isChallengeInvalid(challenge) || challenge.getRecurringTime()==null) {
             senderService.replyToMessage(message, Replies.INVALID_DAILY_CHALLENGE.text);
             return;
         }

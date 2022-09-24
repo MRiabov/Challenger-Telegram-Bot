@@ -5,8 +5,10 @@ import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.privatechat.Buttons;
+import edu.mriabov.challengertelegrambot.service.ValidatorService;
 import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,28 +20,18 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class StartCommand implements IBotCommand {
 
     private final UserService userService;
     private final GroupService groupService;
     private final RegistrationService registrationService;
-
-    public StartCommand(UserService userService, GroupService groupService, RegistrationService registrationService) {
-        this.userService = userService;
-        this.groupService = groupService;
-        this.registrationService = registrationService;
-    }
+    private final ValidatorService validatorService;
 
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        if (!message.getChat().getType().equals("private")) {
-            absSender.execute(SendMessage.builder()
-                    .chatId(message.getChat().getId())
-                    .text(Replies.WRONG_CHAT_TYPE.text)
-                    .build());
-            return;
-        }
+        if (validatorService.isGroupChat(message)) return;
         if (!userService.existsByTelegramId(message.getFrom().getId()))
             registrationService.registerUser(message.getFrom());
         absSender.execute(ButtonsMappingUtils.buildMessageWithKeyboard(message.getChatId(), Buttons.ON_START_NEW_USER));

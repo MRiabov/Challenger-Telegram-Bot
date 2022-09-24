@@ -20,17 +20,15 @@ public class ValidatorServiceImpl implements ValidatorService {
     private final SenderService senderService;
 
     @Override
-    public boolean isRegistered(long userID) {
-        return userService.getUserByTelegramId(userID).isPresent();
+    public boolean isNotRegistered(long userID) {
+        return userService.getUserByTelegramId(userID).isEmpty();
     }
 
     @Override
-    public boolean isRegistered(Message message,Optional<User> userOptional) {
-        if (userOptional.isEmpty()) {
-            senderService.replyToMessage(message, String.format(Replies.USER_NOT_REGISTERED.text,
-                    TelegramUtils.linkBuilder(message.getChatId())));
-            return false;
-        }
+    public boolean isNotRegistered(Message message, Optional<User> userOptional) {
+        if (userOptional.isPresent()) return false;
+        senderService.replyToMessage(message, String.format(Replies.USER_NOT_REGISTERED.text,
+                TelegramUtils.linkBuilder(message.getChatId())));
         return true;
     }
 
@@ -50,11 +48,15 @@ public class ValidatorServiceImpl implements ValidatorService {
 
     @Override
     public boolean isGroupChat(Message message) {
-        return false;
+        if (message.getChat().isUserChat()) {
+            senderService.replyToMessage(message, Replies.WRONG_CHAT_TYPE.text);
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public boolean isChallengeValid(Challenge challenge) {
-        return challenge.getDifficulty() != null || challenge.getUsers().size() != 0 || challenge.getArea() != null;
+    public boolean isChallengeInvalid(Challenge challenge) {
+        return challenge.getDifficulty() == null && challenge.getUsers().size() == 0 && challenge.getArea() == null;
     }
 }

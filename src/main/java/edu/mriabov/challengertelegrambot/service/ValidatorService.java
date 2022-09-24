@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface ValidatorService {
 
-    boolean isRegistered(long userID);
-    boolean isRegistered(Message message,Optional<User> userOptional);
+    boolean isNotRegistered(long userID);
+    boolean isNotRegistered(Message message, Optional<User> userOptional);
 
     boolean isChatLinked(long userID);
 
@@ -17,6 +17,6 @@ public interface ValidatorService {
 
     boolean isGroupChat(Message message);
 
-    boolean isChallengeValid(Challenge challenge);
+    boolean isChallengeInvalid(Challenge challenge);
 
 }

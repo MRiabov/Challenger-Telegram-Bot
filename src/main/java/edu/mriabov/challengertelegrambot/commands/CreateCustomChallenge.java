@@ -48,7 +48,7 @@ public class CreateCustomChallenge implements IBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
-        if (validatorService.isRegistered(message, userByTelegramId)) return;
+        if (validatorService.isNotRegistered(message, userByTelegramId)) return;
         if (validatorService.isUserChat(message)) return;
         Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
         challenge.setCreatedBy(userByTelegramId.get());
@@ -57,13 +57,10 @@ public class CreateCustomChallenge implements IBotCommand {
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setCreatedAt(LocalDateTime.now());
         challenge.setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
-        if (validatorService.isChallengeValid(challenge)) {
-            challengeCache.put(message.getFrom().getId(), challenge);
-            senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
-            log.info("Custom challenge was successfully created with args " + message.getText());
-        } else {
-            senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
-        }
+        if (validatorService.isChallengeInvalid(challenge)) return;
+        challengeCache.put(message.getFrom().getId(), challenge);
+        senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
+        log.info("Custom challenge was successfully created with args " + message.getText());
     }
 
     private int getOffset(Message message) {
