@@ -82,6 +82,7 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
     @SneakyThrows
     @Override
     public void replyToMessage(Message msgToReply, String message) {
+        log.info("SenderService attempted to reply to a message: \"" + msgToReply.getText() + "\" with text: " + message);
         message = formatService.format(msgToReply.getFrom().getId(), message);//this one
         execute(SendMessage.builder()
                 .replyToMessageId(msgToReply.getMessageId())

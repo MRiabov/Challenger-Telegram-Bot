@@ -97,8 +97,8 @@ public enum Buttons {
     SET_DESCRIPTION("""
             Now, write a description for a challenge. A clear, understandable outline of actions.
             I would like to remind, that these challenges meant to be purely for better. Don't write anything, which will intentionally harm one's life, relations or other parts of one's life.
-            These challenges are meant for growth, and not destruction.
-            *Minimal length - 40 symbols.*""",
+            These challenges are meant for <b>growth</b>, and not <i>destruction</i>.
+            <i>Minimal length - 40 symbols.</i>""",
             ButtonsMessages.CANCEL.getText(), null),
 
     CONFIRM_SELECTION("""

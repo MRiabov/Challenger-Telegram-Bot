@@ -19,7 +19,7 @@ public enum Replies {
     NEED_MORE_COINS("You lack don't have enough coins! You current coin count is %6$d."),
 
     CONFIRM_CHALLENGE("""
-            So, this is your challenge:.,
+            So, this is your challenge:
             %10$s
             """),
 

@@ -91,12 +91,12 @@ public class FormatServiceImpl implements FormatService {
                 challenge.getDifficulty() == null) return null;
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
-                .append("\uD83E\uDD3C\u200D♀️Group: <b>").append(challenge.getGroup() != null ? challenge.getGroup().getGroupName() : " for yourself.").append("</b>")
-                .append("\n\uD83C\uDFCB️\u200D♂️Users: ");
+                .append("\uD83E\uDD3C\u200D♀️<b>Group:</b> ").append(challenge.getGroup() != null ? challenge.getGroup().getGroupName() : "FOR YOURSELF")
+                .append("\n\uD83C\uDFCB️\u200D♂️<b>Users: </b>");
         if (challenge.getUsers().size() > 4) stringBuilder.append(challenge.getUsers().size()).append(" users");
         else for (User user : challenge.getUsers())
-            stringBuilder.append("<a href=\"tg://user?id=").append(user.getTelegramId()).append("\">").append(user.getFirstName())
-                    .append(user.getLastName() != null ? user.getLastName() : "").append("</a> ").append(", ");
+            stringBuilder.append("<a href=\"tg://user?id=").append(user.getTelegramId()).append("\">").append(user.getFirstName()).append(" ")
+                    .append(user.getLastName() != null ? user.getLastName() : "").append("</a>, ");
         stringBuilder
                 .append("\n\uD83C\uDF96<b>Difficulty: </b>").append(challenge.getDifficulty().text)
                 .append("\n\uD83C\uDFF9<b>Area: </b>").append(challenge.getArea().text)
@@ -122,15 +122,15 @@ public class FormatServiceImpl implements FormatService {
     private String challengeInGroupConfirmation(long userID) {
         if (!challengeCache.contains(userID) || challengeCache.get(userID).getId() != 0) return null;
         Challenge challenge = challengeCache.get(userID);
-        return "\n\uD83C\uDFF9Area: <b>" +
-                (challenge.getArea() != null ? challenge.getArea().text : "NO AREA FOUND!") + "</b>" +
-                "\n\uD83C\uDF96Difficulty: <b>" +
+        return "\n\uD83C\uDFF9<b>Area: </b>" +
+                (challenge.getArea() != null ? challenge.getArea().text : "NO AREA FOUND!") +
+                "\n\uD83C\uDF96<b>Difficulty: </b>" +
                 (challenge.getDifficulty() != null ? challenge.getDifficulty().text : "NO DIFFICULTY FOUND!") +
-                "\nRecurring time: <b>" + (challenge.getRecurringTime() != null ? challenge.getRecurringTime() : "Challenge is not recurring") + "</b>" +
-                "</b>\n\n\uD83D\uDCDDChallenge description: <b>" +
+                "\n⏰<b>Recurring time: </b>" + (challenge.getRecurringTime() != null ? challenge.getRecurringTime() : "Challenge is not recurring") +
+                "\n\n\uD83D\uDCDD<b>Challenge description: </b>" +
                 challenge.getDescription() +
-                "\n\n\uD83D\uDCB8It costs: <b>" + (challenge.isFree() ? "The challenge is free as it is created by an admin." :
-                billingFormatter(challenge)) + "</b>\n" +
+                "\n\n\uD83D\uDCB8<b>It costs: </b>" + (challenge.isFree() ? "The challenge is free as it is created by an admin." :
+                billingFormatter(challenge)) + "\n" +
                 (challenge.getDifficulty() != null && challenge.getDescription() != null && challenge.getArea() != null ?
                         "Press /confirm to bill coins and confirm the challenge" : "Challenge is incorrect!");
     }
