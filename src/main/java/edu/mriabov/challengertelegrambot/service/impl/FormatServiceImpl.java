@@ -8,11 +8,11 @@ import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
-import edu.mriabov.challengertelegrambot.privatechat.Buttons;
 import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.FormatService;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FormatServiceImpl implements FormatService {
     private final ChatPageCache chatPageCache;
     private final UserPageCache userPageCache;
@@ -35,7 +36,9 @@ public class FormatServiceImpl implements FormatService {
     @Override
     public String format(long userID, String input) {
         Optional<User> userOptional = userService.getUserByTelegramId(userID);
-        if (userOptional.isEmpty()) return Buttons.USER_NOT_FOUND.getMessage();
+        if (userOptional.isEmpty()) {
+            return input;
+        }
         User user = userOptional.get();
         UserStats userStats = user.getUserStats();
         return String.format(input,

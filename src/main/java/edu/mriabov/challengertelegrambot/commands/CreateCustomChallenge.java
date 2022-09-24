@@ -8,6 +8,7 @@ import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
@@ -22,6 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class CreateCustomChallenge implements IBotCommand {
 
     private final SenderService senderService;
@@ -65,6 +67,7 @@ public class CreateCustomChallenge implements IBotCommand {
         if (challenge.getDifficulty() != null && challenge.getUsers().size() != 0 && challenge.getArea() != null) {
             challengeCache.put(message.getFrom().getId(), challenge);
             senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
+            log.info("Custom challenge was successfully created with args " + message.getText());
         } else {
             senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
         }

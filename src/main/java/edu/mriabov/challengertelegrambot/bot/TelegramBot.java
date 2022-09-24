@@ -33,15 +33,10 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         super.onRegister();
     }
 
-    @Override
-    public void onUpdatesReceived(List<Update> updates) {
-        super.onUpdatesReceived(updates);
-    }
-
     @SneakyThrows
     @Override
     public void processNonCommandUpdate(Update update) {
-        if (update.getMessage()!=null) {
+        if (update.getMessage() != null) {
             if (update.getMessage().hasText() && update.getMessage().isUserMessage()) {
                 log.info("Received an update with text " + update.getMessage().getText() + " in a private chat from " + update.getMessage().getChatId());
                 privateMasterMessageHandler.handleMessages(update);
@@ -54,10 +49,10 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
                 log.info("Finished processing a non-command message from a group " + update.getMessage().getChat().getTitle());
                 return;
             }
-            log.error("onUpdateReceived couldn't find a method to handle a message "+update.getMessage().toString());
+            log.error("onUpdateReceived couldn't find a method to handle a message " + update.getMessage().toString());
         }
-        if (update.hasMyChatMember()){
-            log.info("The bot was added to a chat. The chat is "+update.getMyChatMember().getChat().getTitle());
+        if (update.hasMyChatMember()) {
+            log.info("The bot was added to a chat. The chat is " + update.getMyChatMember().getChat().getTitle());
             registrationService.registerChat(update);
             execute(SendMessage.builder()
                     .text(Replies.ADDED_TO_CHAT.text)
@@ -66,6 +61,7 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
             return;
         }
     }
+
     @Override
     public String getBotUsername() {
         return config.getBotName();
