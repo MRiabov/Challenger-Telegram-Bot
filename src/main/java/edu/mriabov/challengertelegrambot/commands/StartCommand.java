@@ -31,7 +31,7 @@ public class StartCommand implements IBotCommand {
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        if (validatorService.isGroupChat(message)) return;
+        if (validatorService.isNotUserChat(message)) return;
         if (!userService.existsByTelegramId(message.getFrom().getId())) registrationService.registerUser(message.getFrom());
         absSender.execute(ButtonsMappingUtils.buildMessageWithKeyboard(message.getChatId(), Buttons.ON_START_NEW_USER));
         //if this is a deep linking request, add the chat from the deep linking request.

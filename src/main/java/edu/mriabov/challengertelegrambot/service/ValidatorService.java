@@ -13,9 +13,9 @@ public interface ValidatorService {
 
     void linkChatsIfNotLinked(long userID, long groupID);
 
-    boolean isUserChat(Message message);
+    boolean isNotUserChat(Message message);
 
-    boolean isGroupChat(Message message);
+    boolean isNotGroupChat(Message message);
 
     boolean isChallengeInvalid(Challenge challenge);
 
