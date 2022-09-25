@@ -38,13 +38,6 @@ So, as an aspiring programmer, I decided that it will be a great resume project,
 - Guava, Google's Java util library. Used for caching.
 
 # Images and rundown of bot's functions.
-You can, for example, set a goal for yourself.
-
-![image](https://user-images.githubusercontent.com/108194191/192134669-7624c61f-1c9f-416b-a1c4-ad16b18e239d.png)
-
-It will prompt how many weeks until the goal expires.
-
-![image](https://user-images.githubusercontent.com/108194191/192134754-ae81acfa-4dbb-45e6-8d2c-aa1e503bfd75.png)
 
 ## Challenge your friends
 
@@ -69,3 +62,75 @@ Let's confirm it!
 ![image](https://user-images.githubusercontent.com/108194191/192135826-0f176a76-2e39-4f82-bd3a-8b807364812d.png)
 
 Oops, there wasn't enough coins. Well, time to grind them!
+
+## Completing challenges
+
+![image](https://user-images.githubusercontent.com/108194191/192139252-9764b311-5447-4f64-99ec-1c8a6b640e3a.png)
+
+This whole thing that you see: the numpad, it is created using DynamicButtonsService and handled by NumpadHandler class. Well, if you ever get lost, where they are created.
+
+## Set a goal
+
+You can set a goal, just like you would create a normal challenge
+
+![image](https://user-images.githubusercontent.com/108194191/192134669-7624c61f-1c9f-416b-a1c4-ad16b18e239d.png)
+
+It will prompt how many weeks until the goal expires.
+
+![image](https://user-images.githubusercontent.com/108194191/192134754-ae81acfa-4dbb-45e6-8d2c-aa1e503bfd75.png)
+
+And, look! As it is a goal, it was listed on the homepage!
+
+![image](https://user-images.githubusercontent.com/108194191/192139563-51f84f4f-c08f-4036-8b0b-b6c94bbec6ff.png)
+
+# Creating challenges in the chat
+## Custom challenges
+
+You can also create challenges by utilizing the power of commands. It's much faster, actually, once you get a hang of it.
+
+![image](https://user-images.githubusercontent.com/108194191/192139806-4a20777a-6982-4f55-83e0-61a6f1b18a35.png)
+
+To prevent errors, I've implemented a /confirm command, so noone has accidents. On /confirm, the challenge is saved and coins are billed.
+
+![image](https://user-images.githubusercontent.com/108194191/192139992-d6906e04-a0be-44fd-9752-3090e09525fd.png)
+
+## Global challenges
+
+Same as custom, but only admins have an access to this type of command, because it sets the challenge for the entire group. For free.
+
+![image](https://user-images.githubusercontent.com/108194191/192140124-05c48483-083e-4b38-ba31-cce08f8a5a91.png)
+
+As you see, the there are all the *registered* users in a chat.
+
+## Daily challenges
+
+Same as Global, but with a cool new feature: it is recurring!
+
+![image](https://user-images.githubusercontent.com/108194191/192141556-597ad1b2-f554-4731-a915-2731c9c17a60.png)
+
+You might notice "⏰Recurring time: 14:00". Now, at 14:00 this challenge will be recurring. Cool, right?
+
+#### There are still LOT of features in the bot, like skipping a challenge (for coins, that is), buying rest, for a specified number of time, which I need, but it showcasing them would take a looong time. The only thing you need is my code, after all ;)
+
+** *Thank you for looking through this readme* ** 
+
+![image](https://mir-s3-cdn-cf.behance.net/project_modules/disp/ce7dc693658133.5e98adbf743e2.gif)
+
+
+          ,-""-.  .-""-.
+         /   -. \/   -. \
+        (                )
+         \              /
+          \            /
+           `.        ,'
+             `.    ,' 
+               `.,'
+     ,-"-,-"-.
+    (         )
+     ".     ."
+       "._." 
+                 _  _
+                ( `' )
+                 `.,'
+ ,-.-.
+ `. ,'
