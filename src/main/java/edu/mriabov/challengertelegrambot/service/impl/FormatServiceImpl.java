@@ -65,7 +65,7 @@ public class FormatServiceImpl implements FormatService {
         if (page.isEmpty())
             return "Hey, it seems, that your chat list is empty. How about finding some community to join?";
         for (int i = 0; i < page.getNumberOfElements(); i++) {
-            result.append(i + 1).append("️⃣ ").append(page.getContent().get(i).getGroupName());
+            result.append(i + 1).append("️⃣ ").append(page.getContent().get(i).getGroupName()).append("\n");
         }
         return result.toString();
     }
@@ -94,7 +94,7 @@ public class FormatServiceImpl implements FormatService {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
                 .append("\uD83E\uDD3C\u200D♀️<b>Group:</b> ").append(challenge.getGroup() != null ? challenge.getGroup().getGroupName() : "FOR YOURSELF")
-                .append("\uD83D\uDC68\u200D\uD83D\uDCBB<b>Users: </b>");
+                .append("\n\uD83D\uDC68\u200D\uD83D\uDCBB<b>Users: </b>");
         listUsers(challenge, stringBuilder);
         stringBuilder
                 .append("\n\uD83C\uDF96<b>Difficulty: </b>").append(challenge.getDifficulty().text)

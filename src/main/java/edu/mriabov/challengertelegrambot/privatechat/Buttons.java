@@ -66,7 +66,7 @@ public enum Buttons {
     USER_SELECTION("""
             Input the ID or of the Gigachad you would like to challenge
             %8$s
-            <u>Alternatively, you can still send his @<u>""", Appendix.USER_APPENDIX.getText()),
+            <u>Alternatively, you can still send his @</u>""", Appendix.USER_APPENDIX.getText()),
 
     OTHER_USER_NOT_FOUND("""
             Username not found in your groups.
@@ -76,9 +76,9 @@ public enum Buttons {
     DIFFICULTY_SELECTION("""
             Select a difficulty.
             Difficulty can be of 3 types:
-            1. Easy - <5 minutes. A short, simple task, like doing 10 pushups or calling your family. Probably routine.
-            2. Medium - <20 minutes. Longer, perhaps more difficult task. Meditation, talking to that one girl, etc.
-            3. Difficult - <60 minutes. Reading a good book, learning a language, going to the gym.
+            1. Easy - &lt;5 minutes. A short, simple task, like doing 10 pushups or calling your family. Probably routine.
+            2. Medium - &lt;0 minutes. Longer, perhaps more difficult task. Meditation, talking to that one girl, etc.
+            3. Difficult - &lt;60 minutes. Reading a good book, learning a language, going to the gym.
             4. Goal - set a very exact goal: gain +3kg in muscle growth, learn a skill, outline a business idea in detail.\s""",
 
             ButtonsMessages.EASY_DIFFICULTY.getText(), ButtonsMessages.MEDIUM_DIFFICULTY.getText(), null,

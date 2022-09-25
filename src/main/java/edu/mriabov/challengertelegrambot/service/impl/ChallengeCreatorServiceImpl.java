@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dao.daoservice.impl;
+package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.cache.ChatPageCache;

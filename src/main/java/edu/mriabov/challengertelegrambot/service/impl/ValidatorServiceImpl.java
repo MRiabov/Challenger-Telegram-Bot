@@ -1,4 +1,4 @@
-package edu.mriabov.challengertelegrambot.dao.daoservice.impl;
+package edu.mriabov.challengertelegrambot.service.impl;
 
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
@@ -52,7 +52,7 @@ public class ValidatorServiceImpl implements ValidatorService {
 
     @Override
     public boolean isNotGroupChat(Message message) {
-        if (message.getChat().isGroupChat()) return false;
+        if (message.getChat().isGroupChat()||message.getChat().isSuperGroupChat()) return false;
         senderService.replyToMessage(message, Replies.WRONG_CHAT_TYPE.text);
         return true;
     }
