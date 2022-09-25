@@ -6,6 +6,7 @@ import edu.mriabov.challengertelegrambot.dao.repository.ChallengeRepository;
 import edu.mriabov.challengertelegrambot.privatechat.Buttons;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,10 +14,12 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @EnableScheduling
 @RequiredArgsConstructor
+@Slf4j
 public class TaskExpirer {
 
     private final ChallengeRepository challengeRepository;
@@ -25,7 +28,9 @@ public class TaskExpirer {
     @Async
     @Scheduled(fixedRate = 60000)
     public void checkForExpiration() {
-        for (Challenge challenge : challengeRepository.findByExpiresAtBetween(LocalDateTime.now(), LocalDateTime.now().plusSeconds(60))) {
+        Set<Challenge> expiredChallenges = challengeRepository.findByExpiresAtBetween(LocalDateTime.now(), LocalDateTime.now().plusSeconds(60));
+        int totalUsersCount = 0;
+        for (Challenge challenge : expiredChallenges) {
             List<User> users = challengeRepository.findUsersById(challenge.getId());
             for (User user : users) {
                 senderService.sendMessages(user.getTelegramId(), Buttons.FAILED_CHALLENGE);
@@ -33,7 +38,10 @@ public class TaskExpirer {
             if (users.size() > 0)
                 senderService.sendMessages(challenge.getGroup().getTelegramId(), failedUsers(users));
             challengeRepository.deleteById(challenge.getId());
+            totalUsersCount+= users.size();
         }
+        log.info("Scanned for expired challenges. Found " + expiredChallenges.size() + " challenges " +
+                "with "+totalUsersCount+" users who failed a challenge.");
     }
 
     private String failedUsers(List<User> users) {

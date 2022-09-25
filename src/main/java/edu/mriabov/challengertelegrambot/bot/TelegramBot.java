@@ -1,9 +1,7 @@
 package edu.mriabov.challengertelegrambot.bot;
 
 import edu.mriabov.challengertelegrambot.config.BotConfig;
-import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
-import edu.mriabov.challengertelegrambot.handler.impl.GroupMasterMessageHandler;
 import edu.mriabov.challengertelegrambot.handler.impl.PrivateMasterMessageHandlerImpl;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +21,8 @@ import java.util.List;
 public class TelegramBot extends TelegramLongPollingCommandBot {
 
     private final PrivateMasterMessageHandlerImpl privateMasterMessageHandler;
-    private final GroupMasterMessageHandler groupMasterMessageHandler;
     private final BotConfig config;
     private final RegistrationService registrationService;
-    private final UserService userService;
     private final List<IBotCommand> commandList;
 
     @Override
@@ -34,8 +30,6 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         for (IBotCommand botCommand : commandList) register(botCommand);
         super.onRegister();
     }
-
-
 
     @SneakyThrows
     @Override
@@ -45,12 +39,6 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
                 log.info("Received an update with text " + update.getMessage().getText() + " in a private chat from " + update.getMessage().getChatId());
                 privateMasterMessageHandler.handleMessages(update);
                 log.info("Finished processing an update with text from a private chat " + update.getMessage().getChatId());
-                return;
-            }
-            if (update.getMessage().hasText() && update.getMessage().isGroupMessage()) {
-                log.info("Received an update with text " + update.getMessage().getText() + " in a groups " + update.getMessage().getChat().getTitle());
-                groupMasterMessageHandler.handleMessages(update);
-                log.info("Finished processing a non-command message from a group " + update.getMessage().getChat().getTitle());
                 return;
             }
             log.error("onUpdateReceived couldn't find a method to handle a message " + update.getMessage().toString());

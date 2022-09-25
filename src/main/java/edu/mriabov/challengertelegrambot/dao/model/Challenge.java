@@ -4,6 +4,7 @@ import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "challenge")
+@ToString
 public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,5 +66,4 @@ public class Challenge {
     @NotNull
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
-
 }

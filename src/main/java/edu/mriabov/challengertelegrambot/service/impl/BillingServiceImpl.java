@@ -1,16 +1,18 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
+import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.service.BillingService;
-import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BillingServiceImpl implements BillingService {
@@ -40,6 +42,7 @@ public class BillingServiceImpl implements BillingService {
         User user = userOptional.get();
         user.setCoins(user.getCoins() - price);
         userService.save(user);
+        log.info("Billed " + price + "coins from user" + user.getFirstName() + " " + user.getLastName());
         return true;
     }
 

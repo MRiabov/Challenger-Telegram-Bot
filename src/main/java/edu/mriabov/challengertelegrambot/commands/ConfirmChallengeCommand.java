@@ -9,6 +9,7 @@ import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.ValidatorService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -16,6 +17,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ConfirmChallengeCommand implements IBotCommand {
 
     private final ChallengeCache challengeCache;
@@ -45,8 +47,8 @@ public class ConfirmChallengeCommand implements IBotCommand {
         senderService.replyToMessage(message, Replies.CHALLENGE_CREATION_SUCCESSFUL.text);
         for (edu.mriabov.challengertelegrambot.dao.model.User challengeUser : challenge.getUsers()) {
             senderService.sendMessages(challengeUser.getTelegramId(), Buttons.ASSIGNED_NEW_CHALLENGE);
-            //maybe do a format here, idk.
         }
+        log.info("Successfully confirmed a challenge from user " + message.getFrom().getFirstName() + " " + message.getFrom().getLastName() + challenge);
     }
 
     @Override
