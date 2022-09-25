@@ -8,13 +8,14 @@ In a private chat, where most action happens, users interact with bot using such
 ![image](https://user-images.githubusercontent.com/108194191/192120732-9d2d0b70-8bd0-45cc-b9e7-22e557268d2a.png)
 
 Buttons on press send a message of according content. This enables to have a nice GUI.
+If you are a code reviewer, this stands as Telegrams's ReplyKeyboardMarkup class.
 If you'd like to know more about telegram bots and it's enourmous potential, [Telegram has a great explanation for it.](https://core.telegram.org/bots "Telegram has a great explanation for it.")
 
 ## Why this project?
-Me and my friends are on a path of self-improvement. So, to make things more competitive, we decided to challenge one another with sports, reading, meditation, etc.
+Me and my friends are on a path of self-improvement. So, to make things more competitive, we decided to challenge one another with sports, reading, meditation, and relationships. We had a number challenges every day, which were: workout every day, meditation, [gratification journaling](https://blog.mindvalley.com/gratitude-journal/), and committing to code every day. We have been working like that for months.
 And so, we saw that it was difficult to track our challenges. Were they completed? Were they completed in time? Did the person even noticed that they were challenged?
 
-So, as I am an aspiring programmer, i decided that it will be a great resume project, as well as a potential business idea.
+So, as an aspiring programmer, I decided that it will be a great resume project, as well as a potential business idea.
 
 # Stack
 
@@ -34,4 +35,4 @@ So, as I am an aspiring programmer, i decided that it will be a great resume pro
 - Originally hosted on **AWS RDS**, scrapped for faster load times.
 - [rubenlagus/TelegramBots](https://github.com/rubenlagus/TelegramBots), the library, on which the whole project is based.
 - Docker, *not created by me*
-- Guava, google's Java util library. Used for caching.
+- Guava, Google's Java util library. Used for caching.
