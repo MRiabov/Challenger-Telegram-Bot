@@ -132,5 +132,3 @@ You might notice "⏰Recurring time: 14:00". Now, at 14:00 this challenge will b
                  _  _
                 ( `' )
                  `.,'
- ,-.-.
- `. ,'
