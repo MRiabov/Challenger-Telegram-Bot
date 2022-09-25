@@ -36,3 +36,36 @@ So, as an aspiring programmer, I decided that it will be a great resume project,
 - [rubenlagus/TelegramBots](https://github.com/rubenlagus/TelegramBots), the library, on which the whole project is based.
 - Docker, *not created by me*
 - Guava, Google's Java util library. Used for caching.
+
+# Images and rundown of bot's functions.
+You can, for example, set a goal for yourself.
+
+![image](https://user-images.githubusercontent.com/108194191/192134669-7624c61f-1c9f-416b-a1c4-ad16b18e239d.png)
+
+It will prompt how many weeks until the goal expires.
+
+![image](https://user-images.githubusercontent.com/108194191/192134754-ae81acfa-4dbb-45e6-8d2c-aa1e503bfd75.png)
+
+## Challenge your friends
+
+It will show your chats, you can select from them.
+
+![image](https://user-images.githubusercontent.com/108194191/192134975-f5d0cff3-ad08-46bc-87cc-347a5e321c31.png)
+
+It will show users in your chat.
+
+![image](https://user-images.githubusercontent.com/108194191/192135207-51d9e191-e9ea-4b74-9d99-469212b1c0bc.png)
+
+Choosing a user you would like to challenge will show a difficulty selection page.
+
+![image](https://user-images.githubusercontent.com/108194191/192135499-cbf010a3-0497-4aae-a1e6-75f602678dee.png)
+
+So we select Area the same way, and now we get to the overview of the challenge itself. 
+
+![image](https://user-images.githubusercontent.com/108194191/192135801-a1ffe31f-96aa-4037-8fa2-48621b030643.png)
+
+Let's confirm it! 
+
+![image](https://user-images.githubusercontent.com/108194191/192135826-0f176a76-2e39-4f82-bd3a-8b807364812d.png)
+
+Oops, there wasn't enough coins. Well, time to grind them!
