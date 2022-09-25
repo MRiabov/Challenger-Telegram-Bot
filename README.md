@@ -115,20 +115,3 @@ You might notice "⏰Recurring time: 14:00". Now, at 14:00 this challenge will b
 ** *Thank you for looking through this readme* ** 
 
 ![image](https://mir-s3-cdn-cf.behance.net/project_modules/disp/ce7dc693658133.5e98adbf743e2.gif)
-
-
-          ,-""-.  .-""-.
-         /   -. \/   -. \
-        (                )
-         \              /
-          \            /
-           `.        ,'
-             `.    ,' 
-               `.,'
-     ,-"-,-"-.
-    (         )
-     ".     ."
-       "._." 
-                 _  _
-                ( `' )
-                 `.,'
