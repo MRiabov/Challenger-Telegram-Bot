@@ -199,7 +199,7 @@ public class FormatServiceImpl implements FormatService {
             return untilHours + " hour" + (untilHours > 1 ? "s" : "") + " left";
         } else {
             long until = LocalDateTime.now().until(expiresAt, ChronoUnit.DAYS);
-            return until + " day" + (until > 1 ? "s" : "") + "left";
+            return until + " day" + (until > 1 ? "s" : "") + " left";
         }
     }
 
