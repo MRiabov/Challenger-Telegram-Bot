@@ -134,7 +134,7 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         challenge.setExpiresAt(LocalDateTime.now().plusWeeks(lengthInWeeks));
         challenge.setFree(true);
         challenge.setDifficulty(Difficulty.GOAL);
-        challengeCache.put(userID,challenge);
+        challengeCache.put(userID, challenge);
     }
 
     @Override

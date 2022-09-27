@@ -9,9 +9,11 @@ import edu.mriabov.challengertelegrambot.service.SenderService;
 import edu.mriabov.challengertelegrambot.service.ValidatorService;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.util.Optional;
 
@@ -60,5 +62,12 @@ public class ValidatorServiceImpl implements ValidatorService {
     @Override
     public boolean isChallengeInvalid(Challenge challenge) {
         return challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null;
+    }
+
+    @SneakyThrows
+    @Override
+    public boolean isNotAdmin(Message message, AbsSender absSender) {
+        if (isNotGroupChat(message)) return true;
+        return !TelegramUtils.isUserAdmin(absSender,message);
     }
 }

@@ -14,7 +14,6 @@ import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 @Service
 @Slf4j
@@ -38,19 +37,6 @@ public class SenderServiceImpl extends DefaultAbsSender implements SenderService
         message = formatService.format(userID, message);
         log.info("SenderService attempted to send a message: " + message);
         execute(new SendMessage(Long.toString(userID), message));
-    }
-
-    @SneakyThrows
-    @Override
-    public void sendMessages(long chatID, String message, ReplyKeyboardMarkup markup) {
-        message = formatService.format(chatID, message);
-        log.info("SenderService attempted to send a message with markup: " + message);
-        execute(SendMessage.builder()
-                .text(message)
-                .chatId(chatID)
-                .replyMarkup(markup)
-//                .parseMode("HTML")
-                .build());
     }
 
     @SneakyThrows

@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -23,15 +21,6 @@ public class BillingServiceImpl implements BillingService {
         Optional<User> user = userService.getUserByTelegramId(userID);
         if (user.isEmpty()) return false;
         return user.get().getCoins() > price;
-    }
-
-    @Override
-    public List<Boolean> isEnoughCoins(long userID, int[] prices) {
-        List<Boolean> result = new ArrayList<>();
-        Optional<User> user = userService.getUserByTelegramId(userID);
-        for (int price : prices)
-            user.ifPresentOrElse(value -> result.add(value.getCoins() > price), () -> result.add(false));
-        return result;
     }
 
     @Override

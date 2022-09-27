@@ -21,18 +21,22 @@ public class DynamicButtonServiceImpl implements DynamicButtonsService {
 
     @Override
     public ReplyKeyboardMarkup createMarkup(long chatID, Appendix appendix) {
-        log.info("Dynamic ReplyKeyboardMarkup is created with appendix \""+appendix.getText()+'"');
+        log.info("Dynamic ReplyKeyboardMarkup is created with appendix \"" + appendix.getText() + '"');
         return switch (appendix) {
-            case USER_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.USER_APPENDIX.getText(), userPageCache.getPageAmount(chatID));
-            case CHAT_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.CHAT_APPENDIX.getText(), chatPageCache.getPageAmount(chatID));
-            case CHALLENGE_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.CHALLENGE_APPENDIX.getText(),challengePageCache.getPageAmount(chatID));
-            case WEEKS_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.WEEKS_APPENDIX.getText(),9);
-            case SKIP_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.SKIP_APPENDIX.getText(),challengePageCache.getPageAmount(chatID));
+            case USER_APPENDIX ->
+                    ButtonsMappingUtils.createDynamicMarkup(Appendix.USER_APPENDIX.getText(), userPageCache.getPageAmount(chatID));
+            case CHAT_APPENDIX ->
+                    ButtonsMappingUtils.createDynamicMarkup(Appendix.CHAT_APPENDIX.getText(), chatPageCache.getPageAmount(chatID));
+            case CHALLENGE_APPENDIX ->
+                    ButtonsMappingUtils.createDynamicMarkup(Appendix.CHALLENGE_APPENDIX.getText(), challengePageCache.getPageAmount(chatID));
+            case WEEKS_APPENDIX -> ButtonsMappingUtils.createDynamicMarkup(Appendix.WEEKS_APPENDIX.getText(), 9);
+            case SKIP_APPENDIX ->
+                    ButtonsMappingUtils.createDynamicMarkup(Appendix.SKIP_APPENDIX.getText(), challengePageCache.getPageAmount(chatID));
         };
     }
 
     @Override
     public ReplyKeyboardMarkup createMarkup(long chatID, String appendix) {
-        return createMarkup(chatID, Appendix.valueOf((appendix+"_appendix").toUpperCase()));
+        return createMarkup(chatID, Appendix.valueOf((appendix + "_appendix").toUpperCase()));
     }
 }

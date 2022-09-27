@@ -113,7 +113,7 @@ public class FormatServiceImpl implements FormatService {
         if (challenge.getUsers().size() > 4) stringBuilder.append(challenge.getUsers().size()).append(" users");
         else for (User user : challenge.getUsers())
             stringBuilder.append("<a href=\"tg://user?id=").append(user.getTelegramId()).append("\">").append(user.getFirstName())
-                    .append(user.getLastName() != null ? " "+user.getLastName() : "").append("</a>, ");
+                    .append(user.getLastName() != null ? " " + user.getLastName() : "").append("</a>, ");
     }
 
     private String billingFormatter(long userID, int price) {
