@@ -47,12 +47,13 @@ public class CreateGlobalChallenge implements IBotCommand {
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
         if (validatorService.isNotGroupChat(message) ||
-                validatorService.isNotRegistered(message, userByTelegramId)) return;
+                validatorService.isNotRegistered(message, userByTelegramId) ||
+                validatorService.isNotAdmin(message, absSender)) return;
         Challenge challenge = challengeBasicInfo(arguments);
         challenge.setCreatedBy(userByTelegramId.get());
         challenge.setUsers(groupService.findAllUsers(message.getChatId()));
         if (validatorService.isChallengeInvalid(challenge)) {
-            senderService.replyToMessage(message,Replies.INVALID_GLOBAL_CHALLENGE.text);
+            senderService.replyToMessage(message, Replies.INVALID_GLOBAL_CHALLENGE.text);
             return;
         }
         challenge.setDescription(message.getText().substring(getOffset(message.getText())));
