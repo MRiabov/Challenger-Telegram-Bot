@@ -6,7 +6,6 @@ import edu.mriabov.challengertelegrambot.dao.daoservice.UserStatsService;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
 import edu.mriabov.challengertelegrambot.service.SenderService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,68 +61,6 @@ class RegistrationServiceImplTest {
         // Assert
         verify(userService).save((edu.mriabov.challengertelegrambot.dao.model.User) any());
         verify(userStatsService).create();
-    }
-
-    /**
-     * Method under test: {@link RegistrationServiceImpl#registerUser(User)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testRegisterUser2() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "org.telegram.telegrambots.meta.api.objects.User.getFirstName()" because "telegramUser" is null
-        //       at edu.mriabov.challengertelegrambot.service.impl.RegistrationServiceImpl.registerUser(RegistrationServiceImpl.java:29)
-        //   In order to prevent registerUser(User)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   registerUser(User).
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        // Arrange
-        doNothing().when(userService).save((edu.mriabov.challengertelegrambot.dao.model.User) any());
-
-        UserStats userStats = new UserStats();
-        userStats.setFinances(1);
-        userStats.setFitness(1);
-        userStats.setId(1);
-        userStats.setMindfulness(1);
-        userStats.setRelationships(1);
-        when(userStatsService.create()).thenReturn(userStats);
-
-        // Act
-        registrationServiceImpl.registerUser(null);
-    }
-
-    /**
-     * Method under test: {@link RegistrationServiceImpl#registerChat(Update)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testRegisterChat3() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "java.lang.Long.longValue()" because the return value of "org.telegram.telegrambots.meta.api.objects.Chat.getId()" is null
-        //       at edu.mriabov.challengertelegrambot.service.impl.RegistrationServiceImpl.registerChat(RegistrationServiceImpl.java:41)
-        //   In order to prevent registerChat(Update)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   registerChat(Update).
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        // Arrange
-        ChatMemberUpdated chatMemberUpdated = new ChatMemberUpdated();
-        chatMemberUpdated.setChat(new Chat());
-
-        Update update = new Update();
-        update.setMyChatMember(chatMemberUpdated);
-
-        // Act
-        registrationServiceImpl.registerChat(update);
     }
 
     /**

@@ -11,6 +11,7 @@ import edu.mriabov.challengertelegrambot.service.ValidatorService;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.EntityType;
@@ -67,7 +68,7 @@ public class CreateCustomChallenge implements IBotCommand {
         log.info("Custom challenge was successfully created with args " + message.getText());
     }
 
-    private int getOffset(Message message) {
+    private int getOffset(@NotNull Message message) {
         int offset = 0;
         for (MessageEntity entity : message.getEntities())
             if (entity.getType().equals(EntityType.MENTION) || entity.getType().equals(EntityType.TEXTMENTION))

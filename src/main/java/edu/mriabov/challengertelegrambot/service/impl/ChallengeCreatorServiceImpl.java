@@ -101,7 +101,6 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         challenge.setUsers(Set.of(userOptional.get()));
         challenge.setGroup(userService.findMatchingChats(userID, userOptional.get().getTelegramId())
                 .getContent().get(0));
-        // FIXME: 9/4/2022 make an actual page, if there is more then one.
         challengeCache.put(userID, challenge);
         return true;
     }
