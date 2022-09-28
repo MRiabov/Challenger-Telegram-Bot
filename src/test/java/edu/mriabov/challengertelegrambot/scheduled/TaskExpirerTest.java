@@ -7,7 +7,8 @@ import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
 import edu.mriabov.challengertelegrambot.dao.repository.ChallengeRepository;
-import edu.mriabov.challengertelegrambot.dao.repository.GroupRepository;
+import edu.mriabov.challengertelegrambot.privatechat.Buttons;
+import edu.mriabov.challengertelegrambot.service.SenderService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,61 +20,40 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-@ContextConfiguration(classes = {DailyTaskCreator.class})
+@ContextConfiguration(classes = {TaskExpirer.class})
 @ExtendWith(SpringExtension.class)
-class DailyTaskCreatorTest {
+class TaskExpirerTest {
     @MockBean
     private ChallengeRepository challengeRepository;
-
     @Autowired
-    private DailyTaskCreator dailyTaskCreator;
-
+    private TaskExpirer taskExpirer;
     @MockBean
-    private GroupRepository groupRepository;
+    private SenderService senderService;
 
     /**
-     * Method under test: {@link DailyTaskCreator#checkForDailyChallenges()}
+     * Method under test: {@link TaskExpirer#checkForExpiration()}
      */
     @Test
-    void noChallengesNoGroupInteractions() {
+    void noGroupsNoInteractions() {
         // Arrange
-        when(challengeRepository.findByRecurringTimeIsBetween((LocalTime) any(), (LocalTime) any()))
+        when(challengeRepository.findByExpiresAtBetween((LocalDateTime) any(), (LocalDateTime) any()))
                 .thenReturn(new HashSet<>());
 
         // Act
-        dailyTaskCreator.checkForDailyChallenges();
-        verifyNoInteractions(groupRepository);
+        taskExpirer.checkForExpiration();
+        //Assert
+        verifyNoInteractions(senderService);
     }
 
     /**
-     * Method under test: {@link DailyTaskCreator#checkForDailyChallenges()}
+     * Method under test: {@link TaskExpirer#checkForExpiration()}
      */
     @Test
-    void testCheckForDailyChallenges() {
-        // TODO: Complete this test.
-        //   Reason: R002 Missing observers.
-        //   Diffblue Cover was unable to create an assertion.
-        //   Add getters for the following fields or make them package-private:
-        //     DailyTaskCreator.challengeRepository
-        //     DailyTaskCreator.groupRepository
-
-        // Arrange
-        when(challengeRepository.findByRecurringTimeIsBetween((LocalTime) any(), (LocalTime) any()))
-                .thenReturn(new HashSet<>());
-
-        // Act
-        dailyTaskCreator.checkForDailyChallenges();
-    }
-
-    /**
-     * Method under test: {@link DailyTaskCreator#checkForDailyChallenges()}
-     */
-    @Test
-    void OneChallengeOneGroupInteraction(){
+    void challengeFailed() {
         // Arrange
         UserStats userStats = new UserStats();
         userStats.setFinances(1);
@@ -118,44 +98,16 @@ class DailyTaskCreatorTest {
         HashSet<Challenge> challengeSet = new HashSet<>();
         challengeSet.add(challenge);
         challengeSet.addAll(new ArrayList<>());
-
-        UserStats userStats1 = new UserStats();
-        userStats1.setFinances(1);
-        userStats1.setFitness(1);
-        userStats1.setId(1);
-        userStats1.setMindfulness(1);
-        userStats1.setRelationships(1);
-
-        User user1 = new User();
-        user1.setChallenges(new HashSet<>());
-        user1.setCoins(1);
-        user1.setCreatedChallenges(new HashSet<>());
-        user1.setFirstName("Jane");
-        user1.setGroups(new HashSet<>());
-        user1.setId(1);
-        user1.setLastName("Doe");
-        user1.setTelegramId(123L);
-        user1.setUserStats(userStats1);
-        user1.setUsername("janedoe");
-
-        Group group1 = new Group();
-        group1.setChallenges(new HashSet<>());
-        group1.setGroupName("Group Name");
-        group1.setId(1);
-        group1.setTelegramId(123L);
-        group1.setTotalTasksCompleted(1);
-        group1.setUsers(new HashSet<>());
-
-        when(challengeRepository.findByRecurringTimeIsBetween((LocalTime) any(), (LocalTime) any()))
+        when(challengeRepository.findUsersById(anyInt())).thenReturn(List.of(user));
+        doNothing().when(challengeRepository).deleteById((Integer) any());
+        when(challengeRepository.findByExpiresAtBetween((LocalDateTime) any(), (LocalDateTime) any()))
                 .thenReturn(challengeSet);
-        when(groupRepository.findAllUsersByTelegramID(anyLong())).thenReturn(Set.of(user1));
 
         // Act
-        dailyTaskCreator.checkForDailyChallenges();
+        taskExpirer.checkForExpiration();
 
-        //Assert
-        verify(groupRepository);
-        verify(challengeRepository);
+        // Assert
+        verify(senderService).sendMessages(anyLong(), eq(Buttons.FAILED_CHALLENGE));
     }
 }
 

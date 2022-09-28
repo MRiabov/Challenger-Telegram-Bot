@@ -20,7 +20,7 @@ public class BillingServiceImpl implements BillingService {
     public boolean isEnoughCoins(long userID, int price) {
         Optional<User> user = userService.getUserByTelegramId(userID);
         if (user.isEmpty()) return false;
-        return user.get().getCoins() > price;
+        return user.get().getCoins() >= price;
     }
 
     @Override
