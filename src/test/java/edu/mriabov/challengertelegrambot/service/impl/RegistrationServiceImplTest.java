@@ -5,6 +5,7 @@ import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserStatsService;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
+import edu.mriabov.challengertelegrambot.groupchat.Replies;
 import edu.mriabov.challengertelegrambot.service.SenderService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -94,8 +95,9 @@ class RegistrationServiceImplTest {
     void testLinkUserToGroup() {
         // Arrange
         when(userService.addChat(anyLong(), (Group) any())).thenReturn(true);
-
+        String groupName = "Group Name";
         Group group = fillGroup();
+        group.setGroupName(groupName);
         when(groupService.findByTelegramID(anyLong())).thenReturn(group);
         doNothing().when(senderService).sendMessages(anyLong(), (String) any());
 
@@ -105,7 +107,7 @@ class RegistrationServiceImplTest {
         // Assert
         verify(userService).addChat(anyLong(), (Group) any());
         verify(groupService).findByTelegramID(anyLong());
-        verify(senderService).sendMessages(anyLong(), (String) any());
+        verify(senderService).sendMessages(anyLong(), eq(Replies.CHAT_SUCCESSFULLY_LINKED.text.formatted(groupName)));
     }
 
     private static Group fillGroup() {

@@ -32,7 +32,7 @@ class TelegramUtilsTest {
         int actualOffset = TelegramUtils.getOffset(message);
 
         // Assert
-        assertThat(TelegramUtils.getOffset(message)).isEqualTo(18);
+        assertThat(actualOffset).isEqualTo(18);
         }
 
     @Test
