@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -23,9 +24,6 @@ public class User {
 
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
-
-    @Column(name = "telegram_id", nullable = false)
-    private long telegramId;
 
     @Column(name = "last_name", length = 50)
     private String lastName;
@@ -51,5 +49,9 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "challenge_id"))
     private Set<Challenge> challenges = new LinkedHashSet<>();
+
+    @NotNull
+    @Column(name = "telegram_id", nullable = false)
+    private Long telegramId;
 
 }

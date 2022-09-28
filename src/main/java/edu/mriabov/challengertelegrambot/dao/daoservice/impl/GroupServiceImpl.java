@@ -45,9 +45,4 @@ public class GroupServiceImpl implements GroupService {
     public Group findByTelegramID(long groupID) {
         return groupRepository.findByTelegramId(groupID);
     }
-
-    @Override
-    public boolean isUserAdmin() {
-        return false;
-    }
 }
