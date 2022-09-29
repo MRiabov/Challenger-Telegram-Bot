@@ -6,6 +6,8 @@ import edu.mriabov.challengertelegrambot.cache.UserPageCache;
 import edu.mriabov.challengertelegrambot.dao.daoservice.ChallengeService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
+import edu.mriabov.challengertelegrambot.dao.enums.Area;
+import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.model.User;
@@ -21,10 +23,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -75,6 +80,99 @@ class ChallengeCreatorServiceImplTest {
         assertFalse(challengeCreatorServiceImpl.selectUsersByUsername(1L, "janedoe"));
         verify(userService).getUserByUsername((String) any());
         verify(userService).findMatchingChats(anyLong(), anyLong());
+    }
+
+    /**
+     * Method under test: {@link ChallengeCreatorServiceImpl#confirm(long)}
+     */
+    @Test
+    void confirmsValidChallenge() {
+        // Arrange
+        UserStats userStats = fillUserStats();
+        User user = fillUser(userStats);
+        Optional<User> ofResult = Optional.of(user);
+
+        when(userService.getUserByTelegramId(anyLong())).thenReturn(ofResult);
+
+        UserStats userStats1 = fillUserStats();
+        User user1 = fillUser(userStats1);
+        Group group = fillGroup();
+        Challenge challenge = fillChallenge(user1, group);
+
+        when(challengeCache.get((Long) any())).thenReturn(challenge);
+        when(billingService.billCoins(anyLong(), anyInt())).thenReturn(true);
+        when(billingService.isEnoughCoins(anyLong(), anyInt())).thenReturn(true);
+        when(billingService.challengePrice((Challenge) any())).thenReturn(3);
+        doNothing().when(challengeService).save((Challenge) any());
+
+        // Act and Assert
+        assertTrue(challengeCreatorServiceImpl.confirm(1L));
+        verify(userService).getUserByTelegramId(anyLong());
+        verify(challengeCache).get((Long) any());
+        verify(billingService).billCoins(anyLong(), anyInt());
+        verify(billingService).isEnoughCoins(anyLong(), anyInt());
+        verify(billingService).challengePrice(challenge);
+        verify(challengeService).save(challenge);
+    }
+    @Test
+    void invalidChallengeNotConfirmed() {
+        // Arrange
+        UserStats userStats = fillUserStats();
+        User user = fillUser(userStats);
+        Optional<User> ofResult = Optional.of(user);
+
+        when(userService.getUserByTelegramId(anyLong())).thenReturn(ofResult);
+        Challenge challenge = new Challenge();
+
+        when(challengeCache.get((Long) any())).thenReturn(challenge);
+        when(billingService.billCoins(anyLong(), anyInt())).thenReturn(true);
+        when(billingService.isEnoughCoins(anyLong(), anyInt())).thenReturn(true);
+        when(billingService.challengePrice((Challenge) any())).thenReturn(3);
+        doNothing().when(challengeService).save((Challenge) any());
+
+        // Act and Assert
+        assertFalse(challengeCreatorServiceImpl.confirm(1L));
+        verifyNoInteractions(challengeService);
+    }
+
+    @NotNull
+    private static Challenge fillChallenge(User user1, Group group) {
+        Challenge challenge = new Challenge();
+        challenge.setArea(Area.FINANCES);
+        challenge.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        challenge.setCreatedBy(user1);
+        challenge.setDescription("The characteristics of someone or something");
+        challenge.setDifficulty(Difficulty.EASY);
+        challenge.setExpiresAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        challenge.setFree(true);
+        challenge.setGroup(group);
+        challenge.setId(1);
+        challenge.setRecurringTime(LocalTime.of(1, 1));
+        challenge.setUsers(new HashSet<>());
+        return challenge;
+    }
+
+    /**
+     * Method under test: {@link ChallengeCreatorServiceImpl#confirm(long)}
+     */
+    @Test
+    void notEnoughCoinsNoChallengeCreated() {
+        // Arrange
+        when(userService.getUserByTelegramId(anyLong())).thenReturn(null);
+
+        UserStats userStats = fillUserStats();
+        User user = fillUser(userStats);
+        Group group = fillGroup();
+
+        Challenge challenge = fillChallenge(user, group);
+        when(challengeCache.get((Long) any())).thenReturn(challenge);
+        when(billingService.billCoins(anyLong(), anyInt())).thenReturn(false);
+        when(billingService.isEnoughCoins(anyLong(), anyInt())).thenReturn(false);
+        when(billingService.challengePrice((Challenge) any())).thenReturn(3);
+        doNothing().when(challengeService).save((Challenge) any());
+
+        //Act and Assert
+        assertThat(challengeCreatorServiceImpl.confirm(1L)).isFalse();
     }
 
     @NotNull
