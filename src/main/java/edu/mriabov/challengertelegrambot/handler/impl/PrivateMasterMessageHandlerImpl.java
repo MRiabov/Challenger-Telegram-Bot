@@ -37,7 +37,7 @@ public class PrivateMasterMessageHandlerImpl implements MessageHandler {
             buttonsHandler(userID, message);
         } else if (message.startsWith("@")) senderService.sendMessages(userID,//if the message is a username
                 logicMessagesHandler.handleUsernames(userID, message));
-        else if (message.length()>40) senderService.sendMessages(userID, logicMessagesHandler.setMessage(userID,message));
+        else if (message.length()>=40) senderService.sendMessages(userID, logicMessagesHandler.setMessage(userID,message));
     }
 
     private void buttonsHandler(long chatID, String message) {
