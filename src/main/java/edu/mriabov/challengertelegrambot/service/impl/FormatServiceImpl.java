@@ -106,7 +106,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     private static void listUsers(Challenge challenge, StringBuilder stringBuilder) {
-        if (challenge.getUsers().size() == 0) {
+        if (challenge.getUsers().isEmpty()) {
             stringBuilder.append("ERROR! 0 users selected.");
             return;
         }
@@ -156,7 +156,7 @@ public class FormatServiceImpl implements FormatService {
 
     private String myChallengesList(long userID) {
         List<Challenge> challenges = userService.findChallengesByTelegramID(userID, Pageable.unpaged()).getContent();
-        if (challenges.size() == 0) {
+        if (challenges.isEmpty()) {
             return """
                                         
                     <b>All your challenges are completed!</b> Time to advance in fields, other then listed here.
@@ -206,7 +206,7 @@ public class FormatServiceImpl implements FormatService {
     private String listGoals(long userID) {
         Set<Challenge> goals = userService.findAllGoals(userID);
         StringBuilder stringBuilder = new StringBuilder();
-        if (goals.size() > 0) {
+        if (!goals.isEmpty()) {
             stringBuilder.append("<b>Your goals:</b>\n");
             for (Challenge goal : goals) {
                 stringBuilder

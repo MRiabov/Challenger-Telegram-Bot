@@ -50,7 +50,6 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
                     .text(Replies.ADDED_TO_CHAT.text)
                     .chatId(update.getMyChatMember().getChat().getId())
                     .build());
-            return;
         }
     }
 

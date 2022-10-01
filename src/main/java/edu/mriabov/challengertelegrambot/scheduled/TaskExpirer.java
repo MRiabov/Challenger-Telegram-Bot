@@ -35,7 +35,7 @@ public class TaskExpirer {
             for (User user : users) {
                 senderService.sendMessages(user.getTelegramId(), Buttons.FAILED_CHALLENGE);
             }
-            if (users.size() > 0)
+            if (!users.isEmpty())
                 senderService.sendMessages(challenge.getGroup().getTelegramId(), failedUsers(users));
             challengeRepository.deleteById(challenge.getId());
             totalUsersCount+= users.size();

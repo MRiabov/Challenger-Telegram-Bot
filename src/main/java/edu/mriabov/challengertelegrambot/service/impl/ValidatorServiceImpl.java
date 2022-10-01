@@ -61,7 +61,7 @@ public class ValidatorServiceImpl implements ValidatorService {
 
     @Override
     public boolean isChallengeInvalid(Challenge challenge) {
-        return challenge.getDifficulty() == null || challenge.getUsers().size() == 0 || challenge.getArea() == null;
+        return challenge.getDifficulty() == null || challenge.getUsers().isEmpty() || challenge.getArea() == null;
     }
 
     @SneakyThrows
