@@ -36,6 +36,10 @@ So, as an aspiring programmer, I decided that it will be a great resume project,
 - [rubenlagus/TelegramBots](https://github.com/rubenlagus/TelegramBots), the library, on which the whole project is based.
 - Docker, *not created by me*
 - Guava, Google's Java util library. Used for caching.
+- Testing 
+  - JUnit
+  - Mockito
+  - AssertJ
 
 # Images and rundown of bot's functions.
 
@@ -109,6 +113,8 @@ Same as Global, but with a cool new feature: it is recurring!
 ![image](https://user-images.githubusercontent.com/108194191/192141556-597ad1b2-f554-4731-a915-2731c9c17a60.png)
 
 You might notice "⏰Recurring time: 14:00". Now, at 14:00 this challenge will be recurring. Cool, right?
+
+The project is partially covered with tests. JUnit, Mockito and AssertJ. I could do more, but it would take weeks
 
 #### There are still LOT of features in the bot, like skipping a challenge (for coins, that is), buying rest, for a specified number of time, which I need, but it showcasing them would take a looong time. The only thing you need is my code, after all ;)
 
