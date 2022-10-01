@@ -85,6 +85,7 @@ public class CreateCustomChallenge implements IBotCommand {
                 case EntityType.MENTION -> userService.getUserByUsername(entity.getText()).ifPresent(userSet::add);
                 case EntityType.TEXTMENTION ->
                         userService.getUserByTelegramId(entity.getUser().getId()).ifPresent(userSet::add);
+                default -> log.info("Someone just highlighted a text. Why?");
             }
         }
         return userSet;

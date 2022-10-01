@@ -70,10 +70,10 @@ public class LogicMessagesHandler {
                 challengePageCache.put(userID, userService.findChallengesByTelegramID(userID, Pageable.ofSize(9)));
                 return Optional.of(Buttons.SKIP_CHALLENGES);
             }
-            case SET_GOAL_DESCRIPTION -> {
+            default -> {
+                return Optional.empty();
             }
         }
-        return Optional.empty();
     }
 
     public Buttons handleUsernames(long userID, String message) {

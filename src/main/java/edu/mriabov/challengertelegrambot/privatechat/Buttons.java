@@ -221,8 +221,8 @@ public enum Buttons {
             """, ButtonsMessages.BACK_TO_MENU.getText(), null);
 
 
-    final private String message;
-    final private String[] keyboard;
+    private final String message;
+    private final String[] keyboard;
 
     Buttons(String message, String... keyboard) {
         this.message = message;

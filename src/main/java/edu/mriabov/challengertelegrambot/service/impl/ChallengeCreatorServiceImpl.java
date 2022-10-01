@@ -61,7 +61,8 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         if (!chatPageCache.contains(userID)) return Optional.empty();
         Challenge challenge = new Challenge();
         Group group;
-        challenge.setGroup(group = chatPageCache.getCurrentPage(userID).getContent().get(selectedNumber));
+        group = chatPageCache.getCurrentPage(userID).getContent().get(selectedNumber);
+        challenge.setGroup(group);
         challengeCache.put(userID, challenge);
         return Optional.ofNullable(group);
     }

@@ -115,12 +115,12 @@ public class NumpadHandler {
     }
 
     private boolean challengePageFlip(long userID, String message) {
-        if (message.startsWith(previousPage)) {
+        if (message.startsWith(PREVIOUS_PAGE)) {
             Page<Challenge> page = userService.findChallengesByTelegramID(userID, challengePageCache.getPreviousOrLastPageable(userID));
             challengePageCache.put(userID, page);
             return true;
         }
-        if (message.startsWith(nextPage)) {
+        if (message.startsWith(NEXT_PAGE)) {
             Page<Challenge> page = userService.findChallengesByTelegramID(userID, challengePageCache.getNextOrLastPageable(userID));
             challengePageCache.put(userID, page);
             return true;
@@ -129,12 +129,12 @@ public class NumpadHandler {
     }
 
     private boolean userPageFlip(long userID, long groupID, String message) {
-        if (message.startsWith(previousPage)) {
+        if (message.startsWith(PREVIOUS_PAGE)) {
             Page<User> page = groupService.findUsersByPageable(userID, groupID, userPageCache.getPreviousOrLastPageable(userID));
             userPageCache.put(userID, page);
             return true;
         }
-        if (message.startsWith(nextPage)) {
+        if (message.startsWith(NEXT_PAGE)) {
             Page<User> page = groupService.findUsersByPageable(userID, groupID, userPageCache.getNextOrLastPageable(userID));
             userPageCache.put(userID, page);
             return true;
@@ -143,12 +143,12 @@ public class NumpadHandler {
     }
 
     private boolean chatPageFlip(long chatID, String message) {
-        if (message.startsWith(previousPage)) {
+        if (message.startsWith(PREVIOUS_PAGE)) {
             Page<Group> page = userService.findChatsByPageable(chatID, chatPageCache.getPreviousOrLastPageable(chatID));
             chatPageCache.put(chatID, page);
             return true;
         }//it is okay, that here is userService, because we get chats from the list of users.
-        if (message.startsWith(nextPage)) {
+        if (message.startsWith(NEXT_PAGE)) {
             Page<Group> page = userService.findChatsByPageable(chatID, chatPageCache.getNextOrLastPageable(chatID));
             chatPageCache.put(chatID, page);
             return true;

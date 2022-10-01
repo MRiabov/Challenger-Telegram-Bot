@@ -47,7 +47,7 @@ public class PrivateMasterMessageHandlerImpl implements MessageHandler {
         }
         Optional<Buttons> logicButtons = logicMessagesHandler.handleStaticMessages(chatID, message);
         if (logicButtons.isPresent()) senderService.sendMessages(chatID, logicButtons.get());
-        else if (message.startsWith("️⃣",1)||message.startsWith(ButtonsMappingUtils.previousPage)||message.startsWith(ButtonsMappingUtils.nextPage))
+        else if (message.startsWith("️⃣",1)||message.startsWith(ButtonsMappingUtils.PREVIOUS_PAGE)||message.startsWith(ButtonsMappingUtils.NEXT_PAGE))
             senderService.sendMessages(numpadHandler.handleMessages(chatID, message));
         else senderService.sendMessages(chatID, receivedMessagesContainer.getByText(message));
     }

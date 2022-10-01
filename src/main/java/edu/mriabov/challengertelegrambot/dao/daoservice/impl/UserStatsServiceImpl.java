@@ -1,7 +1,5 @@
 package edu.mriabov.challengertelegrambot.dao.daoservice.impl;
 
-import edu.mriabov.challengertelegrambot.dao.enums.Area;
-import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;
 import edu.mriabov.challengertelegrambot.dao.model.UserStats;
 import edu.mriabov.challengertelegrambot.dao.repository.UserStatsRepository;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserStatsService;
@@ -19,8 +17,4 @@ public class UserStatsServiceImpl implements UserStatsService {
         return userStatsRepository.save(new UserStats());
     }
 
-    @Override
-    public int incrementStats(long userID, Area area, Difficulty difficulty) {
-        return 0;//todo
-    }
 }

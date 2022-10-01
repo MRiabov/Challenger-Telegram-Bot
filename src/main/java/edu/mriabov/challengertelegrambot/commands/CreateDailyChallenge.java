@@ -32,7 +32,7 @@ public class CreateDailyChallenge implements IBotCommand {
 
     private LocalTime getChallengeTime(String[] arguments) {
         for (String word : arguments) {
-            if (word.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]"))
+            if (word.matches("([01]?\\d|2[0-3]):[0-5]\\d"))
                 return LocalTime.of(Integer.parseInt(word.substring(0, 2)), Integer.parseInt(word.substring(4, 5)));
         }
         return null;

@@ -17,8 +17,8 @@ public class ButtonsMappingUtils {
     private ButtonsMappingUtils() {
     }
 
-    public static final String nextPage = "⏩📄 ";
-    public static final String previousPage = "⏪📄 ";
+    public static final String NEXT_PAGE = "⏩📄 ";
+    public static final String PREVIOUS_PAGE = "⏪📄 ";
 
     public static SendMessage buildMessageWithKeyboard(long chatID, Buttons buttons) {
         SendMessage sendMessage = new SendMessage(Long.toString(chatID), buttons.getMessage());
@@ -59,9 +59,9 @@ public class ButtonsMappingUtils {
 
     private static KeyboardRow finalRow(String appendix) {
         return new KeyboardRow(List.of(
-                new KeyboardButton(previousPage + appendix),
+                new KeyboardButton(PREVIOUS_PAGE + appendix),
                 new KeyboardButton(ReceivedMessages.CANCEL.getReceivedMessage()),
-                new KeyboardButton(nextPage + appendix)
+                new KeyboardButton(NEXT_PAGE + appendix)
         ));
     }
 
