@@ -18,7 +18,6 @@ abstract class PageCache<K, V> {
             .build();
 
     public void put(K chatID, Page<V> page) {
-        log.info("A page of CHATS from chatID " + chatID + " was put into the chatPageCache. " + page.toString());
         cache.put(chatID, page);
     }
 

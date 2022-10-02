@@ -12,6 +12,6 @@ public class ChallengePageCache extends PageCache<Long, Challenge> {
     @Override
     public void put(Long chatID, Page<Challenge> page) {
         log.info("A page of CHALLENGES from chatID " + chatID + " was put into the challengePageCache. " + page.toString());
-        cache.put(chatID, page);
+        super.put(chatID, page);
     }
 }

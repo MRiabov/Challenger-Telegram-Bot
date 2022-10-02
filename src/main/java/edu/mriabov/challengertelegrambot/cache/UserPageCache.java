@@ -11,6 +11,6 @@ public class UserPageCache extends PageCache<Long, User> {
     @Override
     public void put(Long chatID, Page<User> page) {
         log.info("A page of USERS from chatID " + chatID + " was put into the challengePageCache. " + page.toString());
-        cache.put(chatID, page);
+        super.put(chatID,page);
     }
 }

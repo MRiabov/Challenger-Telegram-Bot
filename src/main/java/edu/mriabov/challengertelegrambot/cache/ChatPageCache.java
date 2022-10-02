@@ -12,6 +12,6 @@ public class ChatPageCache extends PageCache<Long, Group> {
     @Override
     public void put(Long chatID, Page<Group> page) {
         log.info("A page of CHATS from chatID " + chatID + " was put into the chatPageCache. " + page.toString());
-        cache.put(chatID, page);
+        super.put(chatID, page);
     }
 }
