@@ -1,9 +1,9 @@
 package edu.mriabov.challengertelegrambot.commands;
 
-import edu.mriabov.challengertelegrambot.dao.model.Challenge;
+import edu.mriabov.challengertelegrambot.cache.impl.ChallengeCache;
 import edu.mriabov.challengertelegrambot.dao.daoservice.ChallengeService;
+import edu.mriabov.challengertelegrambot.dao.model.Challenge;
 import edu.mriabov.challengertelegrambot.groupchat.Replies;
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
 import edu.mriabov.challengertelegrambot.privatechat.Buttons;
 import edu.mriabov.challengertelegrambot.service.BillingService;
 import edu.mriabov.challengertelegrambot.service.SenderService;

@@ -1,5 +1,6 @@
-package edu.mriabov.challengertelegrambot.cache;
+package edu.mriabov.challengertelegrambot.cache.impl;
 
+import edu.mriabov.challengertelegrambot.cache.PageCache;
 import edu.mriabov.challengertelegrambot.dao.model.Group;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

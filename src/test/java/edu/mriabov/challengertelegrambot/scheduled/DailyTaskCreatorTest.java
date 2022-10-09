@@ -21,7 +21,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {DailyTaskCreator.class})
 @ExtendWith(SpringExtension.class)
@@ -41,7 +45,7 @@ class DailyTaskCreatorTest {
     @Test
     void noChallengesNoGroupInteractions() {
         // Arrange
-        when(challengeRepository.findByRecurringTimeIsBetween((LocalTime) any(), (LocalTime) any()))
+        when(challengeRepository.findByRecurringTimeIsBetween(any(), any()))
                 .thenReturn(new HashSet<>());
 
         // Act
@@ -54,15 +58,8 @@ class DailyTaskCreatorTest {
      */
     @Test
     void testCheckForDailyChallenges() {
-        // TODO: Complete this test.
-        //   Reason: R002 Missing observers.
-        //   Diffblue Cover was unable to create an assertion.
-        //   Add getters for the following fields or make them package-private:
-        //     DailyTaskCreator.challengeRepository
-        //     DailyTaskCreator.groupRepository
-
         // Arrange
-        when(challengeRepository.findByRecurringTimeIsBetween((LocalTime) any(), (LocalTime) any()))
+        when(challengeRepository.findByRecurringTimeIsBetween(any(), any()))
                 .thenReturn(new HashSet<>());
 
         // Act
@@ -73,7 +70,7 @@ class DailyTaskCreatorTest {
      * Method under test: {@link DailyTaskCreator#checkForDailyChallenges()}
      */
     @Test
-    void OneChallengeOneGroupInteraction(){
+    void OneChallengeOneGroupInteraction() {
         // Arrange
         UserStats userStats = new UserStats();
         userStats.setFinances(1);
@@ -146,7 +143,7 @@ class DailyTaskCreatorTest {
         group1.setTotalTasksCompleted(1);
         group1.setUsers(new HashSet<>());
 
-        when(challengeRepository.findByRecurringTimeIsBetween((LocalTime) any(), (LocalTime) any()))
+        when(challengeRepository.findByRecurringTimeIsBetween(any(), any()))
                 .thenReturn(challengeSet);
         when(groupRepository.findAllUsersByTelegramID(anyLong())).thenReturn(Set.of(user1));
 

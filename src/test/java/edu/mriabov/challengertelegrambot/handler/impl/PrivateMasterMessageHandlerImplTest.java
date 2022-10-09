@@ -18,7 +18,12 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {PrivateMasterMessageHandlerImpl.class})
 @ExtendWith(SpringExtension.class)
@@ -54,13 +59,13 @@ class PrivateMasterMessageHandlerImplTest {
     @Test
     void testHandleMessages() {
         // Arrange
-        Update update = createUpdate("@MRiabov",123123);
+        Update update = createUpdate("@MRiabov", 123123);
 
         // Act
         this.privateMasterMessageHandlerImpl.handleMessages(update);
 
         // Assert
-        verify(logicMessagesHandler).handleUsernames(update.getMessage().getChatId(),"@MRiabov");
+        verify(logicMessagesHandler).handleUsernames(update.getMessage().getChatId(), "@MRiabov");
     }
 
     @Test
@@ -89,7 +94,7 @@ class PrivateMasterMessageHandlerImplTest {
     }
 
     @Test
-    void handleDescription(){
+    void handleDescription() {
         //Arrange
         String messageText = "gosh, there are 40 symbols in this text.";
         long chatID = 123123;

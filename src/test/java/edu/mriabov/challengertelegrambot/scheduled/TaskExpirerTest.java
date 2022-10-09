@@ -23,7 +23,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {TaskExpirer.class})
 @ExtendWith(SpringExtension.class)
@@ -41,7 +48,7 @@ class TaskExpirerTest {
     @Test
     void noGroupsNoInteractions() {
         // Arrange
-        when(challengeRepository.findByExpiresAtBetween((LocalDateTime) any(), (LocalDateTime) any()))
+        when(challengeRepository.findByExpiresAtBetween(any(), any()))
                 .thenReturn(new HashSet<>());
 
         // Act
@@ -65,8 +72,8 @@ class TaskExpirerTest {
         challengeSet.add(challenge);
         challengeSet.addAll(new ArrayList<>());
         when(challengeRepository.findUsersById(anyInt())).thenReturn(List.of(user));
-        doNothing().when(challengeRepository).deleteById((Integer) any());
-        when(challengeRepository.findByExpiresAtBetween((LocalDateTime) any(), (LocalDateTime) any()))
+        doNothing().when(challengeRepository).deleteById(any());
+        when(challengeRepository.findByExpiresAtBetween(any(), any()))
                 .thenReturn(challengeSet);
 
         // Act

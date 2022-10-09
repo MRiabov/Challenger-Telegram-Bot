@@ -1,6 +1,6 @@
 package edu.mriabov.challengertelegrambot.commands;
 
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChallengeCache;
 import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
@@ -47,25 +47,32 @@ public class CreateCustomChallenge implements IBotCommand {
     }
 
     @Override
+    // TODO rasnesti method
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         if (validatorService.isNotGroupChat(message)) return;
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());
         if (validatorService.isNotRegistered(message, userByTelegramId)) return;
-        validatorService.linkChatsIfNotLinked(message.getFrom().getId(),message.getChatId());
-        Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
-        challenge.setCreatedBy(userByTelegramId.get());
-        challenge.setUsers(getMentionedUsers(message, challenge));
-        challenge.setDescription(message.getText().substring(getOffset(message)));
-        challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
-        challenge.setCreatedAt(LocalDateTime.now());
-        challenge.setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
+        validatorService.linkChatsIfNotLinked(message.getFrom().getId(), message.getChatId());
+        Challenge challenge = getChallenge(message, arguments, userByTelegramId);
         if (validatorService.isChallengeInvalid(challenge)) {
-            senderService.replyToMessage(message,Replies.INVALID_CUSTOM_CHALLENGE.text);
+            senderService.replyToMessage(message, Replies.INVALID_CUSTOM_CHALLENGE.text);
             return;
         }
         challengeCache.put(message.getFrom().getId(), challenge);
         senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
         log.info("Custom challenge was successfully created with args " + message.getText());
+    }
+
+    @NotNull
+    private Challenge getChallenge(Message message, String[] arguments, Optional<User> userByTelegramId) {
+        Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
+        challenge.setDescription(message.getText().substring(getOffset(message)));
+        challenge.setCreatedBy(userByTelegramId.get());
+        challenge.setUsers(getMentionedUsers(message, challenge));
+        challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
+        challenge.setCreatedAt(LocalDateTime.now());
+        challenge.setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
+        return challenge;
     }
 
     private int getOffset(@NotNull Message message) {
@@ -76,15 +83,13 @@ public class CreateCustomChallenge implements IBotCommand {
         return offset;
     }
 
-
     private Set<User> getMentionedUsers(Message message, Challenge challenge) {
         Set<User> userSet = new HashSet<>();
         for (MessageEntity entity : message.getEntities()) {
             if (challenge.getDescription() != null) break;
             switch (entity.getType()) {
                 case EntityType.MENTION -> userService.getUserByUsername(entity.getText()).ifPresent(userSet::add);
-                case EntityType.TEXTMENTION ->
-                        userService.getUserByTelegramId(entity.getUser().getId()).ifPresent(userSet::add);
+                case EntityType.TEXTMENTION -> userService.getUserByTelegramId(entity.getUser().getId()).ifPresent(userSet::add);
                 default -> log.info("Someone just highlighted a text. Why?");
             }
         }

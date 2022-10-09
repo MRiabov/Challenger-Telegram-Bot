@@ -17,6 +17,8 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.util.Optional;
 
+import static java.lang.Boolean.TRUE;
+
 @RequiredArgsConstructor
 @Slf4j
 @Component
@@ -47,7 +49,7 @@ public class ValidatorServiceImpl implements ValidatorService {
 
     @Override
     public boolean isNotUserChat(Message message) {
-        if (message.getChat().isUserChat()) return false;
+        if (TRUE.equals(message.getChat().isUserChat())) return false;
         senderService.replyToMessage(message, Replies.WRONG_CHAT_TYPE.text);
         return true;
     }

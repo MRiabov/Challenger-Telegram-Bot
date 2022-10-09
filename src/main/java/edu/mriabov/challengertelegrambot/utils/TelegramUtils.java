@@ -34,7 +34,9 @@ public class TelegramUtils {
     public static int getOffset(String message) {
         int offset;
         int spaceCount = 0;
-        for (offset = 0; spaceCount!=3; offset++) if (message.charAt(offset) == ' ') spaceCount++;
+        for (offset = 0; spaceCount != 3; offset++) {
+            if (message.charAt(offset) == ' ') spaceCount++;
+        }
         return offset;
     }
 
@@ -54,6 +56,7 @@ public class TelegramUtils {
         return challenge;
     }
 
+    // TODO enum piska
     private static void parametersForChallenge(String word, Challenge challenge) {
         switch (word.toLowerCase()) {
             case "easy" -> {

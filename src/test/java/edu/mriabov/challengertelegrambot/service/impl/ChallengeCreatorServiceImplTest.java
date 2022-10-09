@@ -1,8 +1,8 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChatPageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.UserPageCache;
 import edu.mriabov.challengertelegrambot.dao.daoservice.ChallengeService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
@@ -32,7 +32,14 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {ChallengeCreatorServiceImpl.class})
 @ExtendWith(SpringExtension.class)
@@ -74,11 +81,11 @@ class ChallengeCreatorServiceImplTest {
         User user = fillUser(userStats);
         Optional<User> ofResult = Optional.of(user);
         when(userService.findMatchingChats(anyLong(), anyLong())).thenReturn(new PageImpl<>(new ArrayList<>()));
-        when(userService.getUserByUsername((String) any())).thenReturn(ofResult);
+        when(userService.getUserByUsername(any())).thenReturn(ofResult);
 
         // Act and Assert
         assertFalse(challengeCreatorServiceImpl.selectUsersByUsername(1L, "janedoe"));
-        verify(userService).getUserByUsername((String) any());
+        verify(userService).getUserByUsername(any());
         verify(userService).findMatchingChats(anyLong(), anyLong());
     }
 
@@ -99,21 +106,22 @@ class ChallengeCreatorServiceImplTest {
         Group group = fillGroup();
         Challenge challenge = fillChallenge(user1, group);
 
-        when(challengeCache.get((Long) any())).thenReturn(challenge);
+        when(challengeCache.get(any())).thenReturn(challenge);
         when(billingService.billCoins(anyLong(), anyInt())).thenReturn(true);
         when(billingService.isEnoughCoins(anyLong(), anyInt())).thenReturn(true);
-        when(billingService.challengePrice((Challenge) any())).thenReturn(3);
-        doNothing().when(challengeService).save((Challenge) any());
+        when(billingService.challengePrice(any())).thenReturn(3);
+        doNothing().when(challengeService).save(any());
 
         // Act and Assert
         assertTrue(challengeCreatorServiceImpl.confirm(1L));
         verify(userService).getUserByTelegramId(anyLong());
-        verify(challengeCache).get((Long) any());
+        verify(challengeCache).get(any());
         verify(billingService).billCoins(anyLong(), anyInt());
         verify(billingService).isEnoughCoins(anyLong(), anyInt());
         verify(billingService).challengePrice(challenge);
         verify(challengeService).save(challenge);
     }
+
     @Test
     void invalidChallengeNotConfirmed() {
         // Arrange
@@ -124,11 +132,11 @@ class ChallengeCreatorServiceImplTest {
         when(userService.getUserByTelegramId(anyLong())).thenReturn(ofResult);
         Challenge challenge = new Challenge();
 
-        when(challengeCache.get((Long) any())).thenReturn(challenge);
+        when(challengeCache.get(any())).thenReturn(challenge);
         when(billingService.billCoins(anyLong(), anyInt())).thenReturn(true);
         when(billingService.isEnoughCoins(anyLong(), anyInt())).thenReturn(true);
-        when(billingService.challengePrice((Challenge) any())).thenReturn(3);
-        doNothing().when(challengeService).save((Challenge) any());
+        when(billingService.challengePrice(any())).thenReturn(3);
+        doNothing().when(challengeService).save(any());
 
         // Act and Assert
         assertFalse(challengeCreatorServiceImpl.confirm(1L));
@@ -165,11 +173,11 @@ class ChallengeCreatorServiceImplTest {
         Group group = fillGroup();
 
         Challenge challenge = fillChallenge(user, group);
-        when(challengeCache.get((Long) any())).thenReturn(challenge);
+        when(challengeCache.get(any())).thenReturn(challenge);
         when(billingService.billCoins(anyLong(), anyInt())).thenReturn(false);
         when(billingService.isEnoughCoins(anyLong(), anyInt())).thenReturn(false);
-        when(billingService.challengePrice((Challenge) any())).thenReturn(3);
-        doNothing().when(challengeService).save((Challenge) any());
+        when(billingService.challengePrice(any())).thenReturn(3);
+        doNothing().when(challengeService).save(any());
 
         //Act and Assert
         assertThat(challengeCreatorServiceImpl.confirm(1L)).isFalse();
@@ -202,14 +210,14 @@ class ChallengeCreatorServiceImplTest {
         groupList.add(group);
         PageImpl<Group> pageImpl = new PageImpl<>(groupList);
         when(userService.findMatchingChats(anyLong(), anyLong())).thenReturn(pageImpl);
-        when(userService.getUserByUsername((String) any())).thenReturn(ofResult);
-        doNothing().when(challengeCache).put((Long) any(), (Challenge) any());
+        when(userService.getUserByUsername(any())).thenReturn(ofResult);
+        doNothing().when(challengeCache).put(any(), any());
 
         // Act and Assert
         assertTrue(challengeCreatorServiceImpl.selectUsersByUsername(1L, "janedoe"));
-        verify(userService).getUserByUsername((String) any());
+        verify(userService).getUserByUsername(any());
         verify(userService, atLeast(1)).findMatchingChats(anyLong(), anyLong());
-        verify(challengeCache).put((Long) any(), (Challenge) any());
+        verify(challengeCache).put(any(), any());
     }
 
     @NotNull
@@ -252,12 +260,12 @@ class ChallengeCreatorServiceImplTest {
         groupList.add(group);
         PageImpl<Group> pageImpl = new PageImpl<>(groupList);
         when(userService.findMatchingChats(anyLong(), anyLong())).thenReturn(pageImpl);
-        when(userService.getUserByUsername((String) any())).thenReturn(Optional.empty());
-        doNothing().when(challengeCache).put((Long) any(), (Challenge) any());
+        when(userService.getUserByUsername(any())).thenReturn(Optional.empty());
+        doNothing().when(challengeCache).put(any(), any());
 
         // Act and Assert
         assertFalse(challengeCreatorServiceImpl.selectUsersByUsername(1L, "janedoe"));
-        verify(userService).getUserByUsername((String) any());
+        verify(userService).getUserByUsername(any());
     }
 }
 

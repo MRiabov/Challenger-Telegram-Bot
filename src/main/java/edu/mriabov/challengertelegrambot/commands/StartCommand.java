@@ -1,13 +1,10 @@
 package edu.mriabov.challengertelegrambot.commands;
 
-import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
-import edu.mriabov.challengertelegrambot.groupchat.Replies;
-import edu.mriabov.challengertelegrambot.privatechat.Buttons;
-import edu.mriabov.challengertelegrambot.service.ValidatorService;
-import edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils;
+import edu.mriabov.challengertelegrambot.dao.model.Group;
 import edu.mriabov.challengertelegrambot.service.RegistrationService;
+import edu.mriabov.challengertelegrambot.service.ValidatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +14,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+
+import static edu.mriabov.challengertelegrambot.groupchat.Replies.CHAT_SUCCESSFULLY_LINKED;
+import static edu.mriabov.challengertelegrambot.privatechat.Buttons.ON_START_NEW_USER;
+import static edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils.buildMessageWithKeyboard;
 
 @Component
 @Slf4j
@@ -32,8 +33,10 @@ public class StartCommand implements IBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         if (validatorService.isNotUserChat(message)) return;
-        if (!userService.existsByTelegramId(message.getFrom().getId())) registrationService.registerUser(message.getFrom());
-        absSender.execute(ButtonsMappingUtils.buildMessageWithKeyboard(message.getChatId(), Buttons.ON_START_NEW_USER));
+        if (!userService.existsByTelegramId(message.getFrom().getId())) {
+            registrationService.registerUser(message.getFrom());
+        }
+        absSender.execute(buildMessageWithKeyboard(message.getChatId(), ON_START_NEW_USER));
         //if this is a deep linking request, add the chat from the deep linking request.
         if (arguments.length > 0) addChat(arguments[0], message.getChat(), absSender);
     }
@@ -45,7 +48,7 @@ public class StartCommand implements IBotCommand {
         if (chatSuccessfullyLinked) {
             log.info("User " + chat.getId() + " has successfully linked a chat " + group.getGroupName());
             absSender.execute(SendMessage.builder()
-                    .text(Replies.CHAT_SUCCESSFULLY_LINKED.text.formatted(group.getGroupName()))
+                    .text(CHAT_SUCCESSFULLY_LINKED.text.formatted(group.getGroupName()))
                     .chatId(chat.getId())
                     .build());
         } else

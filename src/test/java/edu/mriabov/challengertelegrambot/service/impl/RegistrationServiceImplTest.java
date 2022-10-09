@@ -20,7 +20,12 @@ import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.HashSet;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {RegistrationServiceImpl.class})
 @ExtendWith(SpringExtension.class)
@@ -46,7 +51,7 @@ class RegistrationServiceImplTest {
     @Test
     void testRegisterUser() {
         // Arrange
-        doNothing().when(userService).save((edu.mriabov.challengertelegrambot.dao.model.User) any());
+        doNothing().when(userService).save(any());
 
         UserStats userStats = new UserStats();
         userStats.setFinances(1);
@@ -60,7 +65,7 @@ class RegistrationServiceImplTest {
         registrationServiceImpl.registerUser(new org.telegram.telegrambots.meta.api.objects.User());
 
         // Assert
-        verify(userService).save((edu.mriabov.challengertelegrambot.dao.model.User) any());
+        verify(userService).save(any());
         verify(userStatsService).create();
     }
 
@@ -70,7 +75,7 @@ class RegistrationServiceImplTest {
     @Test
     void testRegisterChat4() {
         // Arrange
-        when(groupService.save((Group) any())).thenReturn(true);
+        when(groupService.save(any())).thenReturn(true);
 
         Chat chat = new Chat();
         chat.setId(123L);
@@ -85,7 +90,7 @@ class RegistrationServiceImplTest {
         registrationServiceImpl.registerChat(update);
 
         // Assert
-        verify(groupService).save((Group) any());
+        verify(groupService).save(any());
     }
 
     /**
@@ -94,7 +99,7 @@ class RegistrationServiceImplTest {
     @Test
     void testLinkUserToGroup() {
         // Arrange
-        when(userService.addChat(anyLong(), (Group) any())).thenReturn(true);
+        when(userService.addChat(anyLong(), any())).thenReturn(true);
         String groupName = "Group Name";
         Group group = fillGroup();
         group.setGroupName(groupName);
@@ -105,7 +110,7 @@ class RegistrationServiceImplTest {
         registrationServiceImpl.linkUserToGroup(1L, 1L);
 
         // Assert
-        verify(userService).addChat(anyLong(), (Group) any());
+        verify(userService).addChat(anyLong(), any());
         verify(groupService).findByTelegramID(anyLong());
         verify(senderService).sendMessages(anyLong(), eq(Replies.CHAT_SUCCESSFULLY_LINKED.text.formatted(groupName)));
     }
@@ -127,7 +132,7 @@ class RegistrationServiceImplTest {
     @Test
     void testLinkUserToGroup2() {
         // Arrange
-        when(userService.addChat(anyLong(), (Group) any())).thenReturn(false);
+        when(userService.addChat(anyLong(), any())).thenReturn(false);
 
         Group group = fillGroup();
         when(groupService.findByTelegramID(anyLong())).thenReturn(group);
@@ -137,7 +142,7 @@ class RegistrationServiceImplTest {
         registrationServiceImpl.linkUserToGroup(1L, 1L);
 
         // Assert that nothing has changed
-        verify(userService).addChat(anyLong(), (Group) any());
+        verify(userService).addChat(anyLong(), any());
         verify(groupService).findByTelegramID(anyLong());
     }
 }

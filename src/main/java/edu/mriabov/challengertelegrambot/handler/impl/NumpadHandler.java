@@ -1,9 +1,9 @@
 package edu.mriabov.challengertelegrambot.handler.impl;
 
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.cache.ChallengePageCache;
-import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChallengePageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChatPageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.UserPageCache;
 import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
@@ -20,8 +20,11 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.Optional;
 
-import static edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils.*;
-import static java.lang.Character.*;
+import static edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils.NEXT_PAGE;
+import static edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils.PREVIOUS_PAGE;
+import static edu.mriabov.challengertelegrambot.utils.ButtonsMappingUtils.buildMessageWithKeyboard;
+import static java.lang.Character.getNumericValue;
+import static java.lang.Character.isDigit;
 
 @Controller
 @RequiredArgsConstructor

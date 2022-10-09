@@ -1,8 +1,8 @@
 package edu.mriabov.challengertelegrambot.service.impl;
 
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChatPageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.UserPageCache;
 import edu.mriabov.challengertelegrambot.dao.daoservice.ChallengeService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
@@ -52,16 +52,17 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     @Override
     public void selectUsers(long thisUserID, User otherUser) {
         if (deletedFromCache(thisUserID)) return;
-        if (challengeCache.get(thisUserID).getUsers() != null) challengeCache.get(thisUserID).getUsers().add(otherUser);
-        else challengeCache.get(thisUserID).setUsers(Set.of(otherUser));
+        Challenge challenge = challengeCache.get(thisUserID);
+        if (challenge.getUsers() != null) {
+            challenge.getUsers().add(otherUser);
+        } else challenge.setUsers(Set.of(otherUser));
     }
 
     @Override
     public Optional<Group> selectChats(long userID, int selectedNumber) {
         if (!chatPageCache.contains(userID)) return Optional.empty();
         Challenge challenge = new Challenge();
-        Group group;
-        group = chatPageCache.getCurrentPage(userID).getContent().get(selectedNumber);
+        Group group = chatPageCache.getCurrentPage(userID).getContent().get(selectedNumber);
         challenge.setGroup(group);
         challengeCache.put(userID, challenge);
         return Optional.ofNullable(group);
@@ -70,8 +71,9 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
     @Override
     public void selectDifficulty(long userID, Difficulty difficulty) {
         if (deletedFromCache(userID)) return;
-        challengeCache.get(userID).setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
-        challengeCache.get(userID).setDifficulty(difficulty);
+        Challenge challenge = challengeCache.get(userID);
+        challenge.setExpiresAt(LocalDateTime.now().plus(24, ChronoUnit.HOURS));
+        challenge.setDifficulty(difficulty);
     }
 
     @Override
@@ -95,6 +97,8 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
             return false;
         }
         Page<Group> chats = userService.findMatchingChats(userID, userOptional.get().getTelegramId());
+
+        //TODO povunoci ebannue logi v normalniy format!!!
         log.info("received @" + username + " from " + userID + ", found user with ID: " +
                 userOptional.get().getTelegramId() + ", there are " + chats.getTotalElements() + " elements");
         if (chats.getTotalElements() == 0) return false;

@@ -33,7 +33,7 @@ class TelegramUtilsTest {
 
         // Assert
         assertThat(actualOffset).isEqualTo(18);
-        }
+    }
 
     @Test
     void basicInfoOfFinanceEasyIsCorrect() {

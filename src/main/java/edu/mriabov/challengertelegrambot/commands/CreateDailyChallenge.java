@@ -1,6 +1,6 @@
 package edu.mriabov.challengertelegrambot.commands;
 
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChallengeCache;
 import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.model.Challenge;
@@ -11,6 +11,7 @@ import edu.mriabov.challengertelegrambot.service.ValidatorService;
 import edu.mriabov.challengertelegrambot.utils.TelegramUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -55,18 +56,26 @@ public class CreateDailyChallenge implements IBotCommand {
                 validatorService.isNotRegistered(message, userByTelegramId) ||
                 validatorService.isNotAdmin(message, absSender)) return;
         validatorService.linkChatsIfNotLinked(message.getFrom().getId(), message.getChatId());
-        Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
-        challenge.setCreatedBy(userByTelegramId.get());
-        challenge.setRecurringTime(getChallengeTime(arguments));
-        challenge.setUsers(groupService.findAllUsers(message.getChatId()));
+        Challenge challenge = getChallenge(message, arguments, userByTelegramId);
+
+        // TODO dodelat validatciu
         if (arguments.length < 3 || validatorService.isChallengeInvalid(challenge) || challenge.getRecurringTime() == null) {
             senderService.replyToMessage(message, Replies.INVALID_DAILY_CHALLENGE.text);
             return;
         }
+        challengeCache.put(message.getFrom().getId(), challenge);
+        senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
+    }
+
+    @NotNull
+    private Challenge getChallenge(Message message, String[] arguments, Optional<User> userByTelegramId) {
+        Challenge challenge = TelegramUtils.challengeBasicInfo(arguments);
+        challenge.setCreatedBy(userByTelegramId.get());
+        challenge.setRecurringTime(getChallengeTime(arguments));
+        challenge.setUsers(groupService.findAllUsers(message.getChatId()));
         challenge.setDescription(message.getText().substring(TelegramUtils.getOffset(message.getText())));
         challenge.setGroup(groupService.findByTelegramID(message.getChatId()));
         challenge.setFree(true);
-        challengeCache.put(message.getFrom().getId(), challenge);
-        senderService.replyToMessage(message, Replies.CONFIRM_CHALLENGE.text);
+        return challenge;
     }
 }

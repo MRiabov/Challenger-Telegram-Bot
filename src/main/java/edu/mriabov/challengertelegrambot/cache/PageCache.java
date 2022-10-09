@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
-abstract class PageCache<K, V> {
+public abstract class PageCache<K, V> {
 
     protected final Cache<K, Page<V>> cache = CacheBuilder
             .newBuilder()

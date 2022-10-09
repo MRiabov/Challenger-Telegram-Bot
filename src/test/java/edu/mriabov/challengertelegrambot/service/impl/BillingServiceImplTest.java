@@ -15,8 +15,15 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {BillingServiceImpl.class})
 @ExtendWith(SpringExtension.class)
@@ -82,14 +89,14 @@ class BillingServiceImplTest {
         User user = fillUser(userStats);
         user.setCoins(1234);
         Optional<User> ofResult = Optional.of(user);
-        doNothing().when(userService).save((User) any());
+        doNothing().when(userService).save(any());
         when(userService.getUserByTelegramId(anyLong())).thenReturn(ofResult);
 
         // Act and Assert
         assertTrue(billingServiceImpl.billCoins(1L, 0));
         verify(userService, atLeast(1)).getUserByTelegramId(anyLong());
-        verify(userService).save((User) any());
-        assertEquals(1234,user.getCoins());
+        verify(userService).save(any());
+        assertEquals(1234, user.getCoins());
     }
 
     @NotNull

@@ -23,7 +23,11 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {UserServiceImpl.class})
 @ExtendWith(SpringExtension.class)
@@ -36,43 +40,6 @@ class UserServiceImplTest {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
-
-    /**
-     * Method under test: {@link UserServiceImpl#completeChallenge(long, Challenge)}
-     */
-    @Test
-    void completingChallengeIncreasesCoinsAndStats() {
-        // Arrange
-        UserStats userStats = fillUserStats();
-        Optional<User> ofResult = fillUser(userStats);
-        User user1 = fillUser1(userStats);
-        when(userRepository.save((User) any())).thenReturn(user1);
-        when(userRepository.getAllChallengesButOne(anyLong(), anyInt())).thenReturn(new HashSet<>());
-        when(userRepository.getUserByTelegramId(anyLong())).thenReturn(ofResult);
-
-        Group group = fillGroup();
-        when(groupRepository.save((Group) any())).thenReturn(group);
-
-        int startingCoins = 0;
-        Challenge challenge = fillChallenge(user1, group);
-
-        Difficulty challengeDifficulty = Difficulty.EASY;
-        Area challengeArea = Area.FITNESS;
-        challenge.setDifficulty(challengeDifficulty);
-        challenge.setArea(challengeArea);
-
-        // Act
-        userServiceImpl.completeChallenge(1L, challenge);
-
-        // Assert
-        verify(userRepository).save((User) any());
-        verify(userRepository).getUserByTelegramId(anyLong());
-        verify(userRepository).getAllChallengesButOne(anyLong(), anyInt());
-        verify(groupRepository).save((Group) any());
-        assertEquals(startingCoins + challengeDifficulty.price, userStats.getFitness());
-        assertEquals(startingCoins+challengeDifficulty.reward, user1.getCoins());
-        assertEquals(2, challenge.getGroup().getTotalTasksCompleted());
-    }
 
     @NotNull
     private static User fillUser1(UserStats userStats1) {
@@ -134,6 +101,43 @@ class UserServiceImplTest {
         challenge.setRecurringTime(LocalTime.of(1, 1));
         challenge.setUsers(Set.of(user2));
         return challenge;
+    }
+
+    /**
+     * Method under test: {@link UserServiceImpl#completeChallenge(long, Challenge)}
+     */
+    @Test
+    void completingChallengeIncreasesCoinsAndStats() {
+        // Arrange
+        UserStats userStats = fillUserStats();
+        Optional<User> ofResult = fillUser(userStats);
+        User user1 = fillUser1(userStats);
+        when(userRepository.save(any())).thenReturn(user1);
+        when(userRepository.getAllChallengesButOne(anyLong(), anyInt())).thenReturn(new HashSet<>());
+        when(userRepository.getUserByTelegramId(anyLong())).thenReturn(ofResult);
+
+        Group group = fillGroup();
+        when(groupRepository.save(any())).thenReturn(group);
+
+        int startingCoins = 0;
+        Challenge challenge = fillChallenge(user1, group);
+
+        Difficulty challengeDifficulty = Difficulty.EASY;
+        Area challengeArea = Area.FITNESS;
+        challenge.setDifficulty(challengeDifficulty);
+        challenge.setArea(challengeArea);
+
+        // Act
+        userServiceImpl.completeChallenge(1L, challenge);
+
+        // Assert
+        verify(userRepository).save(any());
+        verify(userRepository).getUserByTelegramId(anyLong());
+        verify(userRepository).getAllChallengesButOne(anyLong(), anyInt());
+        verify(groupRepository).save(any());
+        assertEquals(startingCoins + challengeDifficulty.price, userStats.getFitness());
+        assertEquals(startingCoins + challengeDifficulty.reward, user1.getCoins());
+        assertEquals(2, challenge.getGroup().getTotalTasksCompleted());
     }
 }
 

@@ -1,6 +1,6 @@
 package edu.mriabov.challengertelegrambot.handler.impl;
 
-import edu.mriabov.challengertelegrambot.cache.ChallengePageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChallengePageCache;
 import edu.mriabov.challengertelegrambot.dao.daoservice.UserService;
 import edu.mriabov.challengertelegrambot.dao.enums.Area;
 import edu.mriabov.challengertelegrambot.dao.enums.Difficulty;

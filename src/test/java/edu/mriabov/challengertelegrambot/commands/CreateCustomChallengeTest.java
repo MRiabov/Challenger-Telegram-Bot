@@ -1,10 +1,10 @@
 package edu.mriabov.challengertelegrambot.commands;
 
 import edu.mriabov.challengertelegrambot.bot.TelegramBot;
-import edu.mriabov.challengertelegrambot.cache.ChallengeCache;
-import edu.mriabov.challengertelegrambot.cache.ChallengePageCache;
-import edu.mriabov.challengertelegrambot.cache.ChatPageCache;
-import edu.mriabov.challengertelegrambot.cache.UserPageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChallengeCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChallengePageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.ChatPageCache;
+import edu.mriabov.challengertelegrambot.cache.impl.UserPageCache;
 import edu.mriabov.challengertelegrambot.config.BotConfig;
 import edu.mriabov.challengertelegrambot.dao.daoservice.ChallengeService;
 import edu.mriabov.challengertelegrambot.dao.daoservice.GroupService;
@@ -37,7 +37,10 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = {CreateCustomChallenge.class})
 @ExtendWith(SpringExtension.class)
@@ -78,7 +81,7 @@ class CreateCustomChallengeTest {
     @Test
     void testProcessMessage() {
         // Arrange
-        when(validatorService.isNotGroupChat((Message) any())).thenReturn(true);
+        when(validatorService.isNotGroupChat(any())).thenReturn(true);
         ReceivedMessagesContainer receivedMessagesContainer = new ReceivedMessagesContainer();
         UserPageCache userPageCache = new UserPageCache();
         ChatPageCache chatPageCache = new ChatPageCache();
@@ -122,7 +125,7 @@ class CreateCustomChallengeTest {
         createCustomChallenge.processMessage(absSender, message, new String[]{"Arguments"});
 
         // Assert that nothing has changed
-        verify(validatorService).isNotGroupChat((Message) any());
+        verify(validatorService).isNotGroupChat(any());
         assertEquals(iBotCommandList, message.getNewChatMembers());
     }
 
@@ -145,7 +148,7 @@ class CreateCustomChallengeTest {
         //   See https://diff.blue/R013 to resolve this issue.
 
         // Arrange
-        when(validatorService.isNotGroupChat((Message) any())).thenReturn(false);
+        when(validatorService.isNotGroupChat(any())).thenReturn(false);
         ReceivedMessagesContainer receivedMessagesContainer = new ReceivedMessagesContainer();
         UserPageCache userPageCache = new UserPageCache();
         ChatPageCache chatPageCache = new ChatPageCache();
@@ -192,7 +195,7 @@ class CreateCustomChallengeTest {
     @Test
     void testProcessMessage3() {
         // Arrange
-        when(validatorService.isNotGroupChat((Message) any())).thenThrow(new IllegalArgumentException("foo"));
+        when(validatorService.isNotGroupChat(any())).thenThrow(new IllegalArgumentException("foo"));
         ReceivedMessagesContainer receivedMessagesContainer = new ReceivedMessagesContainer();
         UserPageCache userPageCache = new UserPageCache();
         ChatPageCache chatPageCache = new ChatPageCache();
@@ -232,6 +235,6 @@ class CreateCustomChallengeTest {
         // Act and Assert
         assertThrows(IllegalArgumentException.class,
                 () -> createCustomChallenge.processMessage(absSender, new Message(), new String[]{"Arguments"}));
-        verify(validatorService).isNotGroupChat((Message) any());
+        verify(validatorService).isNotGroupChat(any());
     }
 }
