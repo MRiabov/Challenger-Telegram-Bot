@@ -47,15 +47,15 @@ class BillingServiceImplTest {
         when(userService.getUserByTelegramId(anyLong())).thenReturn(ofResult);
 
         // Act and Assert
-        assertFalse(billingServiceImpl.billCoins(1L, 1));
-        verify(userService).getUserByTelegramId(anyLong());
+        assertTrue(billingServiceImpl.billCoins(1L, 1));
+        assertThat(user.getCoins()).isEqualTo(0);
     }
 
     /**
      * Method under test: {@link BillingServiceImpl#billCoins(long, int)}
      */
     @Test
-    void NotEnoughCoinsToBill() {
+    void notEnoughCoinsToBill() {
         UserStats userStats = fillUserStats();
         User user = fillUser(userStats);
         user.setCoins(1);

@@ -73,7 +73,7 @@ class RegistrationServiceImplTest {
      * Method under test: {@link RegistrationServiceImpl#registerChat(Update)}
      */
     @Test
-    void testRegisterChat4() {
+    void testRegisterChat() {
         // Arrange
         when(groupService.save(any())).thenReturn(true);
 
@@ -124,26 +124,6 @@ class RegistrationServiceImplTest {
         group.setTotalTasksCompleted(1);
         group.setUsers(new HashSet<>());
         return group;
-    }
-
-    /**
-     * Method under test: {@link RegistrationServiceImpl#linkUserToGroup(long, long)}
-     */
-    @Test
-    void testLinkUserToGroup2() {
-        // Arrange
-        when(userService.addChat(anyLong(), any())).thenReturn(false);
-
-        Group group = fillGroup();
-        when(groupService.findByTelegramID(anyLong())).thenReturn(group);
-        doNothing().when(senderService).sendMessages(anyLong(), (String) any());
-
-        // Act
-        registrationServiceImpl.linkUserToGroup(1L, 1L);
-
-        // Assert that nothing has changed
-        verify(userService).addChat(anyLong(), any());
-        verify(groupService).findByTelegramID(anyLong());
     }
 }
 

@@ -47,7 +47,6 @@ public class CreateCustomChallenge implements IBotCommand {
     }
 
     @Override
-    // TODO rasnesti method
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         if (validatorService.isNotGroupChat(message)) return;
         Optional<User> userByTelegramId = userService.getUserByTelegramId(message.getFrom().getId());

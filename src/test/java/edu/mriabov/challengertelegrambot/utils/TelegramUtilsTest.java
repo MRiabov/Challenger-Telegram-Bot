@@ -37,7 +37,7 @@ class TelegramUtilsTest {
 
     @Test
     void basicInfoOfFinanceEasyIsCorrect() {
-        Challenge challenge = TelegramUtils.challengeBasicInfo(new String[]{"finance", "easy"});
+        Challenge challenge = TelegramUtils.challengeBasicInfo(new String[]{"finances", "easy"});
         assertEquals(Difficulty.EASY, challenge.getDifficulty());
         assertEquals(Area.FINANCES, challenge.getArea());
     }

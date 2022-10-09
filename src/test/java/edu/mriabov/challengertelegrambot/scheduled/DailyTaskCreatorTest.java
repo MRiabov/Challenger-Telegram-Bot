@@ -17,15 +17,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {DailyTaskCreator.class})
 @ExtendWith(SpringExtension.class)
@@ -70,7 +65,7 @@ class DailyTaskCreatorTest {
      * Method under test: {@link DailyTaskCreator#checkForDailyChallenges()}
      */
     @Test
-    void OneChallengeOneGroupInteraction() {
+    void challengeIsSaved() {
         // Arrange
         UserStats userStats = new UserStats();
         userStats.setFinances(1);
@@ -114,7 +109,6 @@ class DailyTaskCreatorTest {
 
         HashSet<Challenge> challengeSet = new HashSet<>();
         challengeSet.add(challenge);
-        challengeSet.addAll(new ArrayList<>());
 
         UserStats userStats1 = new UserStats();
         userStats1.setFinances(1);
@@ -151,8 +145,7 @@ class DailyTaskCreatorTest {
         dailyTaskCreator.checkForDailyChallenges();
 
         //Assert
-        verify(groupRepository);
-        verify(challengeRepository);
+        verify(challengeRepository).save(challenge);
     }
 }
 

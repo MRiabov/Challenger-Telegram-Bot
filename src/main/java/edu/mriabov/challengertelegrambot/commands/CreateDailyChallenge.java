@@ -57,8 +57,6 @@ public class CreateDailyChallenge implements IBotCommand {
                 validatorService.isNotAdmin(message, absSender)) return;
         validatorService.linkChatsIfNotLinked(message.getFrom().getId(), message.getChatId());
         Challenge challenge = getChallenge(message, arguments, userByTelegramId);
-
-        // TODO dodelat validatciu
         if (arguments.length < 3 || validatorService.isChallengeInvalid(challenge) || challenge.getRecurringTime() == null) {
             senderService.replyToMessage(message, Replies.INVALID_DAILY_CHALLENGE.text);
             return;

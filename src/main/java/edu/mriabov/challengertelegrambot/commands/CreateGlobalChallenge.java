@@ -51,8 +51,6 @@ public class CreateGlobalChallenge implements IBotCommand {
                 validatorService.isNotRegistered(message, userByTelegramId) ||
                 validatorService.isNotAdmin(message, absSender)) return;
         Challenge challenge = getChallenge(message, arguments, userByTelegramId);
-
-        // TODO dodelat validatciu
         if (validatorService.isChallengeInvalid(challenge)) {
             senderService.replyToMessage(message, Replies.INVALID_GLOBAL_CHALLENGE.text);
             return;
