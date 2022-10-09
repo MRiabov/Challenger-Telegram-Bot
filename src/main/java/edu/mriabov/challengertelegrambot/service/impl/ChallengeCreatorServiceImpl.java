@@ -93,14 +93,12 @@ public class ChallengeCreatorServiceImpl implements ChallengeCreatorService {
         username = username.substring(1);
         Optional<User> userOptional = userService.getUserByUsername(username);
         if (userOptional.isEmpty()) {
-            log.info("received " + username + " from " + userID + ", but there's no registered user like that.");
+            log.info("Received @" + username + " from " + userID + ", but there's no registered user like that.");
             return false;
         }
         Page<Group> chats = userService.findMatchingChats(userID, userOptional.get().getTelegramId());
-
-        //TODO povunoci ebannue logi v normalniy format!!!
-        log.info("received @" + username + " from " + userID + ", found user with ID: " +
-                userOptional.get().getTelegramId() + ", there are " + chats.getTotalElements() + " elements");
+        log.info("received @{} from {}, found user with ID: {}. There are {} elements",
+                username, userID, userOptional.get().getTelegramId(), chats.getTotalElements());
         if (chats.getTotalElements() == 0) return false;
         Challenge challenge = new Challenge();
         challenge.setUsers(Set.of(userOptional.get()));

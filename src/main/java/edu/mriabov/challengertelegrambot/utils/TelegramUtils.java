@@ -22,7 +22,7 @@ public class TelegramUtils {
 
     public static boolean checkForUnsupportedEmoji(String message) {
         String startOfMessage = message.substring(0, 3);
-        List<String> emojis = List.of("\uD83D\uDFE2", "🟣", "⃣","\uD83E\uDEF6");
+        List<String> emojis = List.of("\uD83D\uDFE2", "🟣", "⃣", "\uD83E\uDEF6");
         for (String emoji : emojis) if (startOfMessage.contains(emoji)) return true;
         return false;
     }
@@ -56,33 +56,19 @@ public class TelegramUtils {
         return challenge;
     }
 
-    // TODO enum piska
     private static void parametersForChallenge(String word, Challenge challenge) {
-        switch (word.toLowerCase()) {
-            case "easy" -> {
-                if (challenge.getDifficulty() == null) challenge.setDifficulty(Difficulty.EASY);
-            }
-            case "medium" -> {
-                if (challenge.getDifficulty() == null) challenge.setDifficulty(Difficulty.MEDIUM);
-            }
-            case "difficult" -> {
-                if (challenge.getDifficulty() == null) challenge.setDifficulty(Difficulty.DIFFICULT);
-            }
-            case "goal" -> {
-                if (challenge.getDifficulty() == null) challenge.setDifficulty(Difficulty.GOAL);
-            }
-            case "fitness" -> {
-                if (challenge.getArea() == null) challenge.setArea(Area.FITNESS);
-            }
-            case "relationships" -> {
-                if (challenge.getArea() == null) challenge.setArea(Area.RELATIONSHIPS);
-            }
-            case "finances" -> {
-                if (challenge.getArea() == null) challenge.setArea(Area.FINANCES);
-            }
-            case "mindfulness" -> {
-                if (challenge.getArea() == null) challenge.setArea(Area.MINDFULNESS);
-            }
+        Difficulty difficulty = null;
+        Area area = null;
+        try {
+            difficulty = Difficulty.valueOf(word.toUpperCase());
+            area = Area.valueOf(word.toUpperCase());
+        } catch (IllegalArgumentException ignored) {}
+        if (challenge.getDifficulty() == null && difficulty != null) {
+            challenge.setDifficulty(difficulty);
+        }
+
+        if (challenge.getArea() == null && area != null) {
+            challenge.setDifficulty(difficulty);
         }
     }
 }
