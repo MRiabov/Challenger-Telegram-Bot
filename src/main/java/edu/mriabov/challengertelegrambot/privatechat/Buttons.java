@@ -43,7 +43,7 @@ public enum Buttons {
             ButtonsMessages.CANCEL.getText(), null),
 
     SKIP_CHALLENGES("""
-            Before you skip a challenge, ask yourself whether it is worth it...
+            Do you really want to skip that challenge? You'd better commit.
             Here is the list of your challenges:
                         
             %13$s
